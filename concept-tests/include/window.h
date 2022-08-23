@@ -3,7 +3,6 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <common.h>
-
 typedef struct {
     uint8_t b;
     uint8_t g;
@@ -12,7 +11,7 @@ typedef struct {
 } pixel;
 typedef struct {
     uint16_t identifier;
-
+    uint16_t parent_identifier;
     uint8_t  has_close_button   : 1;
     uint8_t  has_maximize_button: 1;
     uint8_t  has_minimize_button: 1;
@@ -23,7 +22,6 @@ typedef struct {
     uint8_t is_visible   : 1;
     uint8_t              : 5;
 
-    uint16_t parent_identifier;
     // callback function define
     // todo..
 } __attribute__((packed)) u_window;
