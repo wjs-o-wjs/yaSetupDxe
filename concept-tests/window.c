@@ -25,11 +25,17 @@ void create_window(uint32_t width, uint32_t height)
     }
     main_screen = surface->pixels;
 }
-void update_window()
+void update_window(uint32_t x,uint32_t y,uint32_t w, uint32_t h)
 {
-    SDL_UpdateWindowSurface(window);
+    SDL_Rect region = {
+        .x = x,
+        .y = y,
+        .w = w,
+        .h = h
+    };
+    SDL_UpdateWindowSurfaceRects(window,&region,1);
 }
-void destroy_window()
+void destroy_window(void)
 {
     SDL_DestroyWindow(window);
     SDL_Quit();
