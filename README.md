@@ -8,11 +8,11 @@ To make a tiny layout inflator(Android-like)/widget arranger(Qt-like) under UEFI
 * Elegant UI (KDE Breeze theme / Android 9-patch scaling methodology)  
 * MVVM architecture (Data observer, binding, etc)  
 ## Progresses / plans so far  
-[x]1. Emulated window using SDL2  
-[x]2. Mouse cursor  
-[ ]3. FreeType port  
-[ ]4. Caption generation  
-[ ]5. 9-patch scaling  
-[ ]6. widget design & display  
-[ ]7. widget interaction(hover/leave/click/right-click/keyboard)  
+[x]&ensp;1. Emulated window using SDL2  
+[x]&ensp;2. Mouse cursor  
+[&ensp;]&ensp;3. FreeType port  
+[&ensp;]&ensp;4. Caption generation  
+[&ensp;]&ensp;5. 9-patch scaling  
+[&ensp;]&ensp;6. widget design & display  
+[&ensp;]&ensp;7. widget interaction(hover/leave/click/right-click/keyboard)  
 ......To Be Continued  
