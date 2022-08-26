@@ -2,7 +2,8 @@
 #include <window.h>
 #include <stdlib.h>
 #include <string.h>
-pixel* background_buffer;
+#include <stdio.h>
+pixel* mouse_area_buffer;
 pixel* mouse_buffer;
 uint32_t window_width, window_height, mouse_width, mouse_height, mouse_x, mouse_y;
 double scale_factor;
@@ -23,7 +24,7 @@ void define_mouse(double scale_factor)
     mouse_width  = MOUSE_WIDTH*scale_factor;
     mouse_height = MOUSE_HEIGHT*scale_factor;
     mouse_buffer = calloc(1,mouse_width*mouse_height*sizeof(pixel));
-
+    mouse_area_buffer = calloc(1,mouse_width*mouse_height*sizeof(pixel));
     //TEST: an ugly triangle.
     for(int i=0;i<mouse_height;i++) {
         for(int j=0;j<(i*mouse_width/mouse_height);j++) {
@@ -37,18 +38,23 @@ void define_mouse(double scale_factor)
 void move_mouse(int x, int y)
 {
     //First, restore former underlying area.
-    for(int i=0;i<mouse_height;i++) {
-        for(int j=0;j<mouse_width;j++) {
-            main_screen[(i+mouse_y)*window_width+(j+mouse_x)] = background_buffer[(i+mouse_y)*window_width+(j+mouse_x)];
+    int restore_width=((mouse_width+mouse_x)>window_width?window_width-mouse_x:mouse_width);
+    int restore_height=((mouse_height+mouse_y)>window_height?window_height-mouse_y:mouse_height);
+    for(int i=0;i<restore_height;i++) {
+        for(int j=0;j<restore_width;j++) {
+            main_screen[(i+mouse_y)*window_width+(j+mouse_x)] = mouse_area_buffer[i*mouse_width+j];
         }
     }
-    //Then, composite new image in screen.
+    //Then, backup the underlying area.
     int copy_width=((mouse_width+x)>window_width?window_width-x:mouse_width);
     int copy_height=((mouse_height+y)>window_height?window_height-y:mouse_height);
     for(int i=0;i<copy_height;i++) {
         for(int j=0;j<copy_width;j++) {
+            mouse_area_buffer[i*mouse_width+j] = main_screen[(i+y)*window_width+(j+x)] ;
             //FIXME:Transparency!
-            main_screen[(i+y)*window_width+(j+x)] = (mouse_buffer[i*mouse_width+j].a)?(mouse_buffer[i*mouse_width+j]):(background_buffer[(i+y)*window_width+(j+x)]);
+            if(mouse_buffer[i*mouse_width+j].a) {
+                main_screen[(i+y)*window_width+(j+x)] = mouse_buffer[i*mouse_width+j];
+            }
         }
     }
     //Finally, update window reigon.
@@ -57,34 +63,39 @@ void move_mouse(int x, int y)
     mouse_x = x;
     mouse_y = y;
 }
+void create_background(uint32_t width, uint32_t height)
+{
+    //TEST: a basic background.
+    for(int i=0;i<height;i++) {
+        for(int j=0;j<width;j++) {
+            main_screen[i*width+j].r = (uint8_t)(((double)j)/width*255);
+            main_screen[i*width+j].g = (uint8_t)(((double)i)/height*255);
+        }
+    }
+}
 void init_compositor(uint32_t width, uint32_t height)
 {
     create_window(width, height);
-    background_buffer = malloc(height*width*sizeof(pixel));
+    create_background(width,height);
     window_width = width;
     window_height = height;
     scale_factor=get_desired_scale_factor();
     //Do sth.....
-    //TEST: a basic background.
-    for(int i=0;i<height;i++) {
-        for(int j=0;j<width;j++) {
-            background_buffer[i*width+j].r = (uint8_t)(((double)j)/width*255);
-            background_buffer[i*width+j].g = (uint8_t)(((double)i)/height*255);
-        }
-    }
     define_mouse(scale_factor);
     composite();
-    move_mouse(100,100);
+    move_mouse(width/2,height/2);
 }
 void composite(void)
 {
-    //Copy.
-    memcpy(main_screen,background_buffer,window_width*window_height*sizeof(pixel));
     update_window(0,0,window_width,window_height);
 }
 void fini_compositor(void)
 {
-    free(background_buffer);
+    free(mouse_area_buffer);
     free(mouse_buffer);
     destroy_window();
+}
+void update_window_caption(wchar_t* caption)
+{
+    printf("Update Window Caption: %ls\n",caption);
 }

@@ -6,6 +6,7 @@
 int main(void)
 {
     init_compositor(WIDTH,HEIGHT);
+    update_window_caption(L"BIOS Setup Utility - ECGM Demo Board");
     main_loop();
 }
 void fini(int retval)

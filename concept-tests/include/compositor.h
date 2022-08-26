@@ -1,6 +1,7 @@
 #ifndef COMPOSITOR_H
 #define COMPOSITOR_H
 #include <stdint.h>
+#include <wchar.h>
 #define MOUSE_WIDTH  18
 #define MOUSE_HEIGHT 24
 
@@ -9,4 +10,5 @@ void init_compositor(uint32_t width, uint32_t height);
 void composite(void);
 void move_mouse(int x, int y);
 void fini_compositor(void);
+void update_window_caption(wchar_t* caption);
 #endif
