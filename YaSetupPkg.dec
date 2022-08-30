@@ -1,0 +1,9 @@
+[Defines]
+  DEC_SPECIFICATION    = 0x00010005
+  PACKAGE_NAME         = YaSetupPkg
+  PACKAGE_UNI_FILE     = YaSetupPkg.uni
+  PACKAGE_GUID         = 707048EA-0E05-462E-88FD-609C4D937EC0
+  PACKAGE_VERSION      = 0.01
+
+[Includes.common]
+  Include
