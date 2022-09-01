@@ -1,7 +1,7 @@
 ## @file
 #  This package contains build scripts for building YaSetupPkg, A UEFI Settings utility.
 #
-#  FzBurg development team, 2020, All rights granted.
+#  wjs+o(wjs) team, 2022, All rights granted
 #
 #  SPDX-License-Identifier: DO WHAT THE F**K YOU WANT TO PUBLIC LICENSE
 #
