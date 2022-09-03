@@ -49,7 +49,7 @@ void alpha_blending(__m128i* front, __m128i* back, __m128i* result)
 }
 void alpha_blending_naive(unsigned* a, unsigned* b, unsigned* res)
 {
-    for(int i=0;i<3;i++) {
+    for(int i=0;i<=3;i++) {
         float transparency=ALPHA(a[i])/256.0;
         res[i] = (int)(BLUE(a[i])*transparency+BLUE(b[i])*(1-transparency))
                 |(int)(GREEN(a[i])*transparency+GREEN(b[i])*(1-transparency))<<8
