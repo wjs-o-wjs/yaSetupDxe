@@ -3,7 +3,7 @@
 
 #define HEIGHT 900
 #define WIDTH 1440
-
+#include <stdint.h>
 typedef union {
     struct {
         uint8_t b;
