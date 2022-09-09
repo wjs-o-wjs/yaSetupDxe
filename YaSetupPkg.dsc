@@ -41,6 +41,6 @@
   DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
   DevicePathLib|MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.inf
   RegisterFilterLib|MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
-
+  UefiMouseLib|YaSetupPkg/Library/UefiMouseLib/UefiMouseLib.inf
 [Components]
   YaSetupPkg/YaSetupDxe.inf

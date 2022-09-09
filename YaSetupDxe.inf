@@ -13,6 +13,7 @@
 [Protocols]
   gEfiGraphicsOutputProtocolGuid
   gEfiSimpleFileSystemProtocolGuid
+  gEfiSimplePointerProtocolGuid
 [Guids]
   gEfiFileInfoGuid
   gEfiAcpiTableGuid
@@ -21,4 +22,5 @@
   UefiLib
   BaseMemoryLib
   MemoryAllocationLib
+  UefiMouseLib
 
