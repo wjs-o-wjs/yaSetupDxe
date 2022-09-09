@@ -8,3 +8,9 @@ EFI_STATUS EFIAPI InitMouseSPP(IN EFI_SYSTEM_TABLE *SystemTable)
     SystemTable->BootServices->LocateProtocol(&spp_guid,NULL,(void **)&SPP);
     return (SPP != NULL)? EFI_SUCCESS : EFI_LOAD_ERROR;
 }
+
+uint64_t GetMouseState(OUT EFI_SIMPLE_POINTER_STATE *SimplePointerState){
+    if (SPP == NULL) return 0;
+    uint64_t status = SPP->GetState(SPP,SimplePointerState);
+    return status;
+}

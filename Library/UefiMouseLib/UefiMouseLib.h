@@ -3,9 +3,9 @@
 #define UEFI_MOOUSE_LIB_H
 #include <Uefi.h>
 #include <Protocol/SimplePointer.h>
-
+#include <stdint.h>
 
 EFI_STATUS EFIAPI InitMouseSPP(IN EFI_SYSTEM_TABLE *SystemTable);
-unsigned long long GetMouseState(IN EFI_SYSTEM_TABLE *SystemTable,OUT EFI_SIMPLE_POINTER_STATE * SimplePointerState);
+uint64_t GetMouseState(OUT EFI_SIMPLE_POINTER_STATE *SimplePointerState);
 
 #endif
