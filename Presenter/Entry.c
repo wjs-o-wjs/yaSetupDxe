@@ -1,12 +1,19 @@
 #include <Presenter/Entry.h>
 #include <Protocol/SimpleTextIn.h>
 #include <Library/UefiMouseLib/UefiMouseLib.h>
+#include <Library/UefiAsyncTimerLib/UefiAsyncTimerLib.h>
 #define SHELL_PROMPT L"Baby Shell> "
 #define STR_COMMAND_LINE_SIZE 1024
 
+void test_func(char * buffer){
+    Print(L"!!!!!!!!%s\r\n\0",buffer);
+}
 void StartMySystem(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable){
-    InitMouseSPP(SystemTable);
-    
+    //InitMouseSPP(SystemTable);
+    TimerService * timerService = CreateTimerService(SystemTable);
+    timerService->SetCallback(timerService,test_func,L"deadbeef")
+                ->SetTick    (timerService,10000000)
+                ->SetTimer   (timerService);
 }
 void ShellForTest(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable){
     EFI_INPUT_KEY key;
@@ -54,7 +61,8 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *Syste
 {
     //SystemTable->ConOut->OutputString(SystemTable->ConOut,L"Hello World!\r\n");
     StartMySystem(ImageHandle,SystemTable);
-    ShellForTest(ImageHandle,SystemTable);
+    //ShellForTest(ImageHandle,SystemTable);
+    while (1);
     return EFI_SUCCESS;
 }
 

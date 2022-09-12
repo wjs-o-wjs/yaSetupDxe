@@ -1,0 +1,36 @@
+## @file
+#  Provides Mouse services.
+#
+#  Copyright (c) 2022, wjs+o(wjs) Team Corporation. All rights granted.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = UefiAsyncTimerLib
+  MODULE_UNI_FILE                = UefiAsyncTimerLib.uni
+  FILE_GUID                      = E7E7FAA9-E45B-45CF-B0DA-940D1F702B30
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = UefiAsyncTimerLib
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64
+#
+
+[Sources]
+  UefiAsyncTimerLib.c
+
+[Packages]
+  YaSetupPkg/YaSetupPkg.dec
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiLib
+  BaseMemoryLib
+  MemoryAllocationLib
+

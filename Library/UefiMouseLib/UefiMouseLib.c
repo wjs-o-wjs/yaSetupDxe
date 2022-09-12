@@ -1,4 +1,3 @@
-
 #include "UefiMouseLib.h"
 
 EFI_SIMPLE_POINTER_PROTOCOL * SPP = NULL;

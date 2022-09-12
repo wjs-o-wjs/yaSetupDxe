@@ -42,5 +42,6 @@
   DevicePathLib|MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.inf
   RegisterFilterLib|MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
   UefiMouseLib|YaSetupPkg/Library/UefiMouseLib/UefiMouseLib.inf
+  UefiAsyncTimerLib|YaSetupPkg/Library/UefiAsyncTimerLib/UefiAsyncTimerLib.inf
 [Components]
   YaSetupPkg/YaSetupDxe.inf
