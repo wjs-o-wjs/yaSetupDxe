@@ -2,9 +2,12 @@
 #define UEFI_ASYNC_TIMER_LIB_H
 
 #include <Uefi.h>
-#include <Library/UefiLib.h>
-#include <Library/UefiRuntimeServicesTableLib.h>
 #include <stdint.h>
+
+enum TimerStatus{
+    Ready=0,
+    Running=1,
+};
 
 typedef struct TimerService{
     VOID EFIAPI (*CallbackFuncPointer)(void *,void *);
@@ -15,6 +18,7 @@ typedef struct TimerService{
     EFI_SYSTEM_TABLE *SystemTable;
     struct TimerService * EFIAPI (*SetTick)(struct TimerService *, uint32_t Tick);
     struct TimerService * EFIAPI (*SetCallback)(IN struct TimerService * Service, IN void * FuncPointer,IN void * FuncArgv);
+    enum TimerStatus TimerStatus;
 } TimerService;
 
 VOID EFIAPI TimerServiceCaller(IN EFI_EVENT event,IN void *context);
