@@ -12,10 +12,17 @@ EFIAPI
 TimerServiceSetTimer(TimerService * Service){
     if (Service->Tick == 0)
         return EFI_ABORTED;
-    
     uint64_t status;
     status = Service->SystemTable->BootServices->SetTimer(Service->Event,TimerPeriodic, Service->Tick);
     return (EFI_ERROR(status)) ? EFI_ABORTED : (Service->TimerStatus = Running,EFI_SUCCESS);
+}
+
+
+EFI_STATUS
+EFIAPI
+TimerServiceStopTimer(TimerService * Service){
+    Service->TimerStatus = Stop;
+    return Service->SystemTable->BootServices->CloseEvent(Service->Event);
 }
 
 TimerService *
@@ -47,6 +54,7 @@ CreateTimerService(IN EFI_SYSTEM_TABLE *SystemTable){
     timer_service->SetTick = TimerServiceSetTick;
     timer_service->SetTimer = TimerServiceSetTimer;
     timer_service->TimerStatus = Ready;
+    timer_service->StopTimer = TimerServiceStopTimer;
 
     if (timer_service == NULL)
         return NULL;

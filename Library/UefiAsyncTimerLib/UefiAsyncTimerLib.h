@@ -6,7 +6,8 @@
 
 enum TimerStatus{
     Ready=0,
-    Running=1,
+    Stop=1,
+    Running=2,
 };
 
 typedef struct TimerService{
@@ -16,15 +17,17 @@ typedef struct TimerService{
     uint32_t Tick;
     EFI_STATUS EFIAPI (*SetTimer)(struct TimerService *);
     EFI_SYSTEM_TABLE *SystemTable;
-    struct TimerService * EFIAPI (*SetTick)(struct TimerService *, uint32_t Tick);
+    struct TimerService * EFIAPI (*SetTick)(IN struct TimerService *, IN uint32_t Tick);
     struct TimerService * EFIAPI (*SetCallback)(IN struct TimerService * Service, IN void * FuncPointer,IN void * FuncArgv);
+    EFI_STATUS EFIAPI (*StopTimer)(IN struct TimerService *);
     enum TimerStatus TimerStatus;
 } TimerService;
 
 VOID EFIAPI TimerServiceCaller(IN EFI_EVENT event,IN void *context);
-EFI_STATUS EFIAPI TimerServiceSetTimer(TimerService * ate_caller_service);
+EFI_STATUS EFIAPI TimerServiceSetTimer(IN TimerService * ate_caller_service);
 TimerService * EFIAPI CreateTimerService      (IN EFI_SYSTEM_TABLE *SystemTable);
 TimerService * EFIAPI TimerServiceSetCallback (IN TimerService * Service, IN void * FuncPointer,IN void * FuncArgv);
 TimerService * EFIAPI TimerServiceSetTick     (IN TimerService * Service,IN uint32_t Tick);
+EFI_STATUS EFIAPI TimerServiceSetStatus(TimerService * Service,enum TimerStatus timer_status);
 #endif
 

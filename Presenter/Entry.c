@@ -14,6 +14,7 @@ void StartMySystem(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable){
     timerService->SetCallback(timerService,test_func,L"deadbeef")
                 ->SetTick    (timerService,10000000)
                 ->SetTimer   (timerService);
+    //timerService->StopTimer(timerService);
 }
 void ShellForTest(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable){
     EFI_INPUT_KEY key;
@@ -23,7 +24,6 @@ void ShellForTest(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable){
     SystemTable->ConOut->ClearScreen(SystemTable->ConOut);
     SystemTable->ConOut->OutputString(SystemTable->ConOut,SHELL_PROMPT);
     while(1){
-        
         if (!SystemTable->ConIn->ReadKeyStroke(SystemTable->ConIn,&key)){
             if (key.UnicodeChar != L'\r'){
                 str[0] = key.UnicodeChar;
