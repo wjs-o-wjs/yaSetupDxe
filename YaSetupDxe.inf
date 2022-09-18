@@ -24,4 +24,6 @@
   MemoryAllocationLib
   UefiMouseLib
   UefiAsyncTimerLib
+  SynchronizationLib
+  UefiKeyboardLib
 

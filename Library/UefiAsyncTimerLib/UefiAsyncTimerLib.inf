@@ -33,4 +33,5 @@
   UefiLib
   BaseMemoryLib
   MemoryAllocationLib
+  SynchronizationLib
 

@@ -41,7 +41,10 @@
   DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
   DevicePathLib|MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.inf
   RegisterFilterLib|MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
+  UefiKeyboardLib|YaSetupPkg/Library/UefiKeyboardLib/UefiKeyboardLib.inf
   UefiMouseLib|YaSetupPkg/Library/UefiMouseLib/UefiMouseLib.inf
   UefiAsyncTimerLib|YaSetupPkg/Library/UefiAsyncTimerLib/UefiAsyncTimerLib.inf
+  SynchronizationLib|MdePkg/Library/BaseSynchronizationLib/BaseSynchronizationLib.inf
+  TimerLib|MdePkg/Library/BaseTimerLibNullTemplate/BaseTimerLibNullTemplate.inf
 [Components]
   YaSetupPkg/YaSetupDxe.inf

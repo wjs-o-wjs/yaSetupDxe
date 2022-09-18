@@ -1,6 +1,7 @@
 #include <Presenter/Entry.h>
 #include <Protocol/SimpleTextIn.h>
 #include <Library/UefiMouseLib/UefiMouseLib.h>
+#include <Library/UefiKeyboardLib/UefiKeyboardLib.h>
 #include <Library/UefiAsyncTimerLib/UefiAsyncTimerLib.h>
 #define SHELL_PROMPT L"Baby Shell> "
 #define STR_COMMAND_LINE_SIZE 1024
@@ -10,11 +11,16 @@ void test_func(char * buffer){
 }
 void StartMySystem(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable){
     //InitMouseSPP(SystemTable);
+    /*
     TimerService * timerService = CreateTimerService(SystemTable);
     timerService->SetCallback(timerService,test_func,L"deadbeef")
                 ->SetTick    (timerService,10000000)
                 ->SetTimer   (timerService);
-    //timerService->StopTimer(timerService);
+    */
+   KeyboardService * ks = CreateKeyboardService(SystemTable);
+   EFI_KEY_DATA key_data = {{0, L'q'}, {0, 0}};
+   void * test;
+   ks->BindKey(ks,&key_data,test_func,&test);
 }
 void ShellForTest(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable){
     EFI_INPUT_KEY key;

@@ -3,6 +3,8 @@
 
 #include <Uefi.h>
 #include <stdint.h>
+#include <Library/UefiLib.h>
+#include <Library/SynchronizationLib.h>
 
 enum TimerStatus{
     Ready=0,
@@ -21,6 +23,7 @@ typedef struct TimerService{
     struct TimerService * EFIAPI (*SetCallback)(IN struct TimerService * Service, IN void * FuncPointer,IN void * FuncArgv);
     EFI_STATUS EFIAPI (*StopTimer)(IN struct TimerService *);
     enum TimerStatus TimerStatus;
+    uint32_t atomic_lock;
 } TimerService;
 
 VOID EFIAPI TimerServiceCaller(IN EFI_EVENT event,IN void *context);
