@@ -37,5 +37,6 @@
 #include "fttrigon.c"
 #include "ftutil.c"
 
+#include "ftuefi.c"
 
 /* END */

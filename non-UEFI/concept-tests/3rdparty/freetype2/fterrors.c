@@ -26,7 +26,7 @@
   FT_Error_String( FT_Error  error_code )
   {
     if ( error_code <  0                                ||
-         error_code >= FT_ERR_CAT( FT_ERR_PREFIX, Max ) )
+         error_code >= FT_ERR_CAT( FT_Err_, Max ) )
       return NULL;
 
 #if defined( FT_CONFIG_OPTION_ERROR_STRINGS ) || \
