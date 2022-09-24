@@ -2,6 +2,7 @@
 #include <Protocol/SimpleTextIn.h>
 #include <Library/UefiMouseLib/UefiMouseLib.h>
 #include <Library/UefiKeyboardLib/UefiKeyboardLib.h>
+#include <Library/UefiMouseLib/UefiMouseLib.h>
 #include <Library/UefiAsyncTimerLib/UefiAsyncTimerLib.h>
 #define SHELL_PROMPT L"Baby Shell> "
 #define STR_COMMAND_LINE_SIZE 1024
@@ -10,17 +11,55 @@ void test_func(char * buffer){
     Print(L"!!!!!!!!%s\r\n\0",buffer);
 }
 void StartMySystem(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable){
-    //InitMouseSPP(SystemTable);
+    KeyboardService * ks = CreateKeyboardService(SystemTable);
+    EFI_KEY_DATA key_data = {{0, L'q'}, {0, 0}};
+    void * test;
+    ks->BindKey(ks,&key_data,test_func,&test);
+
+
+    MouseService * ms = CreateMouseService(SystemTable);
+    if (ms == NULL){
+        Print(L"CreateMouseService Err\n");
+    }
+    ms->InitSimplePointerProtocol(ms);
+    unsigned long long status;
+    EFI_SIMPLE_POINTER_STATE s;
+    unsigned long long waitidx;
+
+    ms->SPP->Reset(ms->SPP, FALSE);
+
+    while (1) {
+        ms->SystemTable->BootServices->WaitForEvent(1, &(ms->SPP->WaitForInput),
+                           &waitidx);
+        status = ms->SPP->GetState(ms->SPP, &s);
+        if (!status) {
+            
+            Print(L"%p\n",s.RelativeMovementX);
+            Print(L" ");
+            Print(L"%p\n",s.RelativeMovementY);
+            Print(L" ");
+            Print(L"%p\n",s.RelativeMovementZ);
+            Print(L" ");
+            Print(L"%p\n",s.LeftButton);
+            Print(L" ");
+            Print(L"%p\n",s.RightButton);
+            Print(L"\r\n");
+        }
+    }
     /*
-    TimerService * timerService = CreateTimerService(SystemTable);
-    timerService->SetCallback(timerService,test_func,L"deadbeef")
-                ->SetTick    (timerService,10000000)
-                ->SetTimer   (timerService);
-    */
-   KeyboardService * ks = CreateKeyboardService(SystemTable);
-   EFI_KEY_DATA key_data = {{0, L'q'}, {0, 0}};
-   void * test;
-   ks->BindKey(ks,&key_data,test_func,&test);
+    if (EFI_ERROR(status)){
+        Print(L"Mouse Err\n");
+    }
+    ms->SPP->Reset(ms->SPP, FALSE);
+
+    if (EFI_ERROR(status)){
+        Print(L"Mouse Err\n");
+    }else{
+        Print(L"Mouse Success\n");
+        ms->StartTimer(ms);
+    }*/
+
+    
 }
 void ShellForTest(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable){
     EFI_INPUT_KEY key;

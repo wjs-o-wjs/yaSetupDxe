@@ -6,19 +6,19 @@ TimerServiceCaller(IN EFI_EVENT Event,IN void *Context){
     InterlockedIncrement(&timer_caller_service->atomic_lock);
     timer_caller_service->CallbackFuncPointer(timer_caller_service->CallbackFuncArgv,timer_caller_service->Event);
     InterlockedDecrement(&timer_caller_service->atomic_lock);
-    if (timer_caller_service->atomic_lock == 0 && timer_caller_service->TimerStatus == Stop){
+    if (timer_caller_service->atomic_lock == 0 && timer_caller_service->TimerStatus == TimerStatusStop){
         timer_caller_service->SystemTable->BootServices->FreePool(timer_caller_service);
     }
 }
 
 EFI_STATUS
 EFIAPI
-TimerServiceSetTimer(TimerService * Service){
+TimerServiceStartTimer(TimerService * Service){
     if (Service == NULL || Service->Tick == 0)
         return EFI_ABORTED;
     uint64_t status;
     status = Service->SystemTable->BootServices->SetTimer(Service->Event,TimerPeriodic, Service->Tick);
-    return (EFI_ERROR(status)) ? EFI_ABORTED : (Service->TimerStatus = Running,EFI_SUCCESS);
+    return (EFI_ERROR(status)) ? EFI_ABORTED : (Service->TimerStatus = TimerStatusRunning,EFI_SUCCESS);
 }
 
 
@@ -27,7 +27,7 @@ EFIAPI
 TimerServiceStopTimer(TimerService * Service){
     if (Service == NULL)
         return EFI_ABORTED;
-    Service->TimerStatus = Stop;
+    Service->TimerStatus = TimerStatusStop;
     return Service->SystemTable->BootServices->CloseEvent(Service->Event);
 }
 
@@ -56,7 +56,7 @@ EFIAPI
 CreateTimerService(IN EFI_SYSTEM_TABLE *SystemTable){
     if (SystemTable == NULL)
         return NULL;
-    uint64_t status;
+    
     TimerService * timer_service;
 
     SystemTable->BootServices->AllocatePool(EfiLoaderData,sizeof(TimerService),(void **) &timer_service);
@@ -67,12 +67,12 @@ CreateTimerService(IN EFI_SYSTEM_TABLE *SystemTable){
     timer_service->SystemTable = SystemTable;
     timer_service->SetCallback = TimerServiceSetCallback;
     timer_service->SetTick = TimerServiceSetTick;
-    timer_service->SetTimer = TimerServiceSetTimer;
-    timer_service->TimerStatus = Ready;
+    timer_service->StartTimer = TimerServiceStartTimer;
+    timer_service->TimerStatus = TimerStatusReady;
     timer_service->StopTimer = TimerServiceStopTimer;
 
 
-    status = SystemTable->BootServices->CreateEvent(
+    uint64_t status = SystemTable->BootServices->CreateEvent(
         EVT_TIMER | EVT_NOTIFY_SIGNAL,
         TPL_CALLBACK,
         TimerServiceCaller,
