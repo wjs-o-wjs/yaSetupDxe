@@ -18,20 +18,10 @@ void StartMySystem(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable){
     ks->BindKey(ks,&key_data,test_func,&test);
 
     BasicPainterService * bps = CreateBasicPainterService(SystemTable);
-    if (bps == NULL){
-        Print(L"Failed!");
-    }
-    
     bps->InitGraphicsOutputProtocol(bps);
-
     bps->SetColor(bps,0xff,0xff,0xff,0x80)
        ->SetStartPointer(bps,100,100)
        ->Draw(bps,BasicPointerDrawTypePixel);
-
-
-    
-
-
 
 
     /*

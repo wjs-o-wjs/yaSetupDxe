@@ -12,7 +12,6 @@ CreateBasicPainterService(IN EFI_SYSTEM_TABLE * SystemTable){
     SystemTable->BootServices->AllocatePool(EfiLoaderData,sizeof(BasicPainterService),(void **) &Service);
     if (Service == NULL) return NULL;
 
-
     SystemTable->BootServices->SetMem(Service,sizeof(BasicPainterService),0x0);
     Service->SystemTable = SystemTable;
 
@@ -26,7 +25,6 @@ CreateBasicPainterService(IN EFI_SYSTEM_TABLE * SystemTable){
     Service->SetEndPointer = BasicPainterSetEndPointer;
 
 
-
     return Service;
 }
 
@@ -34,9 +32,7 @@ EFI_STATUS
 EFIAPI
 InitGraphicsOutputProtocol(struct BasicPainterService * Service){
     EFI_GUID gop_guid = {0x9042a9de, 0x23dc, 0x4a38, {0x96, 0xfb, 0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a}};
-    Print(L"bbbb");
     EFI_STATUS Status = Service->SystemTable->BootServices->LocateProtocol(&gop_guid,NULL,(void **) &(Service->GOP));
-    Print(L"aaaaaaa");
     return Status;
 
 }
@@ -49,11 +45,10 @@ BasicPainterDraw(BasicPainterService * Service,enum BasicPointerDrawType DrawTyp
     EFI_GRAPHICS_OUTPUT_BLT_PIXEL *Base = (EFI_GRAPHICS_OUTPUT_BLT_PIXEL *) Service->GOP->Mode->FrameBufferBase;
     switch(DrawType){
         case BasicPointerDrawTypePixel: {
-
             EFI_GRAPHICS_OUTPUT_BLT_PIXEL *Pixel = Base + (HR * Service->StartPointer.y) + Service->StartPointer.x;
-            Pixel->Blue = Service->Color.Blue;
+            Pixel->Blue  = Service->Color.Blue;
             Pixel->Green = Service->Color.Blue;
-            Pixel->Red = Service->Color.Red;
+            Pixel->Red   = Service->Color.Red;
             Pixel->Reserved = Service->Color.Reserved;
             break;
         }
