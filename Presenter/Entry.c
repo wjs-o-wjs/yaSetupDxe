@@ -4,6 +4,7 @@
 #include <Library/UefiKeyboardLib/UefiKeyboardLib.h>
 #include <Library/UefiMouseLib/UefiMouseLib.h>
 #include <Library/UefiAsyncTimerLib/UefiAsyncTimerLib.h>
+#include <Library/UefiBasicPainterLib/UefiBasicPainterLib.h>
 #define SHELL_PROMPT L"Baby Shell> "
 #define STR_COMMAND_LINE_SIZE 1024
 
@@ -16,6 +17,24 @@ void StartMySystem(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable){
     void * test;
     ks->BindKey(ks,&key_data,test_func,&test);
 
+    BasicPainterService * bps = CreateBasicPainterService(SystemTable);
+    if (bps == NULL){
+        Print(L"Failed!");
+    }
+    
+    bps->InitGraphicsOutputProtocol(bps);
+
+    bps->SetColor(bps,0xff,0xff,0xff,0x80)
+       ->SetStartPointer(bps,100,100)
+       ->Draw(bps,BasicPointerDrawTypePixel);
+
+
+    
+
+
+
+
+    /*
 
     MouseService * ms = CreateMouseService(SystemTable);
     if (ms == NULL){
@@ -46,7 +65,7 @@ void StartMySystem(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable){
             Print(L"\r\n");
         }
     }
-    /*
+
     if (EFI_ERROR(status)){
         Print(L"Mouse Err\n");
     }

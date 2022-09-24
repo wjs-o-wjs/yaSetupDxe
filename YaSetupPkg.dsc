@@ -44,6 +44,7 @@
   UefiKeyboardLib|YaSetupPkg/Library/UefiKeyboardLib/UefiKeyboardLib.inf
   UefiMouseLib|YaSetupPkg/Library/UefiMouseLib/UefiMouseLib.inf
   UefiAsyncTimerLib|YaSetupPkg/Library/UefiAsyncTimerLib/UefiAsyncTimerLib.inf
+  UefiBasicPainterLib|YaSetupPkg/Library/UefiBasicPainterLib/UefiBasicPainterLib.inf
   SynchronizationLib|MdePkg/Library/BaseSynchronizationLib/BaseSynchronizationLib.inf
   TimerLib|MdePkg/Library/BaseTimerLibNullTemplate/BaseTimerLibNullTemplate.inf
 [Components]
