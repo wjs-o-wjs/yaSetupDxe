@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 project(concept_tests VERSION 0.0.1)
 find_package(SDL2 REQUIRED)
-file(GLOB SRC ${PROJECT_SOURCE_DIR}/*.c ${PROJECT_SOURCE_DIR}/3rdparty/freetype2/ftbase.c)
+file(GLOB SRC ${PROJECT_SOURCE_DIR}/*.c ${PROJECT_SOURCE_DIR}/3rdparty/freetype2/FreeTypeAmalgam.c)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 add_executable(concept_tests ${SRC})
 set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} -mssse3)

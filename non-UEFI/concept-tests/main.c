@@ -3,6 +3,7 @@
 #include <common.h>
 #include <event.h>
 #include <stdlib.h>
+
 int main(void)
 {
     init_compositor(WIDTH,HEIGHT);
