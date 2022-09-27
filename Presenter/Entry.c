@@ -23,6 +23,10 @@ void StartMySystem(IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable){
        ->SetStartPointer(bps,100,100)
        ->Draw(bps,BasicPointerDrawTypePixel);
 
+    bps->SetColor(bps,0xff,0xff,0xff,0x80)
+       ->SetStartPointer(bps,100,100)
+       ->SetEndPointer(bps,200,200)
+       ->Draw(bps,BasicPointerDrawTypeRect);
 
     /*
 

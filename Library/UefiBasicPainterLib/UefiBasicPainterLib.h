@@ -50,5 +50,14 @@ BasicPainterService * EFIAPI BasicPainterSetStartPointer(struct BasicPainterServ
 BasicPainterService * EFIAPI BasicPainterSetEndPointer(struct BasicPainterService * Service,uint32_t x,uint32_t y);
 BasicPainterService * EFIAPI BasicPainterSetDefaultColorConfig(struct BasicPainterService * Service,uint8_t Red,uint8_t Blue,uint8_t Green,uint8_t Reserved);
 EFI_STATUS EFIAPI InitGraphicsOutputProtocol(struct BasicPainterService * Service);
+VOID EFIAPI SetBltPixelColorRGBR(EFI_GRAPHICS_OUTPUT_BLT_PIXEL *Base,uint8_t Red,uint8_t Blue,uint8_t Green,uint8_t Reserved);
+VOID EFIAPI CopyBltPixelColor(EFI_GRAPHICS_OUTPUT_BLT_PIXEL *des,EFI_GRAPHICS_OUTPUT_BLT_PIXEL *src);
+
+// 接口: 获取屏幕宽度
+uint32_t EFIAPI getConsoleWidth(BasicPainterService * Service);
+
+// 接口: 获取屏幕高度
+uint32_t EFIAPI getConsoleHeight(BasicPainterService * Service);
+
 
 #endif
