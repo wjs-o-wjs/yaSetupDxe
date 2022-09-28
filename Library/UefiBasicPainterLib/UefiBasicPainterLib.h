@@ -59,5 +59,6 @@ uint32_t EFIAPI getConsoleWidth(BasicPainterService * Service);
 // 接口: 获取屏幕高度
 uint32_t EFIAPI getConsoleHeight(BasicPainterService * Service);
 
+EFI_STATUS EFIAPI clearScreen(BasicPainterService * Service);
 
 #endif

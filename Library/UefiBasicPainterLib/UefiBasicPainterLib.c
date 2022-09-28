@@ -78,6 +78,8 @@ BasicPainterDrawRect(BasicPainterService * Service){
     int TargetY;
     EFI_GRAPHICS_OUTPUT_BLT_PIXEL *Pixel;
     for(TargetX = MinX;TargetX <= MaxX;TargetX++){
+        // TODO
+        // 检查是否越界
         Pixel = Base + (HR * MinY) + TargetX;
         CopyBltPixelColor(Pixel,&Service->Color);
 
@@ -86,6 +88,8 @@ BasicPainterDrawRect(BasicPainterService * Service){
     }
 
     for(TargetY = MinY;TargetY <= MaxY;TargetY++){
+        // TODO
+        // 检查是否越界
         Pixel = Base + (HR * TargetY) + MinX;
         CopyBltPixelColor(Pixel,&Service->Color);
 
@@ -98,32 +102,11 @@ BasicPainterDrawRect(BasicPainterService * Service){
 VOID
 EFIAPI
 BasicPainterDrawLine(BasicPainterService * Service){
-    return;
-    // todo
     /*
     uint32_t HR = Service->GOP->Mode->Info->HorizontalResolution;
     EFI_GRAPHICS_OUTPUT_BLT_PIXEL *Base = (EFI_GRAPHICS_OUTPUT_BLT_PIXEL *) Service->GOP->Mode->FrameBufferBase;
     uint32_t MinX=0,MinY=0,MaxX=0,MaxY=0;
-
-    (Service->StartPointer.x < Service->EndPointer.x) ?
-        (
-            MinX = Service->StartPointer.x,
-            MaxX = Service->EndPointer.x
-        ):(
-            MinX = Service->EndPointer.x,
-            MaxX = Service->StartPointer.x
-        );
-
-    (Service->StartPointer.y < Service->EndPointer.y) ?
-        (
-            MinY = Service->StartPointer.y,
-            MaxY = Service->EndPointer.y
-        ):(
-            MinY = Service->EndPointer.y,
-            MaxY = Service->StartPointer.y
-        );
     */
-
 }
 
 BasicPainterService *
@@ -219,3 +202,10 @@ EFIAPI
 getConsoleHeight(BasicPainterService * Service){
     return Service->GOP->Mode->Info->VerticalResolution;
 }
+
+EFI_STATUS
+EFIAPI
+clearScreen(BasicPainterService * Service){
+    return Service->SystemTable->ConOut->ClearScreen(Service->SystemTable->ConOut);
+}
+
