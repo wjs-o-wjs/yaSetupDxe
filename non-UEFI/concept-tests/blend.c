@@ -47,14 +47,12 @@ void alpha_blending(__m128i* front, __m128i* back, __m128i* result)
     temp_a = _mm_add_epi8(temp_a,result_1);
     _mm_store_si128(result,temp_a);
 }
-void alpha_blending_naive(unsigned* a, unsigned* b, unsigned* res)
+uint32_t alpha_blending_naive(unsigned a, unsigned b)
 {
-    for(int i=0;i<=3;i++) {
-        float transparency=ALPHA(a[i])/256.0;
-        res[i] = (int)(BLUE(a[i])*transparency+BLUE(b[i])*(1-transparency))
-                |(int)(GREEN(a[i])*transparency+GREEN(b[i])*(1-transparency))<<8
-                |(int)(RED(a[i])*transparency+RED(b[i])*(1-transparency))<<16;
-    }
+    float transparency=ALPHA(a)/256.0;
+    return (int)(BLUE(a)*transparency+BLUE(b)*(1-transparency))
+          |(int)(GREEN(a)*transparency+GREEN(b)*(1-transparency))<<8
+          |(int)(RED(a)*transparency+RED(b)*(1-transparency))<<16;
 }
 uint32_t alpha_blending_pixel(uint32_t a, uint32_t b)
 {

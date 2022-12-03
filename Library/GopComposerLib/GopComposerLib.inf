@@ -1,0 +1,29 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = GopComposerLib
+  FILE_GUID                      = 39944414-c42f-4edb-bf3d-3d1817cdb917
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 0.1
+  LIBRARY_CLASS                  = ComposerLib
+
+[Sources.common]
+  ComposerInit.c
+  BaseOperations.c
+
+[Protocols]
+  gEfiGraphicsOutputProtocolGuid
+
+[Packages]
+  MdePkg/MdePkg.dec
+  YaSetupPkg/YaSetupPkg.dec
+
+[LibraryClasses]
+  PrintLib
+  UefiLib
+  PcdLib
+
+[Pcd]
+  gYaSetupPkgTokenSpaceGuid.SetupWindowTitle
+  gYaSetupPkgTokenSpaceGuid.BackgroudColor
+  gYaSetupPkgTokenSpaceGuid.WindowCaptionColor
+  gYaSetupPkgTokenSpaceGuid.WindowCaptionHeight

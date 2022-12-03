@@ -25,28 +25,28 @@
   # Entry Point Libraries
   #
   UefiApplicationEntryPoint|MdePkg/Library/UefiApplicationEntryPoint/UefiApplicationEntryPoint.inf
-  UefiDriverEntryPoint|MdePkg/Library/UefiDriverEntryPoint/UefiDriverEntryPoint.inf
   #
   # Common Libraries
   #
   BaseLib|MdePkg/Library/BaseLib/BaseLib.inf
   BaseMemoryLib|MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
-  UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
-  PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
-  PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
-  MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
   UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf
   UefiRuntimeServicesTableLib|MdePkg/Library/UefiRuntimeServicesTableLib/UefiRuntimeServicesTableLib.inf
+  UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
+  DevicePathLib|MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.inf
+  MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
+  PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
   DebugLib|MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf
   DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
-  DevicePathLib|MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.inf
+  PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
   RegisterFilterLib|MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
-  UefiKeyboardLib|YaSetupPkg/Library/UefiKeyboardLib/UefiKeyboardLib.inf
-  UefiMouseLib|YaSetupPkg/Library/UefiMouseLib/UefiMouseLib.inf
-  UefiAsyncTimerLib|YaSetupPkg/Library/UefiAsyncTimerLib/UefiAsyncTimerLib.inf
-  UefiBasicPainterLib|YaSetupPkg/Library/UefiBasicPainterLib/UefiBasicPainterLib.inf
-  UefiMagicWindowLib|YaSetupPkg/Library/UefiMagicWindowLib/UefiMagicWindowLib.inf
-  SynchronizationLib|MdePkg/Library/BaseSynchronizationLib/BaseSynchronizationLib.inf
-  TimerLib|MdePkg/Library/BaseTimerLibNullTemplate/BaseTimerLibNullTemplate.inf
+  #
+  # Our own Libraries
+  #
+  ComposerLib|YaSetupPkg/Library/GopComposerLib/GopComposerLib.inf
 [Components]
-  YaSetupPkg/YaSetupDxe.inf
+  YaSetupPkg/Presenter/Presenter.inf
+[PcdsFixedAtBuild]
+  gYaSetupPkgTokenSpaceGuid.SetupWindowTitle|L"BIOS Setup Utility - ECGM Demo Board"
+# Theme
+!include Theme/DefaultTheme.inc.dsc
