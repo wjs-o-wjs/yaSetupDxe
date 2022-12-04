@@ -2,6 +2,9 @@
 #include <Protocol/GraphicsOutput.h>
 #include <Library/UefiLib.h>
 #include <Library/PcdLib.h>
+
+#include "InternalHeader.h"
+
 extern EFI_SYSTEM_TABLE *gST;
 EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsProtocol;
 
@@ -52,9 +55,28 @@ InitComposer (
       return EFI_UNSUPPORTED;
     }
   }
+
+  // Calculate desired scale factor.
+  if(DesiredScaleFactor!=0.0) {
+    SetScaleFactor(DesiredScaleFactor);
+  }
+  else {
+    UINT32 ScaleTargetW = PcdGet32(DesiredScaleTargetW);
+    UINT32 ScaleTargetH = PcdGet32(DesiredScaleTargetH);
+    double ScaleFactorW = DesiredScreenWidth/ScaleTargetW;
+    double ScaleFactorH = DesiredScreenHeight/ScaleTargetH;
+    //We choose the smaller one.
+    DesiredScaleFactor = (ScaleFactorH<ScaleFactorW)?ScaleFactorH:ScaleFactorW;
+    //If the scale factor is lower than 1, it means the screen resolution is lower than we expected, and we shall not scale it.
+    if(DesiredScaleFactor<1.0) {
+      DesiredScaleFactor = 1.0;
+    }
+    SetScaleFactor(DesiredScaleFactor);
+  }
+
   Print(L"Chosen resolution:%dx%d\r\n",DesiredScreenWidth,DesiredScreenHeight);
   ClearScreen(PcdGet32(BackgroudColor));
   DrawCaption(PcdGet16(WindowCaptionHeight),PcdGet32(WindowCaptionColor),PcdGetPtr(SetupWindowTitle));
-  (void) DesiredScaleFactor;
+
   return Status;
 }

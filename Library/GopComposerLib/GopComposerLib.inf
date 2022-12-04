@@ -27,3 +27,5 @@
   gYaSetupPkgTokenSpaceGuid.BackgroudColor
   gYaSetupPkgTokenSpaceGuid.WindowCaptionColor
   gYaSetupPkgTokenSpaceGuid.WindowCaptionHeight
+  gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetW
+  gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetH

@@ -1,8 +1,33 @@
 #include <Library/ComposerLib.h>
 #include <Protocol/GraphicsOutput.h>
 #include <Library/UefiLib.h>
+
+#include "InternalHeader.h"
+
 extern EFI_SYSTEM_TABLE *gST;
 extern EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsProtocol;
+
+static double ScaleFactor=1.0;
+
+double
+EFIAPI
+GetScaleFactor (
+  VOID
+)
+{
+  return ScaleFactor;
+}
+
+EFI_STATUS
+EFIAPI
+SetScaleFactor (
+  double NewScaleFactor
+)
+{
+  ScaleFactor = NewScaleFactor;
+  return EFI_SUCCESS;
+}
+
 EFI_STATUS
 EFIAPI
 ClearScreen (
