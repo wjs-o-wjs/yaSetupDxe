@@ -12,7 +12,7 @@ To make a tiny layout inflator(Android-like)/widget arranger(Qt-like) under UEFI
 [x]&ensp;2. Mouse cursor  
 [&ensp;]&ensp;3. FreeType port  
 [&ensp;]&ensp;4. Caption generation  
-[x]&ensp;5. 9-patch scaling
+[x]&ensp;5. 9-patch scaling  
 [&ensp;]&ensp;6. widget design & display  
 [&ensp;]&ensp;7. widget interaction(hover/leave/click/right-click/keyboard)  
 ......To Be Continued  
