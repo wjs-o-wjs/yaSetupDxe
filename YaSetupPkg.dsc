@@ -44,6 +44,8 @@
   # Our own Libraries
   #
   ComposerLib|YaSetupPkg/Library/GopComposerLib/GopComposerLib.inf
+  MouseLib|YaSetupPkg/Library/EmulatedMouseLib/EmulatedMouseLib.inf
+  CommonWidgetLib|YaSetupPkg/Library/CommonWidgetLib/CommonWidgetLib.inf
 [Components]
   YaSetupPkg/Presenter/Presenter.inf
 [PcdsFixedAtBuild]

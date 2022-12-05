@@ -1,0 +1,24 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = CommonWidgetLib
+  FILE_GUID                      = 47352669-6b77-4616-885a-bb10b14533d2
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 0.1
+  LIBRARY_CLASS                  = CommonWidgetLib
+
+[Sources.common]
+  TextLabel.c
+
+[Protocols]
+
+[Packages]
+  MdePkg/MdePkg.dec
+  YaSetupPkg/YaSetupPkg.dec
+
+[LibraryClasses]
+  PrintLib
+  UefiLib
+  ComposerLib
+
+[Pcd]
+

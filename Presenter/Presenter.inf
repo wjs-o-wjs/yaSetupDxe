@@ -21,5 +21,7 @@
   UefiApplicationEntryPoint
   UefiBootServicesTableLib
   ComposerLib
+  CommonWidgetLib
+  MouseLib
 
 
