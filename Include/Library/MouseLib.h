@@ -30,4 +30,31 @@ EFI_STATUS
 (
   IN MOUSE_CLICK_STATUS Status
 );
+
+/**
+  The overall mouse move handler for the mouse lib.
+  The composer shall use this as a move entry.
+**/
+typedef
+EFI_STATUS
+(EFIAPI *MOUSE_LIB_MOVE_HANDLER)
+(
+  IN UINT32 X_OFFSET,
+  IN UINT32 Y_OFFSET
+);
+/**
+  The function that registers overall handler.
+  @param ClickHandler   The callback function that handles click event.
+  @param MoveHandler    The callback function that handles move event.
+  @return  EFI_SUCCESS  on successful call.
+  @return  Others       on failed call.
+**/
+EFI_STATUS
+EFIAPI
+RegisterMouseEventHandler
+(
+  IN MOUSE_LIB_CLICK_HANDLER ClickHandler,
+  IN MOUSE_LIB_MOVE_HANDLER  MoveHandler
+);
+
 #endif

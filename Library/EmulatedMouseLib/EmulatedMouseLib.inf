@@ -10,12 +10,12 @@
   EmulatedMouseLib.c
 
 [Protocols]
-
+  gEfiSimpleTextInProtocolGuid
 [Packages]
   MdePkg/MdePkg.dec
   YaSetupPkg/YaSetupPkg.dec
 
 [LibraryClasses]
-
+  UefiBootServicesTableLib
 [Pcd]
 

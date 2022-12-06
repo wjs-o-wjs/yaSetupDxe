@@ -2,7 +2,7 @@
 #include <Protocol/GraphicsOutput.h>
 #include <Library/UefiLib.h>
 #include <Library/PcdLib.h>
-
+#include <Library/MouseLib.h>
 #include "InternalHeader.h"
 
 extern EFI_SYSTEM_TABLE *gST;
@@ -77,6 +77,6 @@ InitComposer (
   Print(L"Chosen resolution:%dx%d\r\n",DesiredScreenWidth,DesiredScreenHeight);
   ClearScreen(PcdGet32(BackgroudColor));
   DrawCaption(PcdGet16(WindowCaptionHeight),PcdGet32(WindowCaptionColor),PcdGetPtr(SetupWindowTitle));
-
+  RegisterMouseEventHandler(NULL,NULL);
   return Status;
 }
