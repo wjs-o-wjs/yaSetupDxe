@@ -1,5 +1,6 @@
 #include <Uefi.h>
 #include <Library/ComposerLib.h>
+#include <Library/MainMessageLooperLib.h>
 EFI_STATUS
 EFIAPI
 UefiMain (
@@ -8,11 +9,12 @@ UefiMain (
 )
 {
   EFI_STATUS                       Status;
-  SystemTable->ConOut->OutputString(SystemTable->ConOut,L"Hello EFI!\r\n");
+  SystemTable->StdErr->OutputString(SystemTable->StdErr,L"Hello EFI!\r\n");
   Status = InitComposer(1024,768,0);
   if(EFI_ERROR(Status)) {
       return Status;
   }
+  //Add initialization here.
+  return EnterMainMessageLoop();
   (VOID) ImageHandle;
-  return EFI_SUCCESS;
 }

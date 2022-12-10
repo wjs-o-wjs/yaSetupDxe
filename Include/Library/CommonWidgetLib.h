@@ -43,4 +43,11 @@ EFI_STATUS
   IN MOUSE_CLICK_STATUS Status
 );
 
+struct _COMMON_WIDGET {
+  COMMON_WIDGET          *Parent;
+  UINT32                  Width;
+  UINTN                   Height;
+  COMMON_WIDGET_ON_CLICK  OnClick;
+};
+
 #endif

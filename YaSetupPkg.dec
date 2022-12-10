@@ -11,6 +11,7 @@
 [Guids]
   gYaSetupPkgTokenSpaceGuid = { 0xcb1e5747, 0xea9e, 0x43a6, { 0xb3, 0xa1, 0x9f, 0xcb, 0x0d, 0x72, 0x16, 0xfb } }
 [PcdsFixedAtBuild]
+  gYaSetupPkgTokenSpaceGuid.MessageQueueSize    | 128                                | UINT32 | 0x40000000
   gYaSetupPkgTokenSpaceGuid.SetupWindowTitle    | L"BIOS Setup Utility - NULL Board" | VOID*  | 0x40000001
   gYaSetupPkgTokenSpaceGuid.BackgroudColor      | 0xFFFFFFFF                         | UINT32 | 0x40000002
   gYaSetupPkgTokenSpaceGuid.WindowCaptionColor  | 0xFFFFFFFF                         | UINT32 | 0x40000003

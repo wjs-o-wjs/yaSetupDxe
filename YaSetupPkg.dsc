@@ -46,6 +46,7 @@
   ComposerLib|YaSetupPkg/Library/GopComposerLib/GopComposerLib.inf
   MouseLib|YaSetupPkg/Library/EmulatedMouseLib/EmulatedMouseLib.inf
   CommonWidgetLib|YaSetupPkg/Library/CommonWidgetLib/CommonWidgetLib.inf
+  MainMessageLooperLib|YaSetupPkg/Library/MainMessageLooperLib/MainMessageLooperLib.inf
 [Components]
   YaSetupPkg/Presenter/Presenter.inf
 [PcdsFixedAtBuild]

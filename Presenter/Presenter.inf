@@ -17,11 +17,13 @@
 
 [Guids]
 
+
 [LibraryClasses]
   UefiApplicationEntryPoint
   UefiBootServicesTableLib
   ComposerLib
   CommonWidgetLib
   MouseLib
+  MainMessageLooperLib
 
 

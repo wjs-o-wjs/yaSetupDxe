@@ -4,6 +4,7 @@
 **/
 #include <Library/MouseLib.h>
 #include <Protocol/SimpleTextIn.h>
+#include <Library/UefiLib.h>
 extern EFI_BOOT_SERVICES *gBS;
 extern EFI_SYSTEM_TABLE  *gST;
 static MOUSE_LIB_CLICK_HANDLER RegisteredClickHandler;
@@ -18,9 +19,15 @@ EmulatedMouseKeyboardEventHandler
 )
 {
   EFI_SIMPLE_TEXT_INPUT_PROTOCOL *Protocol;
+  EFI_STATUS Status;
   Protocol = Context;
-  gBS->SignalEvent(Protocol->WaitForKey);
-  (VOID)Event;
+  EFI_INPUT_KEY Key;
+  Status = Protocol->ReadKeyStroke(Protocol,&Key);
+  if(EFI_ERROR(Status)) {
+    gST->StdErr->OutputString(gST->StdErr,L"Failed to retrieve key.\r\n");
+  }
+  Print(L"Pressed Key %d\r\n",Key.ScanCode);
+  gBS->SignalEvent(Event);
 }
 
 
@@ -48,11 +55,7 @@ RegisterMouseEventHandler
   EFI_SIMPLE_TEXT_INPUT_PROTOCOL  *Protocol;
   RegisteredClickHandler = ClickHandler;
   RegisteredMoveHandler  = MoveHandler;
-  Status = gBS->LocateProtocol(&gEfiSimpleTextInProtocolGuid,NULL,(VOID**)&Protocol);
-  if(!Status) {
-    gST->ConOut->OutputString(gST->ConOut,L"We Cannot find the Keyboard protocol.\r\n");
-    return Status;
-  }
+  Protocol =gST->ConIn;
   // We use the keyboard to control mouse.
   Status = gBS->CreateEvent (
     EVT_NOTIFY_WAIT,

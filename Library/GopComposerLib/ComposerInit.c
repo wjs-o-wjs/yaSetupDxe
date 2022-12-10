@@ -19,7 +19,7 @@ InitComposer (
   EFI_STATUS Status = EFI_SUCCESS;
   Status = gST->BootServices->LocateProtocol(&gEfiGraphicsOutputProtocolGuid,NULL,(VOID**) &GraphicsProtocol);
   if(EFI_ERROR(Status)) {
-    gST->ConOut->OutputString(gST->ConOut,L"This system DOES NOT support GOP!\r\n");
+    gST->StdErr->OutputString(gST->StdErr,L"This system DOES NOT support GOP!\r\n");
     return Status;
   }
   if( DesiredScreenHeight==0 || DesiredScreenWidth==0 ) {
@@ -35,14 +35,14 @@ InitComposer (
       EFI_GRAPHICS_OUTPUT_MODE_INFORMATION  *GraphicsInformation;
       Status = GraphicsProtocol->QueryMode(GraphicsProtocol,n,&ModeInfoSize,&GraphicsInformation);
       if(EFI_ERROR(Status)) {
-        gST->ConOut->OutputString(gST->ConOut,L"Cannot retrive the display information!\r\n");
+        gST->StdErr->OutputString(gST->StdErr,L"Cannot retrive the display information!\r\n");
         return Status;
       }
       if(GraphicsInformation->HorizontalResolution == DesiredScreenWidth
        &&GraphicsInformation->VerticalResolution   == DesiredScreenHeight) {
           Status = GraphicsProtocol->SetMode(GraphicsProtocol,n);
           if(EFI_ERROR(Status)) {
-            gST->ConOut->OutputString(gST->ConOut,L"Cannot set the desired mode!\r\n");
+            gST->StdErr->OutputString(gST->StdErr,L"Cannot set the desired mode!\r\n");
             return Status;
           }
           break;
@@ -51,7 +51,7 @@ InitComposer (
     // Check whether the graphic mode is set.
     if(GraphicsProtocol->Mode->Info->HorizontalResolution != DesiredScreenWidth
      ||GraphicsProtocol->Mode->Info->VerticalResolution   != DesiredScreenHeight) {
-      gST->ConOut->OutputString(gST->ConOut,L"Failed to find the corresponding mode for your selection!\r\n");
+      gST->StdErr->OutputString(gST->StdErr,L"Failed to find the corresponding mode for your selection!\r\n");
       return EFI_UNSUPPORTED;
     }
   }
@@ -77,6 +77,10 @@ InitComposer (
   Print(L"Chosen resolution:%dx%d\r\n",DesiredScreenWidth,DesiredScreenHeight);
   ClearScreen(PcdGet32(BackgroudColor));
   DrawCaption(PcdGet16(WindowCaptionHeight),PcdGet32(WindowCaptionColor),PcdGetPtr(SetupWindowTitle));
-  RegisterMouseEventHandler(NULL,NULL);
+  Status = RegisterMouseEventHandler(NULL,NULL);
+  if(EFI_ERROR(Status)) {
+    gST->StdErr->OutputString(gST->StdErr,L"We CAN NOT register mouse event handler!\r\n");
+    return Status;
+  }
   return Status;
 }
