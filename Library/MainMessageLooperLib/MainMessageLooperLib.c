@@ -1,6 +1,5 @@
 #include <Library/MainMessageLooperLib.h>
 #include <Library/BaseMemoryLib.h>
-
 extern EFI_SYSTEM_TABLE   *gST;
 extern EFI_BOOT_SERVICES  *gBS;
 //So far, holding a cycle queue of 128 elements is REALLY enough.
@@ -79,7 +78,7 @@ EnterMainMessageLoop
     return Status;
   }
   gST->ConOut->OutputString(gST->ConOut,L"Create Message loop done.\r\n");
-  Status = gBS->WaitForEvent(1,MessageLooperEndEvent,NULL);
+  Status = gBS->WaitForEvent(1,&MessageLooperEndEvent,NULL);
   if(EFI_ERROR(Status)) {
     gST->ConOut->OutputString(gST->ConOut,L"Cannot start message looper Event.\r\n");
     return Status;
