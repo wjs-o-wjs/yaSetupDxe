@@ -32,6 +32,9 @@ MessageQueueDequeue
   QueuePointerFront = MessageQueueNext(QueuePointerFront);
 }
 
+STATIC EFI_EVENT MessageLooperEndEvent;
+STATIC EFI_EVENT MessageLooperTimerEvent;
+
 //STATIC
 VOID
 EFIAPI
@@ -41,27 +44,17 @@ MessageLooperEvent
   IN  VOID                     *Context
 )
 {
-  gST->ConOut->OutputString(gST->ConOut,L"Looper event triggered.\n");
-
+  gST->ConOut->OutputString(gST->ConOut,L"Looper event triggered.\r\n");
   (VOID)Event;
   (VOID)Context;
+  // Test end event.
+  static int i=0;
+  i++;
+  if(i==20) {
+    gBS->SignalEvent(MessageLooperEndEvent);
+  }
 }
 
-STATIC EFI_EVENT MessageLooperEndEvent;
-//STATIC
-VOID
-EFIAPI
-MessageLooperEndEventNull
-(
-  IN  EFI_EVENT                Event,
-  IN  VOID                     *Context
-)
-{
-  (VOID)Event;
-  (VOID)Context;
-  gBS->SignalEvent(MessageLooperEndEvent);
-  return;
-}
 EFI_STATUS
 EFIAPI
 EnterMainMessageLoop
@@ -70,19 +63,34 @@ EnterMainMessageLoop
 )
 {
   EFI_STATUS Status;
-  //UINTN Index;
-  gST->ConOut->OutputString(gST->ConOut,L"Entering Main Message Loop.\r\n");
-  Status = gBS->CreateEvent(0,TPL_APPLICATION,MessageLooperEndEventNull,NULL,&MessageLooperEndEvent);
+  // Create end Event.
+  Status = gBS->CreateEvent(0,TPL_APPLICATION,NULL,NULL,&MessageLooperEndEvent);
   if(EFI_ERROR(Status)) {
-    gST->ConOut->OutputString(gST->ConOut,L"Cannot create Looper End Event.\r\n");
+    gST->ConOut->OutputString(gST->ConOut,L"Cannot create looper End Event.\r\n");
     return Status;
   }
-  gST->ConOut->OutputString(gST->ConOut,L"Create Message loop done.\r\n");
+  // Create timer Event.
+  Status = gBS->CreateEvent(EVT_TIMER | EVT_NOTIFY_SIGNAL,
+                            TPL_CALLBACK,
+                            MessageLooperEvent,
+                            NULL,
+                            &MessageLooperTimerEvent);
+  if(EFI_ERROR(Status)) {
+    gST->ConOut->OutputString(gST->ConOut,L"Cannot create looper timer Event.\r\n");
+    return Status;
+  }
+  Status = gBS->SetTimer(MessageLooperTimerEvent,TimerPeriodic,PcdGet64(MessageLooperPeriod));
+  if(EFI_ERROR(Status)) {
+    gST->ConOut->OutputString(gST->ConOut,L"Cannot start looper timer Event.\r\n");
+    return Status;
+  }
+  // begin to wait for loop.
   Status = gBS->WaitForEvent(1,&MessageLooperEndEvent,NULL);
   if(EFI_ERROR(Status)) {
     gST->ConOut->OutputString(gST->ConOut,L"Cannot start message looper Event.\r\n");
     return Status;
   }
+  gBS->CloseEvent(MessageLooperTimerEvent);
   return Status;
 }
 

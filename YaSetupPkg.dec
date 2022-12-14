@@ -18,3 +18,4 @@
   gYaSetupPkgTokenSpaceGuid.WindowCaptionHeight | 24                                 | UINT16 | 0x40000004
   gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetW | 1920                               | UINT32 | 0x40000005
   gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetH | 1080                               | UINT32 | 0x40000006
+  gYaSetupPkgTokenSpaceGuid.MessageLooperPeriod | 100000                             | UINT64 | 0x40000007

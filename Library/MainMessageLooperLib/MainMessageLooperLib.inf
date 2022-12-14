@@ -21,3 +21,4 @@
   BaseMemoryLib
 [Pcd]
   gYaSetupPkgTokenSpaceGuid.MessageQueueSize
+  gYaSetupPkgTokenSpaceGuid.MessageLooperPeriod
