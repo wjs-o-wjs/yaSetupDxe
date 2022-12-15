@@ -40,4 +40,18 @@ EnterMainMessageLoop
   VOID
 );
 
+/**
+  This function puts one message into the cycle queue.
+  @param  MessageType  The message type as defined in enum.
+  @param  Handler      The optional target callback function for some types of message.
+  @param  ExtraContent The optional context that will passed to the function.
+ **/
+EFI_STATUS
+EFIAPI
+SendMessage
+(
+  IN MESSAGE_LOOPER_MESSAGE_TYPE               MessageType,
+  IN OPTIONAL MESSAGE_LOOPER_MESSAGE_HANDLER  *Handler,
+  IN OPTIONAL VOID                            *ExtraContent
+);
 #endif
