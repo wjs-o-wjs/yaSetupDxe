@@ -3,7 +3,6 @@
 #include <Library/UefiLib.h>
 #include <Library/PcdLib.h>
 #include <Library/MouseLib.h>
-#include "InternalHeader.h"
 
 extern EFI_SYSTEM_TABLE *gST;
 EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsProtocol;

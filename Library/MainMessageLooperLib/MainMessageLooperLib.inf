@@ -7,7 +7,8 @@
   LIBRARY_CLASS                  = MainMessageLooperLib
 
 [Sources.common]
-  MainMessageLooperLib.c
+  MainMessageLooperMain.c
+  DefaultMessageHandler.c
 
 [Protocols]
 

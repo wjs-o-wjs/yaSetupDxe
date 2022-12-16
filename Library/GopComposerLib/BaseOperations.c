@@ -2,8 +2,6 @@
 #include <Protocol/GraphicsOutput.h>
 #include <Library/UefiLib.h>
 
-#include "InternalHeader.h"
-
 extern EFI_SYSTEM_TABLE *gST;
 extern EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsProtocol;
 

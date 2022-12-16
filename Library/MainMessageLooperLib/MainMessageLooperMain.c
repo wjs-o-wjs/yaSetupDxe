@@ -10,6 +10,7 @@ static volatile UINTN QueuePointerFront=0,QueuePointerBack=0;
 #define MessageQueueEmpty() ((QueuePointerBack)==(QueuePointerFront))
 #define MessageQueueNext(x) (((x)+1)%_PCD_VALUE_MessageQueueSize)
 
+
 STATIC
 VOID
 MessageQueueEnqueue
@@ -35,7 +36,7 @@ MessageQueueDequeue
 STATIC EFI_EVENT MessageLooperEndEvent;
 STATIC EFI_EVENT MessageLooperTimerEvent;
 
-//STATIC
+STATIC
 VOID
 EFIAPI
 MessageLooperEvent

@@ -43,18 +43,15 @@ EFI_STATUS
   IN UINT32 Y_OFFSET
 );
 /**
-  The function that registers overall handler.
-  @param ClickHandler   The callback function that handles click event.
-  @param MoveHandler    The callback function that handles move event.
+  The function that initializes mouse.
   @return  EFI_SUCCESS  on successful call.
   @return  Others       on failed call.
 **/
 EFI_STATUS
 EFIAPI
-RegisterMouseEventHandler
+InitMouse
 (
-  IN MOUSE_LIB_CLICK_HANDLER ClickHandler,
-  IN MOUSE_LIB_MOVE_HANDLER  MoveHandler
+  VOID
 );
 
 #endif

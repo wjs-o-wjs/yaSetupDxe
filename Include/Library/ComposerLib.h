@@ -55,4 +55,16 @@ DrawCaption
   IN UINT32        BackgroundColor,
   IN CONST CHAR16 *Title
 );
+double
+EFIAPI
+GetScaleFactor (
+  VOID
+);
+
+EFI_STATUS
+EFIAPI
+SetScaleFactor (
+  double NewScaleFactor
+);
+
 #endif
