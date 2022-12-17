@@ -1,7 +1,19 @@
 #include <Library/MainMessageLooperLib.h>
 #include <Library/BaseMemoryLib.h>
+
+#include <Library/UefiLib.h>
 extern EFI_SYSTEM_TABLE   *gST;
 extern EFI_BOOT_SERVICES  *gBS;
+
+extern
+EFI_STATUS
+InvokeMessageHandler
+(
+  IN  MESSAGE_LOOPER_MESSAGE_TYPE      MessageType,
+  IN OPTIONAL VOID                    *ExtraContent
+);
+
+
 //So far, holding a cycle queue of 128 elements is REALLY enough.
 static MESSAGE_LOOPER_MESSAGE_STRUCTURE MessageQueue[_PCD_VALUE_MessageQueueSize];
 static volatile UINTN QueuePointerFront=0,QueuePointerBack=0;
@@ -18,8 +30,9 @@ MessageQueueEnqueue
   IN MESSAGE_LOOPER_MESSAGE_STRUCTURE* Message
 )
 {
+  UINTN QueuePointerBackCurrent = QueuePointerBack;
   QueuePointerBack = MessageQueueNext(QueuePointerBack);
-  CopyMem(&MessageQueue[QueuePointerBack],Message,sizeof(MESSAGE_LOOPER_MESSAGE_STRUCTURE));
+  CopyMem(&MessageQueue[QueuePointerBackCurrent],Message,sizeof(MESSAGE_LOOPER_MESSAGE_STRUCTURE));
 }
 
 STATIC
@@ -29,8 +42,9 @@ MessageQueueDequeue
   OUT MESSAGE_LOOPER_MESSAGE_STRUCTURE  *Buf
 )
 {
+  UINTN QueuePointerFrontCurrent = QueuePointerFront;
   QueuePointerFront = MessageQueueNext(QueuePointerFront);
-  CopyMem(Buf,&MessageQueue[QueuePointerFront],sizeof(MESSAGE_LOOPER_MESSAGE_STRUCTURE));
+  CopyMem(Buf,&MessageQueue[QueuePointerFrontCurrent],sizeof(MESSAGE_LOOPER_MESSAGE_STRUCTURE));
 }
 
 STATIC EFI_EVENT MessageLooperEndEvent;
@@ -46,27 +60,25 @@ MessageLooperEvent
 )
 {
   MESSAGE_LOOPER_MESSAGE_STRUCTURE  Buf;
-  gST->ConOut->OutputString(gST->ConOut,L"Looper event triggered.\r\n");
+  MESSAGE_LOOPER_MESSAGE_FORWARDING_METHOD ForwardingMethod=MessageLooperContinueForwardingMessages;
   while(!MessageQueueEmpty()) {
     MessageQueueDequeue(&Buf);
-    //TODO:Add handler.
+    Print(L"Got message:Type = %x\n, Handler = %x\n, Content = %x\n",Buf.MessageType,Buf.Handler,Buf.ExtraContent);
     switch(Buf.MessageType) {
       case MessageLooperMessageEndApplication: {
         gBS->SignalEvent(MessageLooperEndEvent);
         break;
       }
       default: {
-        continue;
+        if(Buf.Handler!=NULL) {
+          Buf.Handler(Buf.MessageType,Buf.ExtraContent,&ForwardingMethod);
+        }
+        else {
+          InvokeMessageHandler(Buf.MessageType,Buf.ExtraContent);
+        }
       }
     }
   }
-  // Test end event.
-  static int i=0;
-  i++;
-  if(i==20) {
-    gBS->SignalEvent(MessageLooperEndEvent);
-  }
-
   (VOID)Event;
   (VOID)Context;
 }
@@ -76,7 +88,7 @@ EFIAPI
 SendMessage
 (
   IN MESSAGE_LOOPER_MESSAGE_TYPE               MessageType,
-  IN OPTIONAL MESSAGE_LOOPER_MESSAGE_HANDLER  *Handler,
+  IN OPTIONAL MESSAGE_LOOPER_MESSAGE_HANDLER   Handler,
   IN OPTIONAL VOID                            *ExtraContent
 )
 {
@@ -121,7 +133,7 @@ EnterMainMessageLoop
     return Status;
   }
   // Create an end message for test.
-  SendMessage(MessageLooperMessageEndApplication,NULL,NULL);
+  // SendMessage(MessageLooperMessageEndApplication,NULL,NULL);
   // begin to wait for loop.
   Status = gBS->WaitForEvent(1,&MessageLooperEndEvent,NULL);
   if(EFI_ERROR(Status)) {

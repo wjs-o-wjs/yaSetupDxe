@@ -1,13 +1,13 @@
 [Defines]
   INF_VERSION                    = 0x00010005
-  BASE_NAME                      = EmulatedMouseLib
-  FILE_GUID                      = 7280f9ff-78b4-43b6-8a4e-6bd4a6d8b30c
+  BASE_NAME                      = KeyboardLib
+  FILE_GUID                      = 52c37c38-6a23-4989-9675-54eee805d3b6
   MODULE_TYPE                    = BASE
   VERSION_STRING                 = 0.1
-  LIBRARY_CLASS                  = MouseLib
+  LIBRARY_CLASS                  = KeyboardLib
 
 [Sources.common]
-  EmulatedMouseLib.c
+  KeyboardLib.c
 
 [Protocols]
 

@@ -24,6 +24,8 @@
   ComposerLib
   CommonWidgetLib
   MouseLib
+  KeyboardLib
+  DebugLib
   MainMessageLooperLib
 
 

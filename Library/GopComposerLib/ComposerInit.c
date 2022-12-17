@@ -76,10 +76,5 @@ InitComposer (
   Print(L"Chosen resolution:%dx%d\r\n",DesiredScreenWidth,DesiredScreenHeight);
   ClearScreen(PcdGet32(BackgroudColor));
   DrawCaption(PcdGet16(WindowCaptionHeight),PcdGet32(WindowCaptionColor),PcdGetPtr(SetupWindowTitle));
-  //Status = RegisterMouseEventHandler(NULL,NULL);
-  if(EFI_ERROR(Status)) {
-    gST->ConOut->OutputString(gST->ConOut,L"We CAN NOT register mouse event handler!\r\n");
-    return Status;
-  }
   return Status;
 }

@@ -20,28 +20,17 @@ typedef enum {
   MOUSE_CLICK_RIGHT_UP    = 0x10,
   MOUSE_CLICK_MIDDLE_UP   = 0x20
 } MOUSE_CLICK_STATUS;
-/**
-  The overall mouse click handler for the mouse lib.
-  The composer shall use this as a click entry.
-**/
-typedef
-EFI_STATUS
-(EFIAPI *MOUSE_LIB_CLICK_HANDLER)
-(
-  IN MOUSE_CLICK_STATUS Status
-);
 
 /**
-  The overall mouse move handler for the mouse lib.
-  The composer shall use this as a move entry.
-**/
-typedef
-EFI_STATUS
-(EFIAPI *MOUSE_LIB_MOVE_HANDLER)
-(
-  IN UINT32 X_OFFSET,
-  IN UINT32 Y_OFFSET
-);
+  The struct describing mouse status.
+  For touchpad/Tablet compat, we use absolute position rather than relative one.
+ **/
+typedef struct _MOUSE_STATUS {
+  MOUSE_CLICK_STATUS ClickStatus;
+  UINT32             CurrentX;
+  UINT32             CurrentY;
+} MOUSE_STATUS;
+
 /**
   The function that initializes mouse.
   @return  EFI_SUCCESS  on successful call.

@@ -1,5 +1,5 @@
 #include <Library/MainMessageLooperLib.h>
-
+#include <Library/UefiLib.h>
 /**
  *
  *  We use a 2-dimensional Linked list to store the handles.
@@ -16,7 +16,7 @@
 struct _HANDLER_LINKED_LIST;
 struct _MESSAGE_TYPE_LINKED_LIST;
 typedef struct _HANDLER_LINKED_LIST {
-  MESSAGE_LOOPER_MESSAGE_HANDLER   *Handler;
+  MESSAGE_LOOPER_MESSAGE_HANDLER    Handler;
   struct _HANDLER_LINKED_LIST      *Next;
 } HANDLER_LINKED_LIST;
 
@@ -33,7 +33,8 @@ STATIC struct {
   MESSAGE_TYPE_LINKED_LIST  Head;
   MESSAGE_TYPE_LINKED_LIST *Tail;
 } MessageTypeLinkedList = {
-    .Tail = &(MessageTypeLinkedList.Head)
+    .Tail = &(MessageTypeLinkedList.Head),
+    .Head.Next = NULL
 };
 STATIC
 MESSAGE_TYPE_LINKED_LIST*
@@ -44,9 +45,11 @@ GetHandlerLinkedList
 {
   MESSAGE_TYPE_LINKED_LIST* Start = MessageTypeLinkedList.Head.Next;
   while(Start!=NULL) {
+    Print(L"Type:%x <->%x\n",Start->MessageType,MessageType);
     if(Start->MessageType == MessageType) {
       return Start;
     }
+    Start = Start->Next;
   }
   return NULL;
 }
@@ -56,7 +59,7 @@ EFIAPI
 RegisterMessageHandler
 (
   IN  MESSAGE_LOOPER_MESSAGE_TYPE      MessageType,
-  IN  MESSAGE_LOOPER_MESSAGE_HANDLER  *Handler
+  IN  MESSAGE_LOOPER_MESSAGE_HANDLER   Handler
 )
 {
   MESSAGE_TYPE_LINKED_LIST *TypeLinkedList;
@@ -66,7 +69,7 @@ RegisterMessageHandler
   TypeLinkedList = GetHandlerLinkedList(MessageType);
   if(TypeLinkedList==NULL) {
     // Create a new type.
-    Status = gBS->AllocatePool(EfiConventionalMemory,sizeof(MESSAGE_TYPE_LINKED_LIST),(VOID**)TypeLinkedList);
+    Status = gBS->AllocatePool(EfiLoaderData,sizeof(MESSAGE_TYPE_LINKED_LIST),(VOID**)&TypeLinkedList);
     if(EFI_ERROR(Status)) {
       gST->StdErr->OutputString(gST->StdErr,L"Cannot create buffer for MESSAGE_TYPE_LINKED_LIST.\r\n");
       return Status;
@@ -79,7 +82,7 @@ RegisterMessageHandler
     MessageTypeLinkedList.Tail       = TypeLinkedList;
   }
   // Insert the event.
-  Status = gBS->AllocatePool(EfiConventionalMemory,sizeof(HANDLER_LINKED_LIST),(VOID**)HandlerLinkedList);
+  Status = gBS->AllocatePool(EfiLoaderData,sizeof(HANDLER_LINKED_LIST),(VOID**)&HandlerLinkedList);
   if(EFI_ERROR(Status)) {
     gST->StdErr->OutputString(gST->StdErr,L"Cannot create buffer for HANDLER_LINKED_LIST.\r\n");
     return Status;
@@ -88,5 +91,30 @@ RegisterMessageHandler
   HandlerLinkedList->Handler        = Handler;
   TypeLinkedList->HandlerTail->Next = HandlerLinkedList;
   TypeLinkedList->HandlerTail       = HandlerLinkedList;
+  return EFI_SUCCESS;
+}
+
+EFI_STATUS
+InvokeMessageHandler
+(
+  IN  MESSAGE_LOOPER_MESSAGE_TYPE      MessageType,
+  IN OPTIONAL VOID                    *ExtraContent
+)
+{
+  MESSAGE_TYPE_LINKED_LIST                 *TypeLinkedList;
+  HANDLER_LINKED_LIST                      *HandlerLinkedList;
+  MESSAGE_LOOPER_MESSAGE_FORWARDING_METHOD  ForwardingMethod = MessageLooperContinueForwardingMessages;
+  // Find the target HANDLER_LINKED_LIST.
+  Print(L"Get Type Linked List.\r\n");
+  TypeLinkedList = GetHandlerLinkedList(MessageType);
+  if(TypeLinkedList==NULL) {
+    return EFI_NOT_FOUND;
+  }
+  HandlerLinkedList = TypeLinkedList->HandlerEntry.Next;
+  while((HandlerLinkedList!=NULL)&&(ForwardingMethod==MessageLooperContinueForwardingMessages)) {
+    Print(L"Invoking Handler.\r\n");
+    HandlerLinkedList->Handler(MessageType,ExtraContent,&ForwardingMethod);
+    HandlerLinkedList = HandlerLinkedList->Next;
+  }
   return EFI_SUCCESS;
 }
