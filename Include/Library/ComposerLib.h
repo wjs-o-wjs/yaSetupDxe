@@ -45,7 +45,7 @@ FillRectangle
   UINT32 Color
 );
 /**
- Interface to update the "Window Caption".
+  Interface to update the "Window Caption".
  **/
 EFI_STATUS
 EFIAPI
@@ -55,16 +55,38 @@ DrawCaption
   IN UINT32        BackgroundColor,
   IN CONST CHAR16 *Title
 );
+/**
+  This function returns current scale factor.
+ **/
 double
 EFIAPI
 GetScaleFactor (
   VOID
 );
-
+/**
+  This function sets scale factor.
+**/
 EFI_STATUS
 EFIAPI
 SetScaleFactor (
   double NewScaleFactor
 );
-
+/**
+  This function returns current screen width.
+ **/
+UINT32
+EFIAPI
+GetScreenWidth
+(
+  VOID
+);
+/**
+  This function returns current screen height.
+ **/
+UINT32
+EFIAPI
+GetScreenHeight
+(
+  VOID
+);
 #endif

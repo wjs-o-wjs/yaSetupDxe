@@ -9,6 +9,7 @@
 [Sources.common]
   ComposerInit.c
   BaseOperations.c
+  Cursor.c
 
 [Protocols]
   gEfiGraphicsOutputProtocolGuid
@@ -29,3 +30,6 @@
   gYaSetupPkgTokenSpaceGuid.WindowCaptionHeight
   gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetW
   gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetH
+  gYaSetupPkgTokenSpaceGuid.CursorImage
+  gYaSetupPkgTokenSpaceGuid.CursorImageWidth
+  gYaSetupPkgTokenSpaceGuid.CursorImageHeight

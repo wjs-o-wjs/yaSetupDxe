@@ -45,7 +45,6 @@ GetHandlerLinkedList
 {
   MESSAGE_TYPE_LINKED_LIST* Start = MessageTypeLinkedList.Head.Next;
   while(Start!=NULL) {
-    Print(L"Type:%x <->%x\n",Start->MessageType,MessageType);
     if(Start->MessageType == MessageType) {
       return Start;
     }
@@ -105,14 +104,12 @@ InvokeMessageHandler
   HANDLER_LINKED_LIST                      *HandlerLinkedList;
   MESSAGE_LOOPER_MESSAGE_FORWARDING_METHOD  ForwardingMethod = MessageLooperContinueForwardingMessages;
   // Find the target HANDLER_LINKED_LIST.
-  Print(L"Get Type Linked List.\r\n");
   TypeLinkedList = GetHandlerLinkedList(MessageType);
   if(TypeLinkedList==NULL) {
     return EFI_NOT_FOUND;
   }
   HandlerLinkedList = TypeLinkedList->HandlerEntry.Next;
   while((HandlerLinkedList!=NULL)&&(ForwardingMethod==MessageLooperContinueForwardingMessages)) {
-    Print(L"Invoking Handler.\r\n");
     HandlerLinkedList->Handler(MessageType,ExtraContent,&ForwardingMethod);
     HandlerLinkedList = HandlerLinkedList->Next;
   }

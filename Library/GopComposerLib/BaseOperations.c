@@ -9,7 +9,8 @@ static double ScaleFactor=1.0;
 
 double
 EFIAPI
-GetScaleFactor (
+GetScaleFactor
+(
   VOID
 )
 {
@@ -18,7 +19,8 @@ GetScaleFactor (
 
 EFI_STATUS
 EFIAPI
-SetScaleFactor (
+SetScaleFactor
+(
   double NewScaleFactor
 )
 {
@@ -28,7 +30,8 @@ SetScaleFactor (
 
 EFI_STATUS
 EFIAPI
-ClearScreen (
+ClearScreen
+(
   UINT32 Color
 )
 {
@@ -83,4 +86,25 @@ DrawCaption
   // TODO:Draw caption.
   Print(L"Title:%s\r\n",Title);
   return Status;
+}
+/**
+  This function returns current screen width.
+ **/
+UINT32
+EFIAPI
+GetScreenWidth
+(
+  VOID
+)
+{
+  return GraphicsProtocol->Mode->Info->HorizontalResolution;
+}
+UINT32
+EFIAPI
+GetScreenHeight
+(
+  VOID
+)
+{
+  return GraphicsProtocol->Mode->Info->VerticalResolution;
 }

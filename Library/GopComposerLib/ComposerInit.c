@@ -7,6 +7,15 @@
 extern EFI_SYSTEM_TABLE *gST;
 EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsProtocol;
 
+extern
+EFI_STATUS
+EFIAPI
+InitCursor
+(
+  VOID
+);
+
+
 EFI_STATUS
 EFIAPI
 InitComposer (
@@ -76,5 +85,5 @@ InitComposer (
   Print(L"Chosen resolution:%dx%d\r\n",DesiredScreenWidth,DesiredScreenHeight);
   ClearScreen(PcdGet32(BackgroudColor));
   DrawCaption(PcdGet16(WindowCaptionHeight),PcdGet32(WindowCaptionColor),PcdGetPtr(SetupWindowTitle));
-  return Status;
+  return InitCursor();
 }
