@@ -13,6 +13,10 @@ UefiMain (
 {
   EFI_STATUS                       Status;
   SystemTable->StdErr = SystemTable->ConOut;
+  Status = InitComposer(1024,768,0);
+  if(EFI_ERROR(Status)) {
+    return Status;
+  }
   Status = InitKeyboard();
   if(EFI_ERROR(Status)) {
     SystemTable->StdErr->OutputString(SystemTable->StdErr,L"Cannot init keyboard!\r\n");
@@ -21,10 +25,6 @@ UefiMain (
   Status = InitMouse();
   if(EFI_ERROR(Status)) {
     SystemTable->StdErr->OutputString(SystemTable->StdErr,L"Cannot init mouse!\r\n");
-    return Status;
-  }
-  Status = InitComposer(1024,768,0);
-  if(EFI_ERROR(Status)) {
     return Status;
   }
   //Add initialization here.

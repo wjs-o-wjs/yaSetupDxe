@@ -5,6 +5,7 @@
 #include <Library/MouseLib.h>
 #include <Library/KeyboardLib.h>
 #include <Library/MainMessageLooperLib.h>
+#include <Library/ComposerLib.h>
 #include <Library/UefiLib.h>
 extern EFI_BOOT_SERVICES *gBS;
 extern EFI_SYSTEM_TABLE  *gST;
@@ -12,7 +13,7 @@ extern EFI_SYSTEM_TABLE  *gST;
 STATIC MOUSE_STATUS MouseStatusRingBuffer[0x20];
 STATIC UINTN        MouseStatusRingBufferCurrentPosition;
 STATIC UINT32       CurrentMousePositionX, CurrentMousePositionY;
-
+STATIC UINT32       MaxMousePositionX, MaxMousePositionY;
 /**
   Here we handles the message from the keyboard.
   When we retrieve the information from keyboard, we read the key stroke, and then send mouse event.
@@ -30,18 +31,30 @@ EmulatedMouseMessageHandler
   switch(Key->UnicodeChar) {
     case 'W': case 'w':{
       CurrentMousePositionY -= 10;
+      if(CurrentMousePositionY<0) {
+        CurrentMousePositionY = 0;
+      }
       break;
     }
     case 'S': case 's':{
       CurrentMousePositionY += 10;
+      if(CurrentMousePositionY>MaxMousePositionY) {
+        CurrentMousePositionY = MaxMousePositionY;
+      }
       break;
     }
     case 'A': case 'a':{
       CurrentMousePositionX -= 10;
+      if(CurrentMousePositionX<0) {
+        CurrentMousePositionX = 0;
+      }
       break;
     }
     case 'D': case 'd':{
       CurrentMousePositionX += 10;
+      if(CurrentMousePositionX>MaxMousePositionX) {
+        CurrentMousePositionX = MaxMousePositionX;
+      }
       break;
     }
     default: {
@@ -77,5 +90,11 @@ InitMouse
 )
 {
   //Register our keyboard message handler.
+  MaxMousePositionX = GetScreenWidth();
+  MaxMousePositionY = GetScreenHeight();
+  if((MaxMousePositionX==0)||(MaxMousePositionY==0)) {
+    gST->StdErr->OutputString(gST->StdErr,L"Screen is not found. Stop.\r\n");
+    return EFI_UNSUPPORTED;
+  }
   return RegisterMessageHandler(MessageLooperMessageKeyboard,EmulatedMouseMessageHandler);
 }
