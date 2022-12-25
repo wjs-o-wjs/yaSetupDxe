@@ -10,6 +10,10 @@
   ComposerInit.c
   BaseOperations.c
   Cursor.c
+  AlphaBlending.c
+
+[Sources.X64]
+  X64/AcceleratedAlphaBlending.c
 
 [Protocols]
   gEfiGraphicsOutputProtocolGuid

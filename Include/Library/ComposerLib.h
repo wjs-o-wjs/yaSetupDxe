@@ -89,4 +89,50 @@ GetScreenHeight
 (
   VOID
 );
+
+/**
+  This function does alpha blending on a single pixel.
+  The detailed implementation varies among different architectures.
+  @param  a   The first pixel.
+  @param  b   The second pixel.
+  @returns    The blended pixel.
+**/
+UINT32
+EFIAPI
+AlphaBlendingPixel
+(
+  UINT32 a,
+  UINT32 b
+);
+
+
+/**
+  This function does blending on an area of pixels.
+  The detailed implementation varies among different architectures.
+  If the blended data reaches the maximum bound of the buffer, the overflow area is dropped.
+  @param    Front       The pixel buffer of the front pixel.
+  @param    FrontWidth  The width of front buffer.
+  @param    FrontHeight The height of the front buffer that is going to be blended.
+  @param    Back        The pixel buffer of the back pixel.
+  @param    BackWidth   The width of back buffer.
+  @param    BackHeight  The height of the back buffer that is going to be blended.
+  @param    OffsetX     The relative offset of Front. It is obvious that this vaule should not less than 0.
+  @param    OffsetY     The relative offset of Front. It is obvious that this vaule should not less than 0.
+  @returns  EFI_SUCCESS The blending process ends successfully.
+  @returns  Other       When the process fails.
+**/
+EFI_STATUS
+EFIAPI
+AlphaBlendingArea
+(
+  UINT32   *Front,
+  UINT32    FrontWidth,
+  UINT32    FrontHeight,
+  UINT32   *Back,
+  UINT32    BackWidth,
+  UINT32    BackHeight,
+  UINT32    OffsetX,
+  UINT32    OffsetY
+);
+
 #endif
