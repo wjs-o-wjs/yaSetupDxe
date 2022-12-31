@@ -37,3 +37,7 @@
   gYaSetupPkgTokenSpaceGuid.CursorImage
   gYaSetupPkgTokenSpaceGuid.CursorImageWidth
   gYaSetupPkgTokenSpaceGuid.CursorImageHeight
+
+[BuildOptions]
+  # Enable SSE flag for GCC.
+  GCC:*_*_X64_CC_FLAGS = -mssse3 -msse4
