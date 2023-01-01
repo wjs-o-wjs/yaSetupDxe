@@ -26,7 +26,7 @@
   PrintLib
   UefiLib
   PcdLib
-
+  MouseLib
 [Pcd]
   gYaSetupPkgTokenSpaceGuid.SetupWindowTitle
   gYaSetupPkgTokenSpaceGuid.BackgroudColor

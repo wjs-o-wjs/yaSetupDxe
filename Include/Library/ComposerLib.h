@@ -125,14 +125,16 @@ EFI_STATUS
 EFIAPI
 AlphaBlendingArea
 (
-  UINT32   *Front,
-  UINT32    FrontWidth,
-  UINT32    FrontHeight,
-  UINT32   *Back,
-  UINT32    BackWidth,
-  UINT32    BackHeight,
-  UINT32    OffsetX,
-  UINT32    OffsetY
+  UINT32          *Front,
+  UINT32           FrontWidth,
+  UINT32           FrontHeight,
+  UINT32          *Back,
+  UINT32           BackWidth,
+  UINT32           BackHeight,
+  UINT32           OffsetX,
+  UINT32           OffsetY,
+  UINT32 OPTIONAL *Destination,
+  UINT32 OPTIONAL  DestinationWidth
 );
 
 #endif

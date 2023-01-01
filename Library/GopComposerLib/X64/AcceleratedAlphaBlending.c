@@ -68,22 +68,36 @@ AlphaBlendingSse(__m128i* Front, __m128i* Back, __m128i* Result)
     TempA = _mm_add_epi8(TempA,Result1);
     _mm_store_si128(Result,TempA);
 }
+
 EFI_STATUS
 EFIAPI
 AlphaBlendingArea
 (
-  UINT32   *Front,
-  UINT32    FrontWidth,
-  UINT32    FrontHeight,
-  UINT32   *Back,
-  UINT32    BackWidth,
-  UINT32    BackHeight,
-  UINT32    OffsetX,
-  UINT32    OffsetY
+  UINT32          *Front,
+  UINT32           FrontWidth,
+  UINT32           FrontHeight,
+  UINT32          *Back,
+  UINT32           BackWidth,
+  UINT32           BackHeight,
+  UINT32           OffsetX,
+  UINT32           OffsetY,
+  UINT32 OPTIONAL *Destination,
+  UINT32 OPTIONAL  DestinationWidth
 )
 {
   UINT32 ActualWidth,ActualHeight;
   UINT32 SseGroupCount=0,RemainingPixelOffset=0;
+  UINT32 DestinationOffsetX,DestinationOffsetY;
+  if(Destination) {
+    DestinationOffsetX = 0;
+    DestinationOffsetY = 0;
+  }
+  else {
+    Destination = Back;
+    DestinationOffsetX = OffsetX;
+    DestinationOffsetY = OffsetY;
+    DestinationWidth   = BackWidth;
+  }
   //Make sure that we have at least 1 pixel.
   if(OffsetX>=BackWidth||OffsetY>=BackHeight) {
     return EFI_SUCCESS;
@@ -97,10 +111,11 @@ AlphaBlendingArea
     for(UINT32 j=0;j<RemainingPixelOffset;j+=SSE_GROUP_SIZE) {
       AlphaBlendingSse((__m128i*)&Front[i*FrontWidth+j],
                        (__m128i*)&Back[(OffsetY+i)*BackWidth+(OffsetX+j)],
-                       (__m128i*)&Back[(OffsetY+i)*BackWidth+(OffsetX+j)]);
+                       (__m128i*)&Destination[(DestinationOffsetY+i)*DestinationWidth+(DestinationOffsetX
++j)]);
     }
     for(UINT32 j=RemainingPixelOffset;j<ActualWidth;j++) {
-      Back[(OffsetY+i)*BackWidth+j] = AlphaBlendingPixel( Back[(OffsetY+i)*BackWidth+(OffsetX+j)],
+      Destination[(DestinationOffsetY+i)*DestinationWidth+j] = AlphaBlendingPixel( Back[(OffsetY+i)*BackWidth+(OffsetX+j)],
                                                          Front[i*FrontWidth+j]);
     }
   }
