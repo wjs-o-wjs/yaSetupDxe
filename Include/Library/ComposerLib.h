@@ -8,6 +8,11 @@
 #include <Uefi.h>
 
 /**
+  Since EFI EmulatorPkg's GOP Driver cannot write to framebuffer directly, we will need to double buffer it.
+ **/
+extern UINT32 *FrameBuffer;
+
+/**
   Interface to initialize the Composer.
   If you specify the display parameter, we will try to match your input.
   If you pass O as input, we will use the default GOP resolution amd try to scale it "seeming like" 1920*1080.
@@ -137,4 +142,10 @@ AlphaBlendingArea
   UINT32 OPTIONAL  DestinationWidth
 );
 
+EFI_STATUS
+EFIAPI
+RefreshScreen
+(
+  VOID
+);
 #endif

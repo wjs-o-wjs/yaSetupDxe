@@ -2,17 +2,16 @@
 #include <Library/PcdLib.h>
 #include <Library/MouseLib.h>
 #include <Library/MainMessageLooperLib.h>
+#include <Library/UefiLib.h>
 #include <Protocol/GraphicsOutput.h>
 
 extern EFI_BOOT_SERVICES *gBS;
 extern EFI_SYSTEM_TABLE  *gST;
-extern EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsProtocol;
 
-STATIC UINT8  *BackBuffer;
+STATIC UINT32 *BackBuffer;
 STATIC UINT32  CursorImageWidth,CursorImageHeight;
 STATIC UINT32 *CursorImage;
 STATIC UINT32  CursorPositionX,CursorPositionY;
-STATIC UINT32 *FrameBuffer;
 STATIC UINT32  FrameBufferWidth,FrameBufferHeight;
 
 /**
@@ -25,20 +24,20 @@ UpdateCursorBuffer
   VOID
 )
 {
-  UINT32 ActualCopyWidth =((CursorPositionX+CursorImageWidth)>FrameBufferWidth?
-                            FrameBufferWidth-CursorPositionX:
-                            CursorImageWidth);
-  UINT32 ActualCopyHeight=((CursorPositionY+CursorImageHeight)>FrameBufferHeight?
-                            FrameBufferHeight-CursorPositionY:
-                            CursorImageHeight);
+  UINT32 OriginalCopyWidth =((CursorPositionX+CursorImageWidth)>FrameBufferWidth?
+                             FrameBufferWidth-CursorPositionX:
+                             CursorImageWidth);
+  UINT32 OriginalCopyHeight=((CursorPositionY+CursorImageHeight)>FrameBufferHeight?
+                             FrameBufferHeight-CursorPositionY:
+                             CursorImageHeight);
   //First, Copy the screen buffer into BackBuffer.
-  for(UINT32 i=0;i<ActualCopyWidth;i++) {
-    for(UINT32 j=0;j<ActualCopyHeight;j++) {
+  for(UINT32 i=0;i<OriginalCopyHeight;i++) {
+    for(UINT32 j=0;j<OriginalCopyWidth;j++) {
       BackBuffer[i*CursorImageWidth+j] = FrameBuffer[(CursorPositionY+i)*FrameBufferWidth+(CursorPositionX+j)];
     }
   }
   //Then, we do alpha blending.
-  return AlphaBlendingArea(
+  AlphaBlendingArea(
     CursorImage,
     CursorImageWidth,
     CursorImageHeight,
@@ -50,6 +49,8 @@ UpdateCursorBuffer
     NULL,
     0
   );
+  //Finally, update the screen.
+  return RefreshScreen();
 }
 
 /**
@@ -76,8 +77,8 @@ SetCursorPosition
                              FrameBufferHeight-CursorPositionY:
                              CursorImageHeight);
   // Copy the buffer back.
-  for(UINT32 i=0;i<OriginalCopyWidth;i++) {
-    for(UINT32 j=0;j<OriginalCopyHeight;j++) {
+  for(UINT32 i=0;i<OriginalCopyHeight;i++) {
+    for(UINT32 j=0;j<OriginalCopyWidth;j++) {
       FrameBuffer[(CursorPositionY+i)*FrameBufferWidth+(CursorPositionX+j)] = BackBuffer[i*CursorImageWidth+j];
     }
   }
@@ -122,8 +123,12 @@ InitCursor
     gST->StdErr->OutputString(gST->StdErr,L"Cannot allocate buffer for cursor buffer.\r\n");
     return Status;
   }
-  FrameBuffer = (UINT32*)(UINTN)(GraphicsProtocol->Mode->FrameBufferBase);
   FrameBufferWidth = GetScreenWidth();
   FrameBufferHeight = GetScreenHeight();
+  for(UINT32 i=0;i<CursorImageHeight;i++) {
+    for(UINT32 j=0;j<CursorImageWidth;j++) {
+      BackBuffer[i*CursorImageWidth+j] = FrameBuffer[(CursorPositionY+i)*FrameBufferWidth+(CursorPositionX+j)];
+    }
+  }
   return RegisterMessageHandler(MessageLooperMessageMouse,CursorMessageHandler);
 }

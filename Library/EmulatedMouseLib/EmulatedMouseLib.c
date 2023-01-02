@@ -12,7 +12,7 @@ extern EFI_SYSTEM_TABLE  *gST;
 
 STATIC MOUSE_STATUS MouseStatusRingBuffer[0x20];
 STATIC UINTN        MouseStatusRingBufferCurrentPosition;
-STATIC UINT32       CurrentMousePositionX, CurrentMousePositionY;
+STATIC INT32        CurrentMousePositionX, CurrentMousePositionY;
 STATIC UINT32       MaxMousePositionX, MaxMousePositionY;
 /**
   Here we handles the message from the keyboard.

@@ -6,6 +6,7 @@ extern EFI_SYSTEM_TABLE *gST;
 extern EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsProtocol;
 
 static double ScaleFactor=1.0;
+UINT32 *FrameBuffer;
 
 double
 EFIAPI
@@ -53,21 +54,33 @@ FillRectangle
   UINT32 Color
 )
 {
-  EFI_GRAPHICS_OUTPUT_BLT_PIXEL Pixel = {
-    .Red   =  Color&0xFF,
-    .Green = (Color&0xFF00) >> 8,
-    .Blue  = (Color&0xFF0000) >> 16
-  };
+  UINT32 FrameBufferWidth = GraphicsProtocol->Mode->Info->HorizontalResolution;
+  //We may use some accelerated method here.
+  for(UINT32 i=0;i<Height;i++) {
+    for(UINT32 j=0;j<Width;j++) {
+      FrameBuffer[(StartY+i)*FrameBufferWidth+(StartX+j)] = Color;
+    }
+  }
+  return EFI_SUCCESS;
+}
+
+EFI_STATUS
+EFIAPI
+RefreshScreen
+(
+  VOID
+)
+{
   return GraphicsProtocol->Blt(
     GraphicsProtocol,
-    &Pixel,
-    EfiBltVideoFill,
+    (EFI_GRAPHICS_OUTPUT_BLT_PIXEL*)FrameBuffer,
+    EfiBltBufferToVideo,
     0,
     0,
-    StartX,
-    StartY,
-    Width,
-    Height,
+    0,
+    0,
+    GraphicsProtocol->Mode->Info->HorizontalResolution,
+    GraphicsProtocol->Mode->Info->VerticalResolution,
     0
   );
 }

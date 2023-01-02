@@ -4,7 +4,9 @@
 #include <Library/PcdLib.h>
 #include <Library/MouseLib.h>
 
-extern EFI_SYSTEM_TABLE *gST;
+extern EFI_SYSTEM_TABLE  *gST;
+extern EFI_BOOT_SERVICES *gBS;
+
 EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsProtocol;
 
 extern
@@ -83,7 +85,13 @@ InitComposer (
   }
 
   Print(L"Chosen resolution:%dx%d\r\n",DesiredScreenWidth,DesiredScreenHeight);
+  Status = gBS->AllocatePool(EfiLoaderData,DesiredScreenWidth*DesiredScreenHeight*sizeof(UINT32),(VOID**)&FrameBuffer);
+  if(EFI_ERROR(Status)) {
+    gST->StdErr->OutputString(gST->StdErr,L"Cannot allocate Framebuffer.\n");
+    return Status;
+  }
   ClearScreen(PcdGet32(BackgroudColor));
   DrawCaption(PcdGet16(WindowCaptionHeight),PcdGet32(WindowCaptionColor),PcdGetPtr(SetupWindowTitle));
+  RefreshScreen();
   return InitCursor();
 }

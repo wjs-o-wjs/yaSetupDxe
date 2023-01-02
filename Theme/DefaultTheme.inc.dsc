@@ -1,6 +1,6 @@
 [PcdsFixedAtBuild]
-  gYaSetupPkgTokenSpaceGuid.BackgroudColor      | 0xFFF1F0EF
-  gYaSetupPkgTokenSpaceGuid.WindowCaptionColor  | 0xFFE2E0DE
+  gYaSetupPkgTokenSpaceGuid.BackgroudColor      | 0xFFEFF0F1
+  gYaSetupPkgTokenSpaceGuid.WindowCaptionColor  | 0xFFDEE0E2
   gYaSetupPkgTokenSpaceGuid.WindowCaptionHeight | 36
   gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetW | 1920
   gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetH | 1080

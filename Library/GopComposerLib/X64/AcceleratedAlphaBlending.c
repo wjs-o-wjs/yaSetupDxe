@@ -6,6 +6,7 @@
 #include <tmmintrin.h> //SSSE3
 #include <stdalign.h>
 
+#include <Library/UefiLib.h>
 #define RED(x) ((x&0xFF0000)>>16)
 #define GREEN(x) ((x&0xFF00)>>8)
 #define BLUE(x) ((x&0xFF))
@@ -22,9 +23,13 @@ const __m128i alignas(16) AlphaReverseMask = {
     0xffffffffffffffff,
     0xffffffffffffffff
 };
-const __m128i alignas(16) AlphaBitMask = {
+const __m128i alignas(16) AlphaBitLowerMask = {
     0x0000ff00ff00ff00,
     0x0000ff00ff00ff00
+};
+const __m128i alignas(16) AlphaBitMask = {
+    0xff000000ff000000,
+    0xff000000ff000000
 };
 
 UINT32
@@ -44,29 +49,31 @@ STATIC
 VOID
 AlphaBlendingSse(__m128i* Front, __m128i* Back, __m128i* Result)
 {
-    //unpack.
-    __m128i TempA  = _mm_loadu_si128(Front);
-    __m128i TempB  = _mm_unpacklo_epi8(TempA,AllZero);
-    TempA = _mm_unpackhi_epi8(TempA,AllZero);
-    __m128i AlphaA = _mm_shuffle_epi8(TempA,AlphaShuffleMask);
-    __m128i AlphaB = _mm_shuffle_epi8(TempB,AlphaShuffleMask);
-    TempA = _mm_mulhi_epu16(TempA,AlphaA);
-    TempB = _mm_mulhi_epu16(TempB,AlphaB);
-    __m128i Result1 = _mm_packus_epi16(TempB,TempA);
-    //Then background.
-    TempA  = _mm_loadu_si128(Back);
-    TempB  = _mm_unpacklo_epi8(TempA,AllZero);
-    TempA = _mm_unpackhi_epi8(TempA,AllZero);
-    AlphaA = _mm_subs_epu8(AlphaReverseMask,AlphaA);
-    AlphaB = _mm_subs_epu8(AlphaReverseMask,AlphaB);
-    AlphaA = _mm_and_si128(AlphaA,AlphaBitMask);
-    AlphaB = _mm_and_si128(AlphaB,AlphaBitMask);
-    TempA = _mm_mulhi_epu16(TempA,AlphaA);
-    TempB = _mm_mulhi_epu16(TempB,AlphaB);
-    //Add.
-    TempA = _mm_packus_epi16(TempB,TempA);
-    TempA = _mm_add_epi8(TempA,Result1);
-    _mm_store_si128(Result,TempA);
+  //unpack.
+  __m128i TempA  = _mm_loadu_si128(Front);
+  __m128i TempB  = _mm_unpacklo_epi8(TempA,AllZero);
+  TempA = _mm_unpackhi_epi8(TempA,AllZero);
+  __m128i AlphaA = _mm_shuffle_epi8(TempA,AlphaShuffleMask);
+  __m128i AlphaB = _mm_shuffle_epi8(TempB,AlphaShuffleMask);
+  TempA = _mm_mulhi_epu16(TempA,AlphaA);
+  TempB = _mm_mulhi_epu16(TempB,AlphaB);
+  __m128i Result1 = _mm_packus_epi16(TempB,TempA);
+  //Then background.
+  TempA  = _mm_loadu_si128(Back);
+  TempB  = _mm_unpacklo_epi8(TempA,AllZero);
+  TempA = _mm_unpackhi_epi8(TempA,AllZero);
+  AlphaA = _mm_subs_epu8(AlphaReverseMask,AlphaA);
+  AlphaB = _mm_subs_epu8(AlphaReverseMask,AlphaB);
+  AlphaA = _mm_and_si128(AlphaA,AlphaBitLowerMask);
+  AlphaB = _mm_and_si128(AlphaB,AlphaBitLowerMask);
+  TempA = _mm_mulhi_epu16(TempA,AlphaA);
+  TempB = _mm_mulhi_epu16(TempB,AlphaB);
+  //Add.
+  TempA = _mm_packus_epi16(TempB,TempA);
+  TempA = _mm_add_epi8(TempA,Result1);
+  //OR the Alpha bit.
+  TempA = _mm_or_si128(TempA,AlphaBitMask);
+  _mm_storeu_si128(Result,TempA);
 }
 
 EFI_STATUS
