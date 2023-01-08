@@ -1,6 +1,7 @@
 #include <Library/ComposerLib.h>
 #include <Protocol/GraphicsOutput.h>
 #include <Library/UefiLib.h>
+#include <Library/DebugLib.h>
 
 extern EFI_SYSTEM_TABLE *gST;
 extern EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsProtocol;
@@ -97,7 +98,7 @@ DrawCaption
   EFI_STATUS Status = EFI_SUCCESS;
   Status = FillRectangle(0,0,GraphicsProtocol->Mode->Info->HorizontalResolution,Height,BackgroundColor);
   // TODO:Draw caption.
-  Print(L"Title:%s\r\n",Title);
+  DEBUG ((DEBUG_INFO,"Title:%s\r\n",Title));
   return Status;
 }
 /**

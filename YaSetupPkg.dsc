@@ -17,9 +17,18 @@
   BUILD_TARGETS                  = DEBUG|RELEASE|NOOPT
   SKUID_IDENTIFIER               = DEFAULT
 
+DEFINE BUILD_FOR_EMULATOR_PKG = TRUE
+
+!ifdef BUILD_FOR_EMULATOR_PKG
+[BuildOptions]
+  GCC:RELEASE_*_*_CC_FLAGS             = -DMDEPKG_NDEBUG -DBUILD_FOR_EMULATOR_PKG
+  GCC:*_*_*_CC_FLAGS                   = -DBUILD_FOR_EMULATOR_PKG
+!else
 [BuildOptions]
   GCC:RELEASE_*_*_CC_FLAGS             = -DMDEPKG_NDEBUG
   GCC:*_*_*_CC_FLAGS                   =
+!endif
+
 [LibraryClasses]
   #
   # Entry Point Libraries
@@ -36,8 +45,16 @@
   DevicePathLib|MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.inf
   MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
   PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
+  HobLib|MdePkg/Library/DxeHobLib/DxeHobLib.inf
+
+  # Added for the EmulatorPkg.
+!ifdef BUILD_FOR_EMULATOR_PKG
+  EmuThunkLib|EmulatorPkg/Library/DxeEmuLib/DxeEmuLib.inf
+  DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
+!else
   DebugLib|MdePkg/Library/UefiDebugLibStdErr/UefiDebugLibStdErr.inf
   DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
+!endif
   PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
   RegisterFilterLib|MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
   #
@@ -49,8 +66,13 @@
   CommonWidgetLib|YaSetupPkg/Library/CommonWidgetLib/CommonWidgetLib.inf
   MainMessageLooperLib|YaSetupPkg/Library/MainMessageLooperLib/MainMessageLooperLib.inf
 [Components]
-  YaSetupPkg/Presenter/Presenter.inf
+  YaSetupPkg/Presenter/Presenter.inf {
+    <LibraryClasses>
+    DebugLib|MdePkg/Library/BaseDebugLibSerialPort/BaseDebugLibSerialPort.inf
+    SerialPortLib|EmulatorPkg/Library/DxeEmuStdErrSerialPortLib/DxeEmuStdErrSerialPortLib.inf
+  }
 [PcdsFixedAtBuild]
   gYaSetupPkgTokenSpaceGuid.SetupWindowTitle|L"BIOS Setup Utility - ECGM Demo Board"
+  gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x80000040
 # Theme
 !include Theme/DefaultTheme.inc.dsc

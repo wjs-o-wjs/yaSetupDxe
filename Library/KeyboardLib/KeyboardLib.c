@@ -52,12 +52,12 @@ InitKeyboard
                             NULL,
                             &KeyboardEvent);
   if(EFI_ERROR(Status)) {
-    gST->ConOut->OutputString(gST->ConOut,L"Cannot create Keyboard timer Event.\r\n");
+    gST->StdErr->OutputString(gST->StdErr,L"Cannot create Keyboard timer Event.\r\n");
     return Status;
   }
   Status = gBS->SetTimer(KeyboardEvent,TimerPeriodic,100000); //10ms
   if(EFI_ERROR(Status)) {
-    gST->ConOut->OutputString(gST->ConOut,L"Cannot start keyboard timer Event.\r\n");
+    gST->StdErr->OutputString(gST->StdErr,L"Cannot start keyboard timer Event.\r\n");
     return Status;
   }
   return EFI_SUCCESS;

@@ -1,6 +1,6 @@
 #include <Library/MainMessageLooperLib.h>
 #include <Library/BaseMemoryLib.h>
-
+#include <Library/DebugLib.h>
 #include <Library/UefiLib.h>
 extern EFI_SYSTEM_TABLE   *gST;
 extern EFI_BOOT_SERVICES  *gBS;
@@ -63,7 +63,7 @@ MessageLooperEvent
   MESSAGE_LOOPER_MESSAGE_FORWARDING_METHOD ForwardingMethod=MessageLooperContinueForwardingMessages;
   while(!MessageQueueEmpty()) {
     MessageQueueDequeue(&Buf);
-    Print(L"Got message:Type = 0x%x, Handler = 0x%x, Content = 0x%x\r\n",Buf.MessageType,Buf.Handler,Buf.ExtraContent);
+    DEBUG ((DEBUG_INFO,"Got message:Type = 0x%x, Handler = 0x%x, Content = 0x%x\r\n",Buf.MessageType,Buf.Handler,Buf.ExtraContent));
     switch(Buf.MessageType) {
       case MessageLooperMessageEndApplication: {
         gBS->SignalEvent(MessageLooperEndEvent);
@@ -114,7 +114,7 @@ EnterMainMessageLoop
   // Create end Event.
   Status = gBS->CreateEvent(0,TPL_APPLICATION,NULL,NULL,&MessageLooperEndEvent);
   if(EFI_ERROR(Status)) {
-    gST->ConOut->OutputString(gST->ConOut,L"Cannot create looper End Event.\r\n");
+    gST->StdErr->OutputString(gST->StdErr,L"Cannot create looper End Event.\r\n");
     return Status;
   }
   // Create timer Event.
@@ -124,12 +124,12 @@ EnterMainMessageLoop
                             NULL,
                             &MessageLooperTimerEvent);
   if(EFI_ERROR(Status)) {
-    gST->ConOut->OutputString(gST->ConOut,L"Cannot create looper timer Event.\r\n");
+    gST->StdErr->OutputString(gST->StdErr,L"Cannot create looper timer Event.\r\n");
     return Status;
   }
   Status = gBS->SetTimer(MessageLooperTimerEvent,TimerPeriodic,PcdGet64(MessageLooperPeriod));
   if(EFI_ERROR(Status)) {
-    gST->ConOut->OutputString(gST->ConOut,L"Cannot start looper timer Event.\r\n");
+    gST->StdErr->OutputString(gST->StdErr,L"Cannot start looper timer Event.\r\n");
     return Status;
   }
   // Create an end message for test.
@@ -137,7 +137,7 @@ EnterMainMessageLoop
   // begin to wait for loop.
   Status = gBS->WaitForEvent(1,&MessageLooperEndEvent,NULL);
   if(EFI_ERROR(Status)) {
-    gST->ConOut->OutputString(gST->ConOut,L"Cannot start message looper Event.\r\n");
+    gST->StdErr->OutputString(gST->StdErr,L"Cannot start message looper Event.\r\n");
     return Status;
   }
   gBS->CloseEvent(MessageLooperTimerEvent);
