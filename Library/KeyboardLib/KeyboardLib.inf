@@ -1,0 +1,22 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = KeyboardLib
+  FILE_GUID                      = 52c37c38-6a23-4989-9675-54eee805d3b6
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 0.1
+  LIBRARY_CLASS                  = KeyboardLib
+
+[Sources.common]
+  KeyboardLib.c
+
+[Protocols]
+
+[Packages]
+  MdePkg/MdePkg.dec
+  YaSetupPkg/YaSetupPkg.dec
+
+[LibraryClasses]
+  UefiBootServicesTableLib
+  UefiLib
+[Pcd]
+

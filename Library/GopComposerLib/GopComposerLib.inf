@@ -1,0 +1,44 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = GopComposerLib
+  FILE_GUID                      = 39944414-c42f-4edb-bf3d-3d1817cdb917
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 0.1
+  LIBRARY_CLASS                  = ComposerLib
+
+[Sources.common]
+  ComposerInit.c
+  BaseOperations.c
+  Cursor.c
+  AlphaBlending.c
+
+[Sources.X64]
+  X64/AcceleratedAlphaBlending.c
+
+[Protocols]
+  gEfiGraphicsOutputProtocolGuid
+
+[Packages]
+  MdePkg/MdePkg.dec
+  YaSetupPkg/YaSetupPkg.dec
+
+[LibraryClasses]
+  PrintLib
+  UefiLib
+  PcdLib
+  MouseLib
+
+[Pcd]
+  gYaSetupPkgTokenSpaceGuid.SetupWindowTitle
+  gYaSetupPkgTokenSpaceGuid.BackgroudColor
+  gYaSetupPkgTokenSpaceGuid.WindowCaptionColor
+  gYaSetupPkgTokenSpaceGuid.WindowCaptionHeight
+  gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetW
+  gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetH
+  gYaSetupPkgTokenSpaceGuid.CursorImage
+  gYaSetupPkgTokenSpaceGuid.CursorImageWidth
+  gYaSetupPkgTokenSpaceGuid.CursorImageHeight
+
+[BuildOptions]
+  # Enable SSE flag for GCC.
+  GCC:*_*_X64_CC_FLAGS = -mssse3 -msse4

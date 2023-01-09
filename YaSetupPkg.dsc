@@ -17,36 +17,63 @@
   BUILD_TARGETS                  = DEBUG|RELEASE|NOOPT
   SKUID_IDENTIFIER               = DEFAULT
 
+DEFINE BUILD_FOR_EMULATOR_PKG = TRUE
+
+!ifdef BUILD_FOR_EMULATOR_PKG
+[BuildOptions]
+  GCC:RELEASE_*_*_CC_FLAGS             = -DMDEPKG_NDEBUG -DBUILD_FOR_EMULATOR_PKG
+  GCC:*_*_*_CC_FLAGS                   = -DBUILD_FOR_EMULATOR_PKG
+!else
 [BuildOptions]
   GCC:RELEASE_*_*_CC_FLAGS             = -DMDEPKG_NDEBUG
   GCC:*_*_*_CC_FLAGS                   =
+!endif
+
 [LibraryClasses]
   #
   # Entry Point Libraries
   #
   UefiApplicationEntryPoint|MdePkg/Library/UefiApplicationEntryPoint/UefiApplicationEntryPoint.inf
-  UefiDriverEntryPoint|MdePkg/Library/UefiDriverEntryPoint/UefiDriverEntryPoint.inf
   #
   # Common Libraries
   #
   BaseLib|MdePkg/Library/BaseLib/BaseLib.inf
   BaseMemoryLib|MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
-  UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
-  PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
-  PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
-  MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
   UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf
   UefiRuntimeServicesTableLib|MdePkg/Library/UefiRuntimeServicesTableLib/UefiRuntimeServicesTableLib.inf
-  DebugLib|MdePkg/Library/BaseDebugLibNull/BaseDebugLibNull.inf
-  DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
+  UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
   DevicePathLib|MdePkg/Library/UefiDevicePathLib/UefiDevicePathLib.inf
+  MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
+  PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
+  HobLib|MdePkg/Library/DxeHobLib/DxeHobLib.inf
+
+  # Added for the EmulatorPkg.
+!ifdef BUILD_FOR_EMULATOR_PKG
+  EmuThunkLib|EmulatorPkg/Library/DxeEmuLib/DxeEmuLib.inf
+  DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
+!else
+  DebugLib|MdePkg/Library/UefiDebugLibStdErr/UefiDebugLibStdErr.inf
+  DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
+!endif
+  PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
   RegisterFilterLib|MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
-  UefiKeyboardLib|YaSetupPkg/Library/UefiKeyboardLib/UefiKeyboardLib.inf
-  UefiMouseLib|YaSetupPkg/Library/UefiMouseLib/UefiMouseLib.inf
-  UefiAsyncTimerLib|YaSetupPkg/Library/UefiAsyncTimerLib/UefiAsyncTimerLib.inf
-  UefiBasicPainterLib|YaSetupPkg/Library/UefiBasicPainterLib/UefiBasicPainterLib.inf
-  UefiMagicWindowLib|YaSetupPkg/Library/UefiMagicWindowLib/UefiMagicWindowLib.inf
-  SynchronizationLib|MdePkg/Library/BaseSynchronizationLib/BaseSynchronizationLib.inf
-  TimerLib|MdePkg/Library/BaseTimerLibNullTemplate/BaseTimerLibNullTemplate.inf
+  #
+  # Our own Libraries
+  #
+  ComposerLib|YaSetupPkg/Library/GopComposerLib/GopComposerLib.inf
+  MouseLib|YaSetupPkg/Library/EmulatedMouseLib/EmulatedMouseLib.inf
+  KeyboardLib|YaSetupPkg/Library/KeyboardLib/KeyboardLib.inf
+  CommonWidgetLib|YaSetupPkg/Library/CommonWidgetLib/CommonWidgetLib.inf
+  MainMessageLooperLib|YaSetupPkg/Library/MainMessageLooperLib/MainMessageLooperLib.inf
 [Components]
-  YaSetupPkg/YaSetupDxe.inf
+  YaSetupPkg/Presenter/Presenter.inf {
+    <LibraryClasses>
+    DebugLib|MdePkg/Library/BaseDebugLibSerialPort/BaseDebugLibSerialPort.inf
+    SerialPortLib|EmulatorPkg/Library/DxeEmuStdErrSerialPortLib/DxeEmuStdErrSerialPortLib.inf
+  }
+[PcdsFixedAtBuild]
+  gYaSetupPkgTokenSpaceGuid.SetupWindowTitle|L"BIOS Setup Utility - ECGM Demo Board"
+  gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x80000040
+  gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0xFF
+# Theme
+!include Theme/DefaultTheme.inc.dsc

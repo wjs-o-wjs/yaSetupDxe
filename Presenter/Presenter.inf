@@ -5,27 +5,25 @@
   MODULE_TYPE = UEFI_APPLICATION
   VERSION_STRING = 0.01
   ENTRY_POINT = UefiMain
+
 [Sources]
-  Presenter/Entry.c
+  Entry.c
+
 [Packages]
   MdePkg/MdePkg.dec
   YaSetupPkg/YaSetupPkg.dec
+
 [Protocols]
-  gEfiGraphicsOutputProtocolGuid
-  gEfiSimpleFileSystemProtocolGuid
-  gEfiSimplePointerProtocolGuid
+
 [Guids]
-  gEfiFileInfoGuid
-  gEfiAcpiTableGuid
+
+
 [LibraryClasses]
   UefiApplicationEntryPoint
-  UefiLib
-  BaseMemoryLib
-  MemoryAllocationLib
-  UefiMouseLib
-  UefiAsyncTimerLib
-  SynchronizationLib
-  UefiKeyboardLib
-  UefiBasicPainterLib
-  UefiMagicWindowLib
-
+  UefiBootServicesTableLib
+  ComposerLib
+  CommonWidgetLib
+  MouseLib
+  KeyboardLib
+  DebugLib
+  MainMessageLooperLib

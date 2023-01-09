@@ -1,0 +1,25 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = MainMessageLooperLib
+  FILE_GUID                      = e0a75cf4-6f78-42f2-b60b-10d0949ef810
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 0.1
+  LIBRARY_CLASS                  = MainMessageLooperLib
+
+[Sources.common]
+  MainMessageLooperMain.c
+  DefaultMessageHandler.c
+
+[Protocols]
+
+[Packages]
+  MdePkg/MdePkg.dec
+  YaSetupPkg/YaSetupPkg.dec
+
+[LibraryClasses]
+  PrintLib
+  UefiLib
+  BaseMemoryLib
+[Pcd]
+  gYaSetupPkgTokenSpaceGuid.MessageQueueSize
+  gYaSetupPkgTokenSpaceGuid.MessageLooperPeriod
