@@ -74,5 +74,6 @@ DEFINE BUILD_FOR_EMULATOR_PKG = TRUE
 [PcdsFixedAtBuild]
   gYaSetupPkgTokenSpaceGuid.SetupWindowTitle|L"BIOS Setup Utility - ECGM Demo Board"
   gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x80000040
+  gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0xFF
 # Theme
 !include Theme/DefaultTheme.inc.dsc
