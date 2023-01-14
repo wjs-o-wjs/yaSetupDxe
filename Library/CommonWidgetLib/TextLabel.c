@@ -3,5 +3,15 @@
   SPDX-License-Identifier: WTFPL
 **/
 
-#include <Library/CommonWidgetLib.h>
+#include <Library/CommonWidgets/TextLabel.h>
 
+
+EFI_STATUS
+EFIAPI
+InitializeTextLabel
+(
+  TEXT_LABEL  *Instance
+)
+{
+  return EFI_SUCCESS;
+}

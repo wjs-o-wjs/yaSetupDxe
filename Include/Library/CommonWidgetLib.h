@@ -8,6 +8,13 @@
 #include <Uefi.h>
 #include <Library/MouseLib.h>
 
+typedef enum {
+  WidgetOverflowPolicyHidden,
+  WidgetOverflowPolicyVisibleWithoutResize,
+  WidgetOverflowPolicyResize
+} WIDGET_OVERFLOW_POLICY;
+
+
 /*
   Forward-define widget struct.
 */
@@ -43,11 +50,57 @@ EFI_STATUS
   IN MOUSE_CLICK_STATUS Status
 );
 
+/**
+  The hover handler function.
+  @param    Instance        The instance itself.
+  @param    RelativeX       The hover position relative X to the widget's position.
+  @param    RelativeY       The hover position relative Y to the widget's position.
+  @return   EFI_SUCESS      on success.
+  @return   Other           if on error.
+**/
+typedef
+EFI_STATUS
+(EFIAPI *COMMON_WIDGET_ON_HOVER)
+(
+  IN UINT32             RelativeX,
+  IN UINT32             RelativeY
+);
+
+/**
+  The activate handler function.
+  @param    Instance        The instance itself.
+  @return   EFI_SUCESS      on success.
+  @return   Other           if on error.
+**/
+typedef
+EFI_STATUS
+(EFIAPI *COMMON_WIDGET_ON_ACTIVATE)
+(
+  VOID
+);
+
+/**
+  The activate handler function.
+  @param    Instance        The instance itself.
+  @return   EFI_SUCESS      on success.
+  @return   Other           if on error.
+**/
+typedef
+EFI_STATUS
+(EFIAPI *COMMON_WIDGET_ON_DEACTIVATE)
+(
+  VOID
+);
+
 struct _COMMON_WIDGET {
-  COMMON_WIDGET          *Parent;
-  UINT32                  Width;
-  UINTN                   Height;
-  COMMON_WIDGET_ON_CLICK  OnClick;
+  COMMON_WIDGET              *Parent;
+  UINT32                      Width;
+  UINT32                      Height;
+  WIDGET_OVERFLOW_POLICY      OverflowPolicy;
+  COMMON_WIDGET_ON_CLICK      OnClick;
+  COMMON_WIDGET_ON_HOVER      OnHover;
+  COMMON_WIDGET_ON_ACTIVATE   OnActivate;
+  COMMON_WIDGET_ON_DEACTIVATE OnDeactivate;
 };
 
 #endif
