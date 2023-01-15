@@ -67,6 +67,30 @@ FillRectangle
 
 EFI_STATUS
 EFIAPI
+RefreshPartialScreen
+(
+  UINT32 XOffset,
+  UINT32 YOffset,
+  UINT32 Width,
+  UINT32 Height
+)
+{
+  return GraphicsProtocol->Blt(
+    GraphicsProtocol,
+    (EFI_GRAPHICS_OUTPUT_BLT_PIXEL*)FrameBuffer,
+    EfiBltBufferToVideo,
+    XOffset,
+    YOffset,
+    XOffset,
+    YOffset,
+    Width,
+    Height,
+    GraphicsProtocol->Mode->Info->HorizontalResolution*sizeof(EFI_GRAPHICS_OUTPUT_BLT_PIXEL)
+  );
+}
+
+EFI_STATUS
+EFIAPI
 RefreshScreen
 (
   VOID
@@ -82,7 +106,7 @@ RefreshScreen
     0,
     GraphicsProtocol->Mode->Info->HorizontalResolution,
     GraphicsProtocol->Mode->Info->VerticalResolution,
-    0
+    GraphicsProtocol->Mode->Info->HorizontalResolution*sizeof(EFI_GRAPHICS_OUTPUT_BLT_PIXEL)
   );
 }
 

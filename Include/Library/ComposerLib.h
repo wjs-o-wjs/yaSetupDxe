@@ -144,6 +144,16 @@ AlphaBlendingArea
 
 EFI_STATUS
 EFIAPI
+RefreshPartialScreen
+(
+  UINT32 XOffset,
+  UINT32 YOffset,
+  UINT32 Width,
+  UINT32 Height
+);
+
+EFI_STATUS
+EFIAPI
 RefreshScreen
 (
   VOID

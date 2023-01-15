@@ -63,7 +63,6 @@ MessageLooperEvent
   MESSAGE_LOOPER_MESSAGE_FORWARDING_METHOD ForwardingMethod=MessageLooperContinueForwardingMessages;
   while(!MessageQueueEmpty()) {
     MessageQueueDequeue(&Buf);
-    DEBUG ((DEBUG_INFO,"Got message:Type = 0x%x, Handler = 0x%x, Content = 0x%x\r\n",Buf.MessageType,Buf.Handler,Buf.ExtraContent));
     switch(Buf.MessageType) {
       case MessageLooperMessageEndApplication: {
         gBS->SignalEvent(MessageLooperEndEvent);

@@ -17,22 +17,17 @@ STATIC UINT32  FrameBufferWidth,FrameBufferHeight;
 /**
   This function updates the cursor buffer when image beneath cursor has changed its content.
 **/
-EFI_STATUS
+VOID
 EFIAPI
 UpdateCursorBuffer
 (
-  VOID
+  UINT32 CopyWidth,
+  UINT32 CopyHeight
 )
 {
-  UINT32 OriginalCopyWidth =((CursorPositionX+CursorImageWidth)>FrameBufferWidth?
-                             FrameBufferWidth-CursorPositionX:
-                             CursorImageWidth);
-  UINT32 OriginalCopyHeight=((CursorPositionY+CursorImageHeight)>FrameBufferHeight?
-                             FrameBufferHeight-CursorPositionY:
-                             CursorImageHeight);
   //First, Copy the screen buffer into BackBuffer.
-  for(UINT32 i=0;i<OriginalCopyHeight;i++) {
-    for(UINT32 j=0;j<OriginalCopyWidth;j++) {
+  for(UINT32 i=0;i<CopyHeight;i++) {
+    for(UINT32 j=0;j<CopyWidth;j++) {
       BackBuffer[i*CursorImageWidth+j] = FrameBuffer[(CursorPositionY+i)*FrameBufferWidth+(CursorPositionX+j)];
     }
   }
@@ -49,8 +44,6 @@ UpdateCursorBuffer
     NULL,
     0
   );
-  //Finally, update the screen.
-  return RefreshScreen();
 }
 
 /**
@@ -76,16 +69,32 @@ SetCursorPosition
   UINT32 OriginalCopyHeight=((CursorPositionY+CursorImageHeight)>FrameBufferHeight?
                              FrameBufferHeight-CursorPositionY:
                              CursorImageHeight);
+  UINT32 NewCopyWidth      =((X+CursorImageWidth)>FrameBufferWidth?
+                             FrameBufferWidth-X:
+                             CursorImageWidth);
+  UINT32 NewCopyHeight     =((Y+CursorImageHeight)>FrameBufferHeight?
+                             FrameBufferHeight-Y:
+                             CursorImageHeight);
   // Copy the buffer back.
   for(UINT32 i=0;i<OriginalCopyHeight;i++) {
     for(UINT32 j=0;j<OriginalCopyWidth;j++) {
       FrameBuffer[(CursorPositionY+i)*FrameBufferWidth+(CursorPositionX+j)] = BackBuffer[i*CursorImageWidth+j];
     }
   }
+  //Finally, update the screen.
+  UINT32 RefreshBeginX,RefreshBeginY,RefreshEndX,RefreshEndY;
+  (X>CursorPositionX)?(RefreshBeginX=CursorPositionX,RefreshEndX=X+NewCopyWidth):(RefreshBeginX=X,RefreshEndX=CursorPositionX+OriginalCopyWidth);
+  (Y>CursorPositionY)?(RefreshBeginY=CursorPositionY,RefreshEndY=Y+NewCopyHeight):(RefreshBeginY=Y,RefreshEndY=CursorPositionY+OriginalCopyHeight);
   // Generate new cursor.
   CursorPositionX = X;
   CursorPositionY = Y;
-  return UpdateCursorBuffer();
+  UpdateCursorBuffer(NewCopyWidth,NewCopyHeight);
+  return RefreshPartialScreen(
+    RefreshBeginX,
+    RefreshBeginY,
+    RefreshEndX-RefreshBeginX,
+    RefreshEndY-RefreshBeginY
+  );
 }
 
 EFI_STATUS
