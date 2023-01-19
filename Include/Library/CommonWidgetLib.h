@@ -103,4 +103,96 @@ struct _COMMON_WIDGET {
   COMMON_WIDGET_ON_DEACTIVATE OnDeactivate;
 };
 
+typedef enum _LAYOUT_TYPE {
+  LinearLayout,
+  ConstraintLayout,
+  MasterDetailLayout
+} LAYOUT_TYPE;
+
+typedef struct _CHILD_WIDGET_LINKED_NODE {
+  struct _CHILD_WIDGET_LINKED_NODE *Next;
+  struct _CHILD_WIDGET_LINKED_NODE *Prev;
+  COMMON_WIDGET                    *Widget;
+} CHILD_WIDGET_LINKED_NODE;
+
+typedef struct {
+  CHILD_WIDGET_LINKED_NODE  Head;
+  CHILD_WIDGET_LINKED_NODE *Tail;
+} CHILD_WIDGET_LINKED_LIST;
+
+typedef struct _COMMON_LAYOUT {
+  COMMON_WIDGET             CommonWidget;
+  LAYOUT_TYPE               LayoutType;
+  CHILD_WIDGET_LINKED_LIST  Children;
+} COMMON_LAYOUT;
+
+typedef enum _LAYOUT_GRAVITY {
+  LayoutGravityBegin,
+  LayoutGravityCenter,
+  LayoutGravityEnd
+} LAYOUT_GRAVITY;
+
+typedef enum _LAYOUT_ORIENTATION {
+  LayoutOrientationHorizontal,
+  LayoutOrientationVertical
+} LAYOUT_ORIENTATION;
+
+typedef struct _LINEAR_LAYOUT {
+  COMMON_LAYOUT       CommonLayout;
+  LAYOUT_GRAVITY      GravityHorizontal;
+  LAYOUT_GRAVITY      GravityVertical;
+  LAYOUT_ORIENTATION  Orientation;
+} LINEAR_LAYOUT;
+
+/**
+  This function creates the root layout.
+  Remember, the size of root layout is ALWAYS the same size as the screen.
+  @param        LayoutType      the type of root layout.
+  @returns      EFI_SUCCESS     on success.
+  @returns      Other           on failure.
+**/
+EFI_STATUS
+EFIAPI
+CreateRootLayout
+(
+  IN LAYOUT_TYPE   LayoutType
+);
+
+/**
+  This function attaches widget to the layout.
+  @param    Layout          The layout that is going to attach to.
+  @param    Widget          The widget that is going to perform attachment.
+  @returns  EFI_SUCCESS     on success.
+  @returns  Other           on failure.
+**/
+EFI_STATUS
+EFIAPI
+AttachWidgetToLayout
+(
+
+);
+
+/**
+  Here we use a recursive-notify method for event notification.
+  Let's assume a scenario with 3 layers of components:
+
+        RootLayout -> LinearLayout -> TextLabel
+
+  In this case, the system processes events (e.g., mouse hover event) like the following:
+
+  Event From Message Queue                                          Composer -------> Composition
+            \                                                          /
+             \                                                        /
+          RootLayout  -- In my range?                            RootLayout --In my range?
+              \                                                     /
+               \                                                   /
+          LinearLayout -- In my range?                       LinearLayout -- In my range?
+                \                                                 /
+                 \                                               /
+              TextLabel -- In my range?                      TextLabel -- In my range?
+                  |                                              |
+                  |               ------------------>            |
+                  +--------------------do update-----------------+
+**/
+
 #endif

@@ -51,6 +51,8 @@ DEFINE BUILD_FOR_EMULATOR_PKG = TRUE
 !ifdef BUILD_FOR_EMULATOR_PKG
   EmuThunkLib|EmulatorPkg/Library/DxeEmuLib/DxeEmuLib.inf
   DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
+  DebugLib|MdePkg/Library/BaseDebugLibSerialPort/BaseDebugLibSerialPort.inf
+  SerialPortLib|EmulatorPkg/Library/DxeEmuStdErrSerialPortLib/DxeEmuStdErrSerialPortLib.inf
 !else
   DebugLib|MdePkg/Library/UefiDebugLibStdErr/UefiDebugLibStdErr.inf
   DebugPrintErrorLevelLib|MdePkg/Library/BaseDebugPrintErrorLevelLib/BaseDebugPrintErrorLevelLib.inf
@@ -66,11 +68,8 @@ DEFINE BUILD_FOR_EMULATOR_PKG = TRUE
   CommonWidgetLib|YaSetupPkg/Library/CommonWidgetLib/CommonWidgetLib.inf
   MainMessageLooperLib|YaSetupPkg/Library/MainMessageLooperLib/MainMessageLooperLib.inf
 [Components]
-  YaSetupPkg/Presenter/Presenter.inf {
-    <LibraryClasses>
-    DebugLib|MdePkg/Library/BaseDebugLibSerialPort/BaseDebugLibSerialPort.inf
-    SerialPortLib|EmulatorPkg/Library/DxeEmuStdErrSerialPortLib/DxeEmuStdErrSerialPortLib.inf
-  }
+  YaSetupPkg/Presenter/Presenter.inf
+
 [PcdsFixedAtBuild]
   gYaSetupPkgTokenSpaceGuid.SetupWindowTitle|L"BIOS Setup Utility - ECGM Demo Board"
   gEfiMdePkgTokenSpaceGuid.PcdDebugPrintErrorLevel|0x80000040
