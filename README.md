@@ -16,3 +16,11 @@ To make a tiny layout inflator(Android-like)/widget arranger(Qt-like) under UEFI
 [&ensp;]&ensp;6. widget design & display  
 [&ensp;]&ensp;7. widget interaction(hover/leave/click/right-click/keyboard)  
 ......To Be Continued  
+
+## Qemu script
+```
+#!/bin/sh
+qemu-system-x86_64 -bios ./OVMF_CODE.fd -net none \
+    -cpu qemu64,+ssse3,+sse4.1,+sse4.2\
+    -drive file=fat:rw:esp,index=0,format=vvfat
+```
