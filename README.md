@@ -24,3 +24,7 @@ qemu-system-x86_64 -bios ./OVMF_CODE.fd -net none \
     -cpu qemu64,+ssse3,+sse4.1,+sse4.2\
     -drive file=fat:rw:esp,index=0,format=vvfat
 ```
+
+## Third-party libraries
+* FreeType 2, version 2.12.1
+    URL:https://github.com/freetype/freetype __

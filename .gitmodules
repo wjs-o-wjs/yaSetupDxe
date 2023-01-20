@@ -1,0 +1,3 @@
+[submodule "Library/FreeTypeFontLib/freetype"]
+	path = Library/FreeTypeFontLib/freetype
+	url = https://github.com/freetype/freetype

@@ -1,0 +1,23 @@
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = FreeTypeFontLib
+  FILE_GUID                      = 1e737ca8-ae67-4ba4-a3c6-94a81dde4e3f
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 0.1
+  LIBRARY_CLASS                  = FontLib
+
+[Sources.common]
+  FreeTypeFontLibEntry.c
+
+[Protocols]
+
+[Packages]
+  MdePkg/MdePkg.dec
+  YaSetupPkg/YaSetupPkg.dec
+
+[LibraryClasses]
+  UefiBootServicesTableLib
+  UefiLib
+
+[Pcd]
+
