@@ -27,4 +27,4 @@ qemu-system-x86_64 -bios ./OVMF_CODE.fd -net none \
 
 ## Third-party libraries
 * FreeType 2, version 2.12.1
-    URL:https://github.com/freetype/freetype __
+    URL:https://github.com/freetype/freetype

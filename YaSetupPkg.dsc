@@ -67,6 +67,7 @@ DEFINE BUILD_FOR_EMULATOR_PKG = TRUE
   KeyboardLib|YaSetupPkg/Library/KeyboardLib/KeyboardLib.inf
   CommonWidgetLib|YaSetupPkg/Library/CommonWidgetLib/CommonWidgetLib.inf
   MainMessageLooperLib|YaSetupPkg/Library/MainMessageLooperLib/MainMessageLooperLib.inf
+  FontLib|YaSetupPkg/Library/FreeTypeFontLib/FreeTypeFontLib.inf
 [Components]
   YaSetupPkg/Presenter/Presenter.inf
 

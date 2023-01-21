@@ -19,6 +19,7 @@
   PrintLib
   UefiLib
   ComposerLib
+  FontLib
 
 [Pcd]
 

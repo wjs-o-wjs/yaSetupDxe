@@ -6,9 +6,9 @@
   VERSION_STRING                 = 0.1
   LIBRARY_CLASS                  = FontLib
 
-[Sources.common]
+[Sources]
   FreeTypeFontLibEntry.c
-
+  #freetype/src/base/ftinit.c
 [Protocols]
 
 [Packages]
@@ -21,3 +21,7 @@
 
 [Pcd]
 
+# Here we need to import FreeType's headers.
+[BuildOptions]
+  GCC:*_*_*_CC_FLAGS = -I$(WORKSPACE)/YaSetupPkg/Library/FreeTypeFontLib/freetype/include
+ MSFT:*_*_*_CC_FLAGS = -I$(WORKSPACE)/YaSetupPkg/Library/FreeTypeFontLib/freetype/include
