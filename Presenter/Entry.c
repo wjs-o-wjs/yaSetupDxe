@@ -3,7 +3,10 @@
 #include <Library/MainMessageLooperLib.h>
 #include <Library/MouseLib.h>
 #include <Library/KeyboardLib.h>
+#include <Library/FontLib.h>
+
 extern EFI_BOOT_SERVICES *gBS;
+
 EFI_STATUS
 EFIAPI
 UefiMain (
@@ -12,6 +15,11 @@ UefiMain (
 )
 {
   EFI_STATUS                       Status;
+  Status = PrepareFont();
+  if(EFI_ERROR(Status)) {
+    SystemTable->StdErr->OutputString(SystemTable->StdErr,L"Cannot prepare font!\n");
+    return Status;
+  }
   Status = InitComposer(1024,768,0);
   if(EFI_ERROR(Status)) {
     return Status;

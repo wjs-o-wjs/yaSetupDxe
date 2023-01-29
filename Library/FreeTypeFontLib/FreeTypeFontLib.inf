@@ -8,7 +8,7 @@
 
 [Sources]
   FreeTypeFontLibEntry.c
-  #freetype/src/base/ftinit.c
+  freetype/src/base/ftinit.c
 [Protocols]
 
 [Packages]
@@ -23,5 +23,5 @@
 
 # Here we need to import FreeType's headers.
 [BuildOptions]
-  GCC:*_*_*_CC_FLAGS = -I$(WORKSPACE)/YaSetupPkg/Library/FreeTypeFontLib/freetype/include
- MSFT:*_*_*_CC_FLAGS = -I$(WORKSPACE)/YaSetupPkg/Library/FreeTypeFontLib/freetype/include
+  GCC:*_*_*_CC_FLAGS = -include $(WORKSPACE)/YaSetupPkg/Library/FreeTypeFontLib/Override_include/ft2build.h -I$(WORKSPACE)/YaSetupPkg/Library/FreeTypeFontLib/freetype/include
+ MSFT:*_*_*_CC_FLAGS = /FI$(WORKSPACE)/YaSetupPkg/Library/FreeTypeFontLib/Override_include/ft2build.h /I$(WORKSPACE)/YaSetupPkg/Library/FreeTypeFontLib/freetype/include
