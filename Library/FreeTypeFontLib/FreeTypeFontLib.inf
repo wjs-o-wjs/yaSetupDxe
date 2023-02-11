@@ -8,7 +8,9 @@
 
 [Sources]
   FreeTypeFontLibEntry.c
+  FreeTypePlatformFunctions.c
   freetype/src/base/ftinit.c
+
 [Protocols]
 
 [Packages]
