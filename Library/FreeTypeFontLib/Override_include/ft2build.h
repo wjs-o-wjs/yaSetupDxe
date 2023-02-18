@@ -38,6 +38,7 @@
 
 #include "FreeTypePlatformFunctions.h"
 #include "ftdebug.h"
+#include "ftoption.h"
 #endif /* FT2BUILD_H_ */
 
 

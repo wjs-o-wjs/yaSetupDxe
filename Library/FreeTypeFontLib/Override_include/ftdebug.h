@@ -16,9 +16,9 @@
 
 FT_BEGIN_HEADER
 
-FT_Error FtLogEdk2   (FT_Error Level, char *Format,...);
-FT_Error FtErrEdk2   (char *Format,...);
-FT_Error FtPanicEdk2 (char *Format,...);
+FT_Error EFIAPI FtLogEdk2   (FT_Error Level, char *Format,...);
+FT_Error EFIAPI FtErrEdk2   (char *Format,...);
+FT_Error EFIAPI FtPanicEdk2 (char *Format,...);
 
 #ifndef MDEPKG_NDEBUG
 #define FT_LOG(level,varformat,...)   FtLogEdk2(level,varformat,__VA_ARGS__)
