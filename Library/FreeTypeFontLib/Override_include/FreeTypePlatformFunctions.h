@@ -81,7 +81,8 @@
    *                          file handling
    *
    */
-
+// The EDK2 Build DO NOT support FILE operations!
+#if 0
 
 #include <stdio.h>
 
@@ -93,7 +94,7 @@
 #define ft_ftell    ftell
 #define ft_sprintf  sprintf
 
-
+#endif
   /**************************************************************************
    *
    *                            sorting
@@ -112,11 +113,23 @@
    *
    */
 
+VOID*
+Edk2Calloc (size_t num, size_t size);
 
-#define ft_scalloc   calloc
-#define ft_sfree     free
-#define ft_smalloc   malloc
-#define ft_srealloc  realloc
+VOID
+Edk2Free (void *ptr);
+
+VOID*
+Edk2Malloc (size_t size);
+
+VOID*
+Edk2Realloc (void *ptr, size_t new_size);
+
+
+#define ft_scalloc   Edk2Calloc
+#define ft_sfree     Edk2Free
+#define ft_smalloc   Edk2Malloc
+#define ft_srealloc  Edk2Realloc
 
 
   /**************************************************************************
@@ -124,11 +137,12 @@
    *                         miscellaneous
    *
    */
-
+// The EDK2 Build DO NOT support StrTol & GetEnv operations!
+#if 0
 
 #define ft_strtol  strtol
 #define ft_getenv  getenv
-
+#endif
 
   /**************************************************************************
    *

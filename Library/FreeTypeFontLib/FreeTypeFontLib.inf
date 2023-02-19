@@ -21,6 +21,7 @@
   UefiBootServicesTableLib
   UefiLib
   DebugLib
+  MemoryAllocationLib
 
 [Pcd]
 

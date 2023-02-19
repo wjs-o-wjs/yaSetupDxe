@@ -35,10 +35,9 @@
 #define FT2BUILD_H_
 
 #include <freetype/config/ftheader.h>
-
+#include "ftoption.h"
 #include "FreeTypePlatformFunctions.h"
 #include "ftdebug.h"
-#include "ftoption.h"
 #endif /* FT2BUILD_H_ */
 
 

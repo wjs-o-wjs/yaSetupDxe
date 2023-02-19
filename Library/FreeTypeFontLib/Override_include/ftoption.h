@@ -18,8 +18,6 @@
 
 #ifndef FTOPTION_H_
 #define FTOPTION_H_
-
-
 #include <ft2build.h>
 
 
