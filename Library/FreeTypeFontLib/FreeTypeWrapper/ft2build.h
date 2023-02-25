@@ -36,8 +36,10 @@
 
 #include <freetype/config/ftheader.h>
 #include "ftoption.h"
-#include "FreeTypePlatformFunctions.h"
+#include "ftstdlib.h"
 #include "ftdebug.h"
+#undef  FT_CONFIG_MODULES_H
+#define FT_CONFIG_MODULES_H <../Library/FreeTypeFontLib/FreeTypeWrapper/ftmodule.h>
 #endif /* FT2BUILD_H_ */
 
 

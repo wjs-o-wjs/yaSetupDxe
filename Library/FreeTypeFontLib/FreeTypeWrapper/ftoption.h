@@ -265,7 +265,8 @@ FT_BEGIN_HEADER
    * stream support, in the cases where file stream support is not necessary
    * such as memory loading of font files.
    */
-/* #define FT_CONFIG_OPTION_DISABLE_STREAM_SUPPORT */
+// The EDK2 Build DOES NOT support file operations.
+#define FT_CONFIG_OPTION_DISABLE_STREAM_SUPPORT
 
 
   /**************************************************************************
@@ -449,7 +450,7 @@ FT_BEGIN_HEADER
    *   them for certain configurations only.
    */
 // We may use the MDEPKG_NDEBUG Macro in EDK2 to control it.
-#ifdef MDEPKG_NDEBUG
+#ifndef MDEPKG_NDEBUG
   #define FT_DEBUG_LEVEL_ERROR
   #define FT_DEBUG_LEVEL_TRACE
 #endif

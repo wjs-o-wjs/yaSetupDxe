@@ -5,6 +5,7 @@
 #ifndef FTSTDLIB_H_
 #define FTSTDLIB_H_
 #include <Uefi.h>
+#include <Library/BaseLib.h>
 
 #include <stddef.h>
 
@@ -67,13 +68,13 @@
 #define ft_memmove(dest,src,n)      CopyMem(dest,src,n)  //EDK says CopyMem "must handle the case where SourceBuffer overlaps DestinationBuffer."
 #define ft_memset(dest,ch,count)    SetMem(dest,count,ch)
 #define ft_strcat   strcat
-#define ft_strcmp   strcmp
+#define ft_strcmp   AsciiStrCmp
 #define ft_strcpy   strcpy
-#define ft_strlen   strlen
+#define ft_strlen   AsciiStrLen
 #define ft_strncmp  strncmp
 #define ft_strncpy  strncpy
 #define ft_strrchr  strrchr
-#define ft_strstr   strstr
+#define ft_strstr   AsciiStrStr
 
 
   /**************************************************************************

@@ -21,9 +21,10 @@ FT_Error EFIAPI FtErrEdk2   (char *Format,...);
 FT_Error EFIAPI FtPanicEdk2 (char *Format,...);
 
 #ifndef MDEPKG_NDEBUG
-#define FT_LOG(level,varformat,...)   FtLogEdk2(level,varformat,__VA_ARGS__)
-#define FT_TRACE(level,varformat,...) FtLogEdk2(level,varformat,__VA_ARGS__)
+#define FT_LOG(level,...)   FtLogEdk2(level,__VA_ARGS__)
+#define FT_TRACE(level,...) FtLogEdk2(level,__VA_ARGS__)
 #define FT_ERROR(varformat )          FtErrEdk2(varformat)
+#define FT_ERR_PREFIX FT_Err_
 #define FT_ASSERT( condition )                                         \
           do                                                           \
           {                                                            \
