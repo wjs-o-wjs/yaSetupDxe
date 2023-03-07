@@ -13,6 +13,9 @@
   freetype/src/base/ftobjs.c
   freetype/src/base/ftutil.c
   freetype/src/base/ftsystem.c
+  freetype/src/sfnt/sfnt.c
+  freetype/src/truetype/truetype.c
+  freetype/src/smooth/smooth.c
 
 [Protocols]
 

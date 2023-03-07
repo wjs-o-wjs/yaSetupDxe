@@ -71,7 +71,7 @@
 #define ft_strcmp   AsciiStrCmp
 #define ft_strcpy   strcpy
 #define ft_strlen   AsciiStrLen
-#define ft_strncmp  strncmp
+#define ft_strncmp  AsciiStrnCmp
 #define ft_strncpy  strncpy
 #define ft_strrchr  strrchr
 #define ft_strstr   AsciiStrStr

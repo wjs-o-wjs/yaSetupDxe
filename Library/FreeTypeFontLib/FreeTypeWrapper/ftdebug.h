@@ -23,7 +23,7 @@ FT_Error EFIAPI FtPanicEdk2 (char *Format,...);
 #ifndef MDEPKG_NDEBUG
 #define FT_LOG(level,...)   FtLogEdk2(level,__VA_ARGS__)
 #define FT_TRACE(level,...) FtLogEdk2(level,__VA_ARGS__)
-#define FT_ERROR(varformat )          FtErrEdk2(varformat)
+#define FT_ERROR(varformat )          FtErrEdk2 varformat
 #define FT_ERR_PREFIX FT_Err_
 #define FT_ASSERT( condition )                                         \
           do                                                           \
@@ -46,6 +46,9 @@ FT_Error EFIAPI FtPanicEdk2 (char *Format,...);
 #define FT_THROW( e )  FT_ERR_CAT( FT_ERR_PREFIX, e )
 
 #endif
+
+#define FT_Trace_Disable()
+#define FT_Trace_Enable()
 
 #define _FT_TRACE0(...)         FT_TRACE(0,__VA_ARGS__)
 #define _FT_TRACE1(...)         FT_TRACE(1,__VA_ARGS__)

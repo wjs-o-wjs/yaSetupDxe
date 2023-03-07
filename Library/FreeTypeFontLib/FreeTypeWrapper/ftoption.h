@@ -452,7 +452,7 @@ FT_BEGIN_HEADER
 // We may use the MDEPKG_NDEBUG Macro in EDK2 to control it.
 #ifndef MDEPKG_NDEBUG
   #define FT_DEBUG_LEVEL_ERROR
-  #define FT_DEBUG_LEVEL_TRACE
+  //#define FT_DEBUG_LEVEL_TRACE
 #endif
 
   /**************************************************************************

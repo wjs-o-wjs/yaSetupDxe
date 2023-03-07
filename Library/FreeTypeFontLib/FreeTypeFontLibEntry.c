@@ -25,3 +25,20 @@ PrepareFont
   }
   return EFI_SUCCESS;
 }
+
+EFI_STATUS
+EFIAPI
+DestroyFont
+(
+  VOID
+)
+{
+  FT_Error Status;
+  Status = FT_Done_FreeType(Library);
+  if(Status) {
+    DEBUG ((DEBUG_INFO,"Cannot destroy FreeType Library!\n"));
+    gST->StdErr->OutputString(gST->StdErr,L"Cannot destroy FreeType Library!\n");
+    return EFI_UNSUPPORTED;
+  }
+  return EFI_SUCCESS;
+}
