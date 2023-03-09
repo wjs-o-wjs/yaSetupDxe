@@ -16,8 +16,7 @@
   freetype/src/sfnt/sfnt.c
   freetype/src/truetype/truetype.c
   freetype/src/smooth/smooth.c
-  # The font processed by GNU LD tool.
-  Fonts/DroidSans_EfiCompressed.obj
+  Fonts/DroidSans.ttf.c
 
 [Protocols]
 

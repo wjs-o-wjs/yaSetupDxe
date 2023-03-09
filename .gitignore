@@ -1,2 +1,3 @@
 .kdev4/**
 non-UEFI/concept-tests/build/**
+Utilities/ConvertBinaryFileToC

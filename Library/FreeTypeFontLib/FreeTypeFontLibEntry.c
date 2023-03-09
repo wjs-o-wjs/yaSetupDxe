@@ -6,10 +6,6 @@
 extern EFI_BOOT_SERVICES *gBS;
 extern EFI_SYSTEM_TABLE  *gST;
 
-// Imported from external font that converted by LD.
-// FIXME: Use more generic way!
-extern UINT8  _binary_DroidSans_EfiCompressed_start[];
-extern UINT8  *_binary_DroidSans_EfiCompressed_size;
 
 FT_Library Library;
 
@@ -28,7 +24,7 @@ PrepareFont
     return EFI_UNSUPPORTED;
   }
   else {
-    DEBUG ((DEBUG_INFO,"Font is at %p, size is %lx\n",_binary_DroidSans_EfiCompressed_start));
+    DEBUG ((DEBUG_INFO,"Font is at %p, size is %lx\n"));
     DEBUG ((DEBUG_INFO,"FreeType Library init done!\n"));
   }
   return EFI_SUCCESS;
