@@ -46,7 +46,7 @@ DEFINE BUILD_FOR_EMULATOR_PKG = TRUE
   MemoryAllocationLib|MdePkg/Library/UefiMemoryAllocationLib/UefiMemoryAllocationLib.inf
   PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
   HobLib|MdePkg/Library/DxeHobLib/DxeHobLib.inf
-
+  SortLib|MdeModulePkg/Library/UefiSortLib/UefiSortLib.inf
   # Added for the EmulatorPkg.
 !ifdef BUILD_FOR_EMULATOR_PKG
   EmuThunkLib|EmulatorPkg/Library/DxeEmuLib/DxeEmuLib.inf
@@ -68,6 +68,7 @@ DEFINE BUILD_FOR_EMULATOR_PKG = TRUE
   CommonWidgetLib|YaSetupPkg/Library/CommonWidgetLib/CommonWidgetLib.inf
   MainMessageLooperLib|YaSetupPkg/Library/MainMessageLooperLib/MainMessageLooperLib.inf
   FontLib|YaSetupPkg/Library/FreeTypeFontLib/FreeTypeFontLib.inf
+
 [Components]
   YaSetupPkg/Presenter/Presenter.inf
 

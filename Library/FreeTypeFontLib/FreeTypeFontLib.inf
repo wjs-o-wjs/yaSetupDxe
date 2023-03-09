@@ -12,6 +12,13 @@
   freetype/src/base/ftinit.c
   freetype/src/base/ftobjs.c
   freetype/src/base/ftutil.c
+  freetype/src/base/ftcalc.c
+  freetype/src/base/fttrigon.c
+  freetype/src/base/ftlcdfil.c
+  freetype/src/base/ftbitmap.c
+  freetype/src/base/ftoutln.c
+  freetype/src/base/ftgloadr.c
+  freetype/src/base/ftstream.c
   freetype/src/base/ftsystem.c
   freetype/src/sfnt/sfnt.c
   freetype/src/truetype/truetype.c
@@ -22,6 +29,7 @@
 
 [Packages]
   MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
   YaSetupPkg/YaSetupPkg.dec
 
 [LibraryClasses]
@@ -29,6 +37,7 @@
   UefiLib
   DebugLib
   MemoryAllocationLib
+  SortLib
 
 [Pcd]
 

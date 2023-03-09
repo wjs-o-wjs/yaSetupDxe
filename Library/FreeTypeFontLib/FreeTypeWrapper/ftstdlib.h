@@ -104,6 +104,7 @@
 
 
 #include <stdlib.h>
+#include <Library/SortLib.h>
 
 #define ft_qsort  qsort
 
@@ -158,7 +159,7 @@ Edk2Realloc (void *ptr, size_t new_size);
                                 /*       `jmp_buf` is defined as a macro */
                                 /*       on certain platforms            */
 
-#define ft_longjmp     longjmp
-#define ft_setjmp( b ) setjmp( *(ft_jmp_buf*) &(b) ) /* same thing here */
+#define ft_longjmp      __builtin_longjmp
+#define ft_setjmp( b )  __builtin_setjmp( *(ft_jmp_buf*) &(b) ) /* same thing here */
 
 #endif

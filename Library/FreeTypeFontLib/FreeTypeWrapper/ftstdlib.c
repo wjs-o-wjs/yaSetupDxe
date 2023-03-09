@@ -95,3 +95,15 @@ Edk2Realloc (void *ptr, size_t new_size)
   Buffer[0] = new_size;
   return &Buffer[1];
 }
+
+void
+qsort (
+  void *base,
+  size_t num,
+  size_t width,
+  int ( *compare )(const void *, const void *)
+  )
+{
+  PerformQuickSort (base, (UINTN)num, (UINTN)width, (SORT_COMPARE)compare);
+  return;
+}

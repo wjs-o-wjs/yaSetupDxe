@@ -6,7 +6,10 @@
 extern EFI_BOOT_SERVICES *gBS;
 extern EFI_SYSTEM_TABLE  *gST;
 
+extern const unsigned char FontFile[];
+extern const UINTN FontSize;
 
+FT_Face    Face;
 FT_Library Library;
 
 EFI_STATUS
@@ -19,13 +22,18 @@ PrepareFont
   FT_Error Status;
   Status = FT_Init_FreeType(&Library);
   if(Status) {
-    DEBUG ((DEBUG_INFO,"Cannot init FreeType Library!\n"));
+    DEBUG ((DEBUG_ERROR,"Cannot init FreeType Library!\n"));
     gST->StdErr->OutputString(gST->StdErr,L"Cannot init FreeType Library!\n");
     return EFI_UNSUPPORTED;
   }
   else {
-    DEBUG ((DEBUG_INFO,"Font is at %p, size is %lx\n"));
-    DEBUG ((DEBUG_INFO,"FreeType Library init done!\n"));
+    Status = FT_New_Memory_Face(Library,FontFile,FontSize,0,&Face);
+    if(Status) {
+      DEBUG ((DEBUG_ERROR,"Cannot open font file!\n"));
+      gST->StdErr->OutputString(gST->StdErr,L"Cannot open font file!\n");
+      return EFI_UNSUPPORTED;
+    }
+    DEBUG ((DEBUG_INFO,"Font file open done!\n"));
   }
   return EFI_SUCCESS;
 }

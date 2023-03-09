@@ -24,7 +24,7 @@ FT_Error EFIAPI FtPanicEdk2 (char *Format,...);
 #define FT_LOG(level,...)   FtLogEdk2(level,__VA_ARGS__)
 #define FT_TRACE(level,...) FtLogEdk2(level,__VA_ARGS__)
 #define FT_ERROR(varformat )          FtErrEdk2 varformat
-#define FT_ERR_PREFIX FT_Err_
+#define FT_DEBUG_LEVEL_TRACE
 #define FT_ASSERT( condition )                                         \
           do                                                           \
           {                                                            \
