@@ -102,11 +102,15 @@
    *
    */
 
-
-#include <stdlib.h>
 #include <Library/SortLib.h>
 
-#define ft_qsort  qsort
+void
+ft_qsort (
+  void *base,
+  size_t num,
+  size_t width,
+  long long EFIAPI ( *compare )(const void *, const void *)
+  );
 
 
   /**************************************************************************

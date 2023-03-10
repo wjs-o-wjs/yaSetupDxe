@@ -97,13 +97,13 @@ Edk2Realloc (void *ptr, size_t new_size)
 }
 
 void
-qsort (
+ft_qsort (
   void *base,
   size_t num,
   size_t width,
-  int ( *compare )(const void *, const void *)
+  long long EFIAPI ( *compare )(const void *, const void *)
   )
 {
-  PerformQuickSort (base, (UINTN)num, (UINTN)width, (SORT_COMPARE)compare);
+  PerformQuickSort (base, (UINTN)num, (UINTN)width,compare);
   return;
 }
