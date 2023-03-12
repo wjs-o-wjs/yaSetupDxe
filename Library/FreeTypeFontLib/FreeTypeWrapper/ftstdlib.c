@@ -58,6 +58,7 @@ Edk2Calloc (size_t num, size_t size)
       return Buffer;
   }
   Buffer[0] = size;
+  DEBUG((DEBUG_ERROR,"Calloc:%lx\n",&Buffer[1]));
   return &Buffer[1];
 }
 
@@ -65,6 +66,7 @@ VOID
 Edk2Free (void *ptr)
 {
   UINT64 *Buffer = ptr;
+  DEBUG((DEBUG_ERROR,"Free:%lx,%lx\n",Buffer,(VOID*)(Buffer-1)));
   FreePool((VOID*)(Buffer-1));
 }
 
@@ -78,6 +80,7 @@ Edk2Malloc (size_t size)
       return Buffer;
   }
   Buffer[0] = size;
+  DEBUG((DEBUG_ERROR,"Malloc:%lx\n",&Buffer[1]));
   return &Buffer[1];
 }
 

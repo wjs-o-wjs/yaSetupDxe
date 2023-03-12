@@ -24,16 +24,17 @@ FT_Error EFIAPI FtPanicEdk2 (char *Format,...);
 #define FT_LOG(level,...)   FtLogEdk2(level,__VA_ARGS__)
 #define FT_TRACE(level,...) FtLogEdk2(level,__VA_ARGS__)
 #define FT_ERROR(varformat )          FtErrEdk2 varformat
+
 #define FT_DEBUG_LEVEL_TRACE
 #define FT_ASSERT( condition )                                         \
           do                                                           \
           {                                                            \
             if ( !( condition ) )                                      \
-              FtPanicEdk2( "assertion failed on line %d of file %s\n", \
+              FtPanicEdk2( "assertion failed on line %d of file %a\n", \
                         __LINE__, __FILE__ );                          \
           } while ( 0 )
 #define FT_THROW( e )                                   \
-          (FtPanicEdk2( "%s, Line %d:%s\n",__FILE__,__LINE__,#e))
+          (FtPanicEdk2( "%a, Line %d:%a\n",__FILE__,__LINE__,#e))
 
 
 
