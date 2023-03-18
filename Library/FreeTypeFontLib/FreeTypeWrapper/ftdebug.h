@@ -34,7 +34,7 @@ FT_Error EFIAPI FtPanicEdk2 (char *Format,...);
                         __LINE__, __FILE__ );                          \
           } while ( 0 )
 #define FT_THROW( e )                                   \
-          (FtPanicEdk2( "%a, Line %d:%a\n",__FILE__,__LINE__,#e))
+          (FtPanicEdk2( "%a, Line %d:%a\n",__FILE__,__LINE__,#e),FT_ERR_CAT( FT_ERR_PREFIX, e ))
 
 
 
