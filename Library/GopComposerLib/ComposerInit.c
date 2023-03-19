@@ -91,7 +91,7 @@ InitComposer (
     return Status;
   }
   ClearScreen(PcdGet32(BackgroudColor));
-  DrawCaption(PcdGet16(WindowCaptionHeight),PcdGet32(WindowCaptionColor),PcdGetPtr(SetupWindowTitle));
+  DrawCaption(PcdGet32(WindowCaptionHeight),PcdGet32(WindowCaptionColor),PcdGetPtr(SetupWindowTitle));
   RefreshScreen();
   return InitCursor();
 }

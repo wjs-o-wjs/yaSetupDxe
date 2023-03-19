@@ -8,6 +8,7 @@
 
 [Sources]
   FreeTypeFontLibEntry.c
+  Renderer.c
   FreeTypeWrapper/ftstdlib.c
   freetype/src/base/ftinit.c
   freetype/src/base/ftobjs.c

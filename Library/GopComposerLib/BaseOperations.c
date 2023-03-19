@@ -2,6 +2,8 @@
 #include <Protocol/GraphicsOutput.h>
 #include <Library/UefiLib.h>
 #include <Library/DebugLib.h>
+#include <Library/FontLib.h>
+#include <Library/PcdLib.h>
 
 extern EFI_SYSTEM_TABLE *gST;
 extern EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsProtocol;
@@ -120,9 +122,21 @@ DrawCaption
 )
 {
   EFI_STATUS Status = EFI_SUCCESS;
-  Status = FillRectangle(0,0,GraphicsProtocol->Mode->Info->HorizontalResolution,Height,BackgroundColor);
-  // TODO:Draw caption.
-  DEBUG ((DEBUG_INFO,"Title:%s\r\n",Title));
+  UINT32 LeftMargin, TopMargin;
+  UINT32 FrameBufferWidth = GraphicsProtocol->Mode->Info->HorizontalResolution;
+  Status = FillRectangle(0,0,FrameBufferWidth,(UINT32)(Height*ScaleFactor),BackgroundColor);
+  if(EFI_ERROR(Status)) {
+    return Status;
+  }
+  // Calculate Margin.
+  LeftMargin = 0; //TODO:Calculate!
+  TopMargin  = (Height>PcdGet32 (CaptionTextSize))?(Height-PcdGet32 (CaptionTextSize))/2:0;
+  RenderText (FrameBuffer,\
+               Title,\
+               (UINT32)(PcdGet32 (CaptionTextSize)*ScaleFactor),
+               LeftMargin,
+               TopMargin,
+               FrameBufferWidth);
   return Status;
 }
 /**
