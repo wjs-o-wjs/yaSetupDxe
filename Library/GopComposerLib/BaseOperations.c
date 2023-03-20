@@ -8,7 +8,7 @@
 extern EFI_SYSTEM_TABLE *gST;
 extern EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsProtocol;
 
-static double ScaleFactor=1.0;
+double ScaleFactor=1.0;
 UINT32 *FrameBuffer;
 
 double
@@ -122,21 +122,14 @@ DrawCaption
 )
 {
   EFI_STATUS Status = EFI_SUCCESS;
-  UINT32 LeftMargin, TopMargin;
+  UINT32 BufferWidth,BufferHeight;
   UINT32 FrameBufferWidth = GraphicsProtocol->Mode->Info->HorizontalResolution;
   Status = FillRectangle(0,0,FrameBufferWidth,(UINT32)(Height*ScaleFactor),BackgroundColor);
   if(EFI_ERROR(Status)) {
     return Status;
   }
-  // Calculate Margin.
-  LeftMargin = 0; //TODO:Calculate!
-  TopMargin  = (Height>PcdGet32 (CaptionTextSize))?(Height-PcdGet32 (CaptionTextSize))/2:0;
-  RenderText (FrameBuffer,\
-               Title,\
-               (UINT32)(PcdGet32 (CaptionTextSize)*ScaleFactor),
-               LeftMargin,
-               TopMargin,
-               FrameBufferWidth);
+  UINT32 *Buffer;
+  Status = RenderText(Title,PcdGet32 (CaptionTextSize),0x00000000,&Buffer,&BufferWidth,&BufferHeight);
   return Status;
 }
 /**

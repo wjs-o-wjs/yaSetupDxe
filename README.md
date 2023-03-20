@@ -10,7 +10,7 @@ To make a tiny layout inflator(Android-like)/widget arranger(Qt-like) under UEFI
 ## Progresses / plans so far  
 [x]&ensp;1. Emulated window using SDL2  
 [x]&ensp;2. Mouse cursor  
-[&ensp;]&ensp;3. FreeType port  
+[x]&ensp;3. FreeType port  
 [&ensp;]&ensp;4. Caption generation  
 [x]&ensp;5. 9-patch scaling  
 [&ensp;]&ensp;6. widget design & display  
@@ -27,4 +27,4 @@ qemu-system-x86_64 -bios ./OVMF_CODE.fd -net none \
 
 ## Third-party libraries
 * FreeType 2, version 2.12.1
-    URL:https://github.com/freetype/freetype
+    URL:https://github.com/freetype/freetype  

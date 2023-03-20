@@ -28,12 +28,12 @@ EFI_STATUS
 EFIAPI
 RenderText
 (
-  UINT32         *Buffer,
-  CONST CHAR16   *Text,
-  UINT32          FontSize,
-  UINT32          XOffset,
-  UINT32          YOffset,
-  UINT32          PixelsPerLine
+  IN CONST CHAR16   *Text,
+  IN UINT32          FontSize,
+  IN UINT32          Color,
+  OUT UINT32       **Buffer,
+  OUT UINT32        *BufferWidth,
+  OUT UINT32        *BufferHeight
   //TODO: Auto-wrap policy
 );
 

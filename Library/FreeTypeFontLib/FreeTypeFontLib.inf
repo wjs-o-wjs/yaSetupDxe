@@ -14,6 +14,7 @@
   freetype/src/base/ftobjs.c
   freetype/src/base/ftutil.c
   freetype/src/base/ftcalc.c
+  freetype/src/base/ftfntfmt.c
   freetype/src/base/fttrigon.c
   freetype/src/base/ftlcdfil.c
   freetype/src/base/ftbitmap.c
