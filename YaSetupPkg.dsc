@@ -29,6 +29,9 @@ DEFINE BUILD_FOR_EMULATOR_PKG = TRUE
   GCC:*_*_*_CC_FLAGS                   =
 !endif
 
+  # Enable SSE flag for GCC.
+  GCC:*_*_X64_CC_FLAGS = -mssse3 -msse4
+
 [LibraryClasses]
   #
   # Entry Point Libraries

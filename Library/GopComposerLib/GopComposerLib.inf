@@ -39,7 +39,4 @@
   gYaSetupPkgTokenSpaceGuid.CursorImageWidth
   gYaSetupPkgTokenSpaceGuid.CursorImageHeight
   gYaSetupPkgTokenSpaceGuid.CaptionTextSize
-
-[BuildOptions]
-  # Enable SSE flag for GCC.
-  GCC:*_*_X64_CC_FLAGS = -mssse3 -msse4
+  gYaSetupPkgTokenSpaceGuid.PrimaryTextColor

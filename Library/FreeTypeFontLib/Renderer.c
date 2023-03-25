@@ -6,12 +6,30 @@
 #include <Library/DebugLib.h>
 #include <Library/PcdLib.h>
 #include <Library/MemoryAllocationLib.h>
+#include <Library/BaseLib.h>
 #include <freetype/freetype.h>
-
-
+#include <freetype/ftglyph.h>
 
 extern FT_Face    Face;
 extern double     ScaleFactor;//In GopComposerLib
+
+// Plain or accelerated basic functions.
+extern
+VOID
+SetTransparency
+(
+  UINT32       *Buffer,
+  UINTN         BufferSize,
+  CONST UINT8  *Value
+);
+extern
+VOID
+SetMemInt32
+(
+  UINT32       *Buffer,
+  CONST UINTN   BufferSize,
+  CONST UINT32  Value
+);
 
 EFI_STATUS
 EFIAPI
@@ -26,11 +44,14 @@ RenderText
   //TODO: Auto-wrap policy
 )
 {
-  FT_Error Error;
-  UINT32   GlyphNumber;
-  UINT32   Width=0, Height=0;
-  INT32    HeightAboveBaseline=0, HeightBelowBaseline=0;
-  CONST CHAR16 *Ptr=Text;
+  FT_Error        Error;
+  UINT32          GlyphNumber;
+  UINT32          Width=0, Height=0;
+  INT32           HeightAboveBaseline=0, HeightBelowBaseline=0;
+  UINTN           TextLen = StrLen(Text);
+  UINTN          *CharPositions = AllocatePool(TextLen*sizeof(UINTN));
+  UINTN          *FontMarginToBaseline = AllocatePool(TextLen*sizeof(UINTN));
+  FT_BitmapGlyph *Glyphs = AllocatePool(TextLen*sizeof(FT_BitmapGlyph *));
   Error = FT_Set_Char_Size(
           Face,             /* handle to face object         */
           0,                /* char_width in 1/64 of points  */
@@ -41,33 +62,51 @@ RenderText
     DEBUG ((DEBUG_ERROR,"Cannot set font size!\n"));
     return EFI_UNSUPPORTED;
   }
-  while (*Ptr) {
-    GlyphNumber = FT_Get_Char_Index(Face,*Ptr);
+  for(UINTN i=0;i<TextLen;i++) {
+    GlyphNumber = FT_Get_Char_Index(Face,Text[i]);
     if(GlyphNumber) { // GlyphNumber==0 means there is no such glyph.
       Error = FT_Load_Glyph(Face,GlyphNumber,FT_LOAD_RENDER);
+      FT_Get_Glyph(Face->glyph,(FT_Glyph*)&Glyphs[i]);
       if(Error) {
-        DEBUG ((DEBUG_ERROR,"Cannot load character %c(%d)!\n",*Ptr,GlyphNumber));
+        DEBUG ((DEBUG_ERROR,"Cannot load character %c(%d)!\n",Text[i],GlyphNumber));
         return EFI_UNSUPPORTED;
       }
+      FontMarginToBaseline[i]=Face->glyph->metrics.horiBearingY;
       if(Face->glyph->metrics.horiBearingY>HeightAboveBaseline) {
         HeightAboveBaseline = Face->glyph->metrics.horiBearingY;
       }
       if(Face->glyph->metrics.height-Face->glyph->metrics.horiBearingY>HeightBelowBaseline) {
         HeightBelowBaseline = Face->glyph->metrics.height-Face->glyph->metrics.horiBearingY;
       }
-      if(*(Ptr+1)!='\0' && *(Ptr+1)!='\n') {
+      CharPositions[i] = Width;
+      if(Text[i+1]!='\0' && Text[i+1]!='\n') {
         Width += Face->glyph->metrics.horiAdvance/64;
       }
       else {
         Width += Face->glyph->metrics.width/64;
       }
     }
-    Ptr++;
   }
   Height = (HeightAboveBaseline+HeightBelowBaseline)/64;
-  DEBUG ((DEBUG_ERROR,"String:%s, size %d*%d(%d+%d)\n",Text,Width,Height,HeightAboveBaseline/64,HeightBelowBaseline/64));
   *Buffer = AllocatePool(Width*Height*sizeof(UINT32));
-  Ptr = Text;
-  //TODO: Render!
+  if(!*Buffer) {
+    DEBUG ((DEBUG_ERROR,"Cannot allocate buffer for image!\n"));
+    return EFI_OUT_OF_RESOURCES;
+  }
+  SetMemInt32(*Buffer,Width*Height*sizeof(UINT32),Color);
+  *BufferWidth  = Width;
+  *BufferHeight = Height;
+  UINT32 PaintPos=0;
+  for(UINTN i=0;i<TextLen;i++) {
+    UINT32 HeightMargin = (HeightAboveBaseline-FontMarginToBaseline[i])/64;
+    PaintPos = CharPositions[i];
+    for(UINTN j=0;j<Glyphs[i]->bitmap.rows;j++) {
+      SetTransparency(*Buffer+PaintPos+((HeightMargin+j)*Width),Glyphs[i]->bitmap.width,&Glyphs[i]->bitmap.buffer[j*Glyphs[i]->bitmap.width]);
+    }
+    FT_Done_Glyph((FT_Glyph)Glyphs[i]);
+  }
+  FreePool(CharPositions);
+  FreePool(Glyphs);
+  FreePool(FontMarginToBaseline);
   return EFI_SUCCESS;
 }
