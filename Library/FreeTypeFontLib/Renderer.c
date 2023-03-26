@@ -80,10 +80,10 @@ RenderText
       }
       CharPositions[i] = Width;
       if(Text[i+1]!='\0' && Text[i+1]!='\n') {
-        Width += Face->glyph->metrics.horiAdvance/64;
+        Width += (UINT32)(Face->glyph->metrics.horiAdvance/64+Face->glyph->bitmap_left);
       }
       else {
-        Width += Face->glyph->metrics.width/64;
+        Width += (UINT32)(Face->glyph->metrics.width/64+Face->glyph->bitmap_left);
       }
     }
   }
@@ -100,8 +100,9 @@ RenderText
   for(UINTN i=0;i<TextLen;i++) {
     UINT32 HeightMargin = (HeightAboveBaseline-FontMarginToBaseline[i])/64;
     PaintPos = CharPositions[i];
+    DEBUG ((DEBUG_ERROR,"Char %c:Advance %d,Left %d,Width %d\n",Text[i],CharPositions[i],Glyphs[i]->left,Glyphs[i]->bitmap.width));
     for(UINTN j=0;j<Glyphs[i]->bitmap.rows;j++) {
-      SetTransparency(*Buffer+PaintPos+((HeightMargin+j)*Width),Glyphs[i]->bitmap.width,&Glyphs[i]->bitmap.buffer[j*Glyphs[i]->bitmap.width]);
+      SetTransparency(*Buffer+PaintPos+Glyphs[i]->left+((HeightMargin+j)*Width),Glyphs[i]->bitmap.width,&Glyphs[i]->bitmap.buffer[j*Glyphs[i]->bitmap.width]);
     }
     FT_Done_Glyph((FT_Glyph)Glyphs[i]);
   }
