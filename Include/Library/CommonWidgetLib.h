@@ -137,27 +137,6 @@ typedef enum _LAYOUT_ORIENTATION {
   LayoutOrientationVertical
 } LAYOUT_ORIENTATION;
 
-typedef struct _LINEAR_LAYOUT {
-  COMMON_LAYOUT       CommonLayout;
-  LAYOUT_GRAVITY      GravityHorizontal;
-  LAYOUT_GRAVITY      GravityVertical;
-  LAYOUT_ORIENTATION  Orientation;
-} LINEAR_LAYOUT;
-
-/**
-  This function creates the root layout.
-  Remember, the size of root layout is ALWAYS the same size as the screen.
-  @param        LayoutType      the type of root layout.
-  @returns      EFI_SUCCESS     on success.
-  @returns      Other           on failure.
-**/
-EFI_STATUS
-EFIAPI
-CreateRootLayout
-(
-  IN LAYOUT_TYPE   LayoutType
-);
-
 /**
   This function attaches widget to the layout.
   @param    Layout          The layout that is going to attach to.
@@ -169,7 +148,8 @@ EFI_STATUS
 EFIAPI
 AttachWidgetToLayout
 (
-
+  IN COMMON_LAYOUT *Layout,
+  IN COMMON_WIDGET *Widget
 );
 
 /**

@@ -1,3 +1,7 @@
+/** @file
+  Headers to define Text Label.
+  SPDX-License-Identifier: WTFPL
+**/
 #ifndef TEXTLABEL_H
 #define TEXTLABEL_H
 #include <Library/CommonWidgetLib.h>
