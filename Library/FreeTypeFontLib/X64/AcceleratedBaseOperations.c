@@ -3,6 +3,7 @@
   This file contains SSE accelerated operations.
   SPDX-License-Identifier: WTFPL
 **/
+
 #include <Uefi.h>
 #include <emmintrin.h> //SSE2
 #include <tmmintrin.h> //SSSE3

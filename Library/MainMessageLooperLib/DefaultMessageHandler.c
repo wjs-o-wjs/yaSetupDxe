@@ -1,3 +1,8 @@
+/** @file
+  The main message looper callback structure that enables inter-connection between modules.
+  SPDX-License-Identifier: WTFPL
+**/
+
 #include <Library/MainMessageLooperLib.h>
 #include <Library/UefiLib.h>
 /**

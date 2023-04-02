@@ -2,8 +2,8 @@
   Headers to define linear layout.
   SPDX-License-Identifier: WTFPL
 **/
-#ifndef LINEAR_LAYOUT
-#define LINEAR_LAYOUT
+#ifndef LINEAR_H
+#define LINEAR_H
 #include <Library/CommonWidgetLib.h>
 
 // The basic Linear Layout model.

@@ -1,3 +1,8 @@
+/** @file
+  Cursor-related composer functions.
+  SPDX-License-Identifier: WTFPL
+**/
+
 #include <Library/ComposerLib.h>
 #include <Library/PcdLib.h>
 #include <Library/MouseLib.h>

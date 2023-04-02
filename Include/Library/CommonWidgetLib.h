@@ -29,7 +29,7 @@ typedef struct _COMMON_WIDGET COMMON_WIDGET;
   @return  Other           if on error.
   @note The Instance points to a buffer that is allocated by caller.
 **/
-#define InitializeWidget ( WidgetType, Instance ) Initialize##WidgetType ( Instance )
+#define InitializeWidget( WidgetType, Instance ) Initialize##WidgetType ( Instance )
 
 /**
   The Click handler function.
@@ -62,8 +62,67 @@ typedef
 EFI_STATUS
 (EFIAPI *COMMON_WIDGET_ON_HOVER)
 (
+  IN COMMON_WIDGET     *Instance,
   IN UINT32             RelativeX,
   IN UINT32             RelativeY
+);
+
+/**
+  The repaint handler function.
+  @param   Instance           The instace going to be notified.
+  @param   UpdateBeginX       The X value of region begin position.
+  @param   UpdateBeginY       The Y value of region begin position.
+  @param   UpdateWidth        The width of update region.
+  @param   UpdateHeight       The height of update region.
+  @note The region is considered as the metrics of the inner instance.
+**/
+typedef
+EFI_STATUS
+(EFIAPI *COMMON_WIDGET_ON_REPAINT)
+(
+  COMMON_WIDGET  *Instance,
+  UINT32          RepaintBeginX,
+  UINT32          RepaintBeginY,
+  UINT32          RepaintWidth,
+  UINT32          RepaintHeight
+);
+
+/**
+  The size change handler function.
+  @param   Instance           The instace going to be notified.
+  @param   NewWidth           The new width of the widget.
+  @param   NewHeight          The new height of the widget.
+  @note The region is considered as the metrics of the inner instance.
+**/
+typedef
+EFI_STATUS
+(EFIAPI *COMMON_WIDGET_ON_RESIZE)
+(
+  COMMON_WIDGET  *Instance,
+  UINT32          NewWidth,
+  UINT32          NewHeight
+);
+
+/**
+  Do partial area updates on a specified region of the parent widget.
+  @param   Target             The target parent widget.
+  @param   Instance           The instace going to be added.
+  @param   UpdateBeginX       The X value of region begin position.
+  @param   UpdateBeginY       The Y value of region begin position.
+  @param   UpdateWidth        The width of update region.
+  @param   UpdateHeight       The height of update region.
+  @note The region is considered as the metrics of the inner instance.
+**/
+typedef
+EFI_STATUS
+(EFIAPI *COMMON_WIDGET_UPDATE_AREA)
+(
+  COMMON_WIDGET  *Target,
+  COMMON_WIDGET  *Instance,
+  UINT32          UpdateBeginX,
+  UINT32          UpdateBeginY,
+  UINT32          UpdateWidth,
+  UINT32          UpdateHeight
 );
 
 /**
@@ -76,7 +135,7 @@ typedef
 EFI_STATUS
 (EFIAPI *COMMON_WIDGET_ON_ACTIVATE)
 (
-  VOID
+  IN COMMON_WIDGET     *Instance
 );
 
 /**
@@ -89,7 +148,7 @@ typedef
 EFI_STATUS
 (EFIAPI *COMMON_WIDGET_ON_DEACTIVATE)
 (
-  VOID
+  IN COMMON_WIDGET     *Instance
 );
 
 struct _COMMON_WIDGET {
@@ -97,10 +156,15 @@ struct _COMMON_WIDGET {
   UINT32                      Width;
   UINT32                      Height;
   WIDGET_OVERFLOW_POLICY      OverflowPolicy;
+  UINT32                     *Buffer;
+  // Below are event callbacks.
   COMMON_WIDGET_ON_CLICK      OnClick;
   COMMON_WIDGET_ON_HOVER      OnHover;
   COMMON_WIDGET_ON_ACTIVATE   OnActivate;
   COMMON_WIDGET_ON_DEACTIVATE OnDeactivate;
+  COMMON_WIDGET_ON_REPAINT    OnRepaint;
+  // Below are common functions.
+  COMMON_WIDGET_UPDATE_AREA   UpdateArea;
 };
 
 typedef enum _LAYOUT_TYPE {
@@ -174,5 +238,17 @@ AttachWidgetToLayout
                   |               ------------------>            |
                   +--------------------do update-----------------+
 **/
+
+/**
+  This function initializes the layout.
+  @returns  EFI_SUCCESS     on success.
+  @returns  Other           on failure.
+**/
+EFI_STATUS
+EFIAPI
+InitLayout
+(
+  VOID
+);
 
 #endif

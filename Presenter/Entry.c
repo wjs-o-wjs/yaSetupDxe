@@ -1,9 +1,15 @@
+/** @file
+  The application's main entry.
+  SPDX-License-Identifier: WTFPL
+**/
+
 #include <Uefi.h>
 #include <Library/ComposerLib.h>
 #include <Library/MainMessageLooperLib.h>
 #include <Library/MouseLib.h>
 #include <Library/KeyboardLib.h>
 #include <Library/FontLib.h>
+#include <Library/CommonWidgetLib.h>
 
 extern EFI_BOOT_SERVICES *gBS;
 
@@ -32,6 +38,11 @@ UefiMain (
   Status = InitMouse();
   if(EFI_ERROR(Status)) {
     SystemTable->StdErr->OutputString(SystemTable->StdErr,L"Cannot init mouse!\r\n");
+    return Status;
+  }
+  Status = InitLayout();
+  if(EFI_ERROR(Status)) {
+    SystemTable->StdErr->OutputString(SystemTable->StdErr,L"Cannot init layout!\r\n");
     return Status;
   }
   //Add initialization here.

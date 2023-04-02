@@ -1,3 +1,8 @@
+/** @file
+  Basic operations for composition.
+  SPDX-License-Identifier: WTFPL
+**/
+
 #include <Library/ComposerLib.h>
 #include <Protocol/GraphicsOutput.h>
 #include <Library/UefiLib.h>

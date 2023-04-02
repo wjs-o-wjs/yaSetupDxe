@@ -2,6 +2,7 @@
   The Wrapper file that calls FreeType2.
   SPDX-License-Identifier: WTFPL
 **/
+
 #include <Library/FontLib.h>
 #include <freetype/freetype.h>
 #include <Library/DebugLib.h>

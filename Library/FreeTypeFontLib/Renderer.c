@@ -2,6 +2,7 @@
   The text renderer using FreeType2.
   SPDX-License-Identifier: WTFPL
 **/
+
 #include <Library/FontLib.h>
 #include <Library/DebugLib.h>
 #include <Library/PcdLib.h>

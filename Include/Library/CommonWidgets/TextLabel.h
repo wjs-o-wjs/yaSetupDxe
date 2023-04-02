@@ -25,6 +25,6 @@ EFI_STATUS
 EFIAPI
 InitializeTextLabel
 (
-  TEXT_LABEL  *Instance
+  IN OUT TEXT_LABEL  *Instance
 );
 #endif

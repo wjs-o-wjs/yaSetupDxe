@@ -1,3 +1,12 @@
+## @file
+#  This package contains module defination for font rendering library with FreeType.
+#
+#  wjs+o(wjs) team, 2023, All rights granted.
+#
+#  SPDX-License-Identifier: DO WHAT THE F**K YOU WANT TO PUBLIC LICENSE.
+#
+##
+
 [Defines]
   INF_VERSION                    = 0x00010005
   BASE_NAME                      = FreeTypeFontLib

@@ -1,3 +1,12 @@
+## @file
+#  This package contains macro definations for building YaSetupPkg, A UEFI Settings utility.
+#
+#  wjs+o(wjs) team, 2023, All rights granted.
+#
+#  SPDX-License-Identifier: DO WHAT THE F**K YOU WANT TO PUBLIC LICENSE.
+#
+##
+
 [Defines]
   DEC_SPECIFICATION    = 0x00010005
   PACKAGE_NAME         = YaSetupPkg
@@ -24,3 +33,4 @@
   gYaSetupPkgTokenSpaceGuid.CursorImageWidth    | 1                                  | UINT32 | 0x4000000A
   gYaSetupPkgTokenSpaceGuid.CursorImageHeight   | 1                                  | UINT32 | 0x4000000B
   gYaSetupPkgTokenSpaceGuid.PrimaryTextColor    | 0xFF000000                         | UINT32 | 0x4000000C
+  gYaSetupPkgTokenSpaceGuid.BorderColor         | 0xFFD3D0CD                         | UINT32 | 0x4000000D

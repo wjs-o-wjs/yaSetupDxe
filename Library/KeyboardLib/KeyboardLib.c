@@ -1,3 +1,8 @@
+/** @file
+  Keyboard functions that sends keyboard events to message queue.
+  SPDX-License-Identifier: WTFPL
+**/
+
 #include <Library/KeyboardLib.h>
 #include <Protocol/SimpleTextIn.h>
 #include <Library/MainMessageLooperLib.h>

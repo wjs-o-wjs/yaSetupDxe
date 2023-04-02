@@ -1,7 +1,8 @@
-/**
+/** @file
   Alpha blending for naive CPUs that don't support accelerated alpha blending.
   Currently, we only support X64 CPUs.
 **/
+
 #if (!defined MDE_CPU_X64)
 #include <Library/ComposerLib.h>
 UINT32

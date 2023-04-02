@@ -2,6 +2,7 @@
   Here we override some platform functions that cannot be re-defined in macro.
   SPDX-License-Identifier: WTFPL
 **/
+
 #include "ftstdlib.h"
 #include "ftdebug.h"
 #include <Library/DebugLib.h>

@@ -2,6 +2,7 @@
   Emulated mouse lib for platforms that doesn't have a mouse.
   SPDX-License-Identifier: WTFPL
 **/
+
 #include <Library/MouseLib.h>
 #include <Library/KeyboardLib.h>
 #include <Library/MainMessageLooperLib.h>

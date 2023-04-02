@@ -3,6 +3,7 @@
   This file contains plain C version.
   SPDX-License-Identifier: WTFPL
 **/
+
 #if (!defined MDE_CPU_X64)
 #include <Uefi.h>
 
