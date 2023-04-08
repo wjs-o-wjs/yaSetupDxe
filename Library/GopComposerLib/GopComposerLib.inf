@@ -36,6 +36,7 @@
   UefiLib
   PcdLib
   MouseLib
+  Theme
 
 [Pcd]
   gYaSetupPkgTokenSpaceGuid.SetupWindowTitle
@@ -44,8 +45,5 @@
   gYaSetupPkgTokenSpaceGuid.WindowCaptionHeight
   gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetW
   gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetH
-  gYaSetupPkgTokenSpaceGuid.CursorImage
-  gYaSetupPkgTokenSpaceGuid.CursorImageWidth
-  gYaSetupPkgTokenSpaceGuid.CursorImageHeight
   gYaSetupPkgTokenSpaceGuid.CaptionTextSize
   gYaSetupPkgTokenSpaceGuid.PrimaryTextColor

@@ -6,12 +6,10 @@
 #include <Library/FontLib.h>
 #include <freetype/freetype.h>
 #include <Library/DebugLib.h>
+#include <Theme.h>
 
 extern EFI_BOOT_SERVICES *gBS;
 extern EFI_SYSTEM_TABLE  *gST;
-
-extern const unsigned char FontFile[];
-extern const UINTN FontSize;
 
 FT_Face    Face;
 FT_Library Library;

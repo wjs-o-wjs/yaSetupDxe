@@ -1,0 +1,23 @@
+## @file
+#  This package contains large binaries that is not ideal to put into PCD library.
+#
+#  wjs+o(wjs) team, 2023, All rights granted.
+#
+#  SPDX-License-Identifier: DO WHAT THE F**K YOU WANT TO PUBLIC LICENSE.
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = DefaultTheme
+  FILE_GUID                      = 017873c4-ddf6-46d2-84a8-27b1a37147f3
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 0.1
+  LIBRARY_CLASS                  = Theme
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[Sources]
+  ../Fonts/DroidSans.ttf.c
+  Cursor.c

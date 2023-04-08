@@ -65,15 +65,15 @@ DEFINE BUILD_FOR_EMULATOR_PKG = TRUE
   #
   # Our own Libraries
   #
-  ComposerLib|YaSetupPkg/Library/GopComposerLib/GopComposerLib.inf
-  MouseLib|YaSetupPkg/Library/EmulatedMouseLib/EmulatedMouseLib.inf
-  KeyboardLib|YaSetupPkg/Library/KeyboardLib/KeyboardLib.inf
-  CommonWidgetLib|YaSetupPkg/Library/CommonWidgetLib/CommonWidgetLib.inf
-  MainMessageLooperLib|YaSetupPkg/Library/MainMessageLooperLib/MainMessageLooperLib.inf
-  FontLib|YaSetupPkg/Library/FreeTypeFontLib/FreeTypeFontLib.inf
+  ComposerLib|$(PLATFORM_NAME)/Library/GopComposerLib/GopComposerLib.inf
+  MouseLib|$(PLATFORM_NAME)/Library/EmulatedMouseLib/EmulatedMouseLib.inf
+  KeyboardLib|$(PLATFORM_NAME)/Library/KeyboardLib/KeyboardLib.inf
+  CommonWidgetLib|$(PLATFORM_NAME)/Library/CommonWidgetLib/CommonWidgetLib.inf
+  MainMessageLooperLib|$(PLATFORM_NAME)/Library/MainMessageLooperLib/MainMessageLooperLib.inf
+  FontLib|$(PLATFORM_NAME)/Library/FreeTypeFontLib/FreeTypeFontLib.inf
 
 [Components]
-  YaSetupPkg/Presenter/Presenter.inf
+  $(PLATFORM_NAME)/Presenter/Presenter.inf
 
 [PcdsFixedAtBuild]
   gYaSetupPkgTokenSpaceGuid.SetupWindowTitle|L"BIOS Setup Utility - ECGM Demo Board"

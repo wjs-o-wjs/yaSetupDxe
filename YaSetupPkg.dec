@@ -29,8 +29,5 @@
   gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetW | 1920                               | UINT32 | 0x40000006
   gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetH | 1080                               | UINT32 | 0x40000007
   gYaSetupPkgTokenSpaceGuid.MessageLooperPeriod | 100000                             | UINT64 | 0x40000008
-  gYaSetupPkgTokenSpaceGuid.CursorImage         | {0x00000000}                       | VOID*  | 0x40000009
-  gYaSetupPkgTokenSpaceGuid.CursorImageWidth    | 1                                  | UINT32 | 0x4000000A
-  gYaSetupPkgTokenSpaceGuid.CursorImageHeight   | 1                                  | UINT32 | 0x4000000B
   gYaSetupPkgTokenSpaceGuid.PrimaryTextColor    | 0xFF000000                         | UINT32 | 0x4000000C
   gYaSetupPkgTokenSpaceGuid.BorderColor         | 0xFFD3D0CD                         | UINT32 | 0x4000000D

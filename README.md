@@ -11,7 +11,7 @@ To make a tiny layout inflator(Android-like)/widget arranger(Qt-like) under UEFI
 [x]&ensp;1. Emulated window using SDL2  
 [x]&ensp;2. Mouse cursor  
 [x]&ensp;3. FreeType port  
-[&ensp;]&ensp;4. Caption generation  
+[x]&ensp;4. Caption generation  
 [x]&ensp;5. 9-patch scaling  
 [&ensp;]&ensp;6. widget design & display  
 [&ensp;]&ensp;7. widget interaction(hover/leave/click/right-click/keyboard)  
@@ -28,3 +28,13 @@ qemu-system-x86_64 -bios ./OVMF_CODE.fd -net none \
 ## Third-party libraries
 * FreeType 2, version 2.12.1
     URL:https://github.com/freetype/freetype  
+
+## Artworks & Resources
+
++ Droid Sans, for text rendering
+
+  URL: https://fonts.adobe.com/fonts/droid-sans
+
++ BreezeX_Cursor, for mouse cursor
+
+  URL: https://github.com/ful1e5/BreezeX_Cursor

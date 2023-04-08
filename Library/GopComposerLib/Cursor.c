@@ -9,13 +9,12 @@
 #include <Library/MainMessageLooperLib.h>
 #include <Library/UefiLib.h>
 #include <Protocol/GraphicsOutput.h>
+#include <Theme.h>
 
 extern EFI_BOOT_SERVICES *gBS;
 extern EFI_SYSTEM_TABLE  *gST;
 
 STATIC UINT32 *BackBuffer;
-STATIC UINT32  CursorImageWidth,CursorImageHeight;
-STATIC UINT32 *CursorImage;
 STATIC UINT32  CursorPositionX,CursorPositionY;
 STATIC UINT32  FrameBufferWidth,FrameBufferHeight;
 
@@ -38,7 +37,7 @@ UpdateCursorBuffer
   }
   //Then, we do alpha blending.
   AlphaBlendingArea(
-    CursorImage,
+    (UINT32*)CursorImage,
     CursorImageWidth,
     CursorImageHeight,
     FrameBuffer,
@@ -127,9 +126,6 @@ InitCursor
 )
 {
   EFI_STATUS Status = EFI_SUCCESS;
-  CursorImageWidth  = PcdGet32(CursorImageWidth);
-  CursorImageHeight = PcdGet32(CursorImageHeight);
-  CursorImage       = PcdGetPtr(CursorImage);
   if((CursorImageWidth!=0)&&(CursorImageHeight!=0)) {
     Status |= gBS->AllocatePool(EfiLoaderData,CursorImageWidth*CursorImageHeight*sizeof(UINT32),(VOID**)&BackBuffer);
   }

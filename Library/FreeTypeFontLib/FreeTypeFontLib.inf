@@ -35,7 +35,6 @@
   freetype/src/sfnt/sfnt.c
   freetype/src/truetype/truetype.c
   freetype/src/smooth/smooth.c
-  Fonts/DroidSans.ttf.c
   BaseOperations.c
 
 [Sources.X64]
@@ -54,6 +53,7 @@
   DebugLib
   MemoryAllocationLib
   SortLib
+  Theme
 
 [Pcd]
 
