@@ -163,6 +163,7 @@ struct _COMMON_WIDGET {
   COMMON_WIDGET_ON_ACTIVATE   OnActivate;
   COMMON_WIDGET_ON_DEACTIVATE OnDeactivate;
   COMMON_WIDGET_ON_REPAINT    OnRepaint;
+  COMMON_WIDGET_ON_RESIZE     OnResize;
   // Below are common functions.
   COMMON_WIDGET_UPDATE_AREA   UpdateArea;
 };

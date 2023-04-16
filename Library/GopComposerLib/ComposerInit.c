@@ -13,6 +13,7 @@ extern EFI_SYSTEM_TABLE  *gST;
 extern EFI_BOOT_SERVICES *gBS;
 
 EFI_GRAPHICS_OUTPUT_PROTOCOL *GraphicsProtocol;
+UINT32                        CaptionHeight;
 
 extern
 EFI_STATUS
@@ -96,6 +97,7 @@ InitComposer (
     return Status;
   }
   ClearScreen(PcdGet32(BackgroudColor));
+  CaptionHeight = PcdGet32(WindowCaptionHeight);
   DrawCaption(PcdGet32(WindowCaptionHeight),PcdGet32(WindowCaptionColor),PcdGetPtr(SetupWindowTitle));
   RefreshScreen();
   return InitCursor();

@@ -12,8 +12,9 @@ typedef struct _MASTER_DETAIL_LAYOUT {
   COMMON_LAYOUT       CommonLayout;
   COMMON_WIDGET      *MasterWidget;
   COMMON_WIDGET      *DetailWidget;
-  UINT32              MasterDetailRatio;
+  double              MasterDetailRatio;
   LAYOUT_ORIENTATION  Orientation;
+  UINT32              DefaultColor;
 } MASTER_DETAIL_LAYOUT;
 
 /**

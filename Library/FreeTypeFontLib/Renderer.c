@@ -3,11 +3,14 @@
   SPDX-License-Identifier: WTFPL
 **/
 
-#include <Library/FontLib.h>
-#include <Library/DebugLib.h>
 #include <Library/PcdLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/BaseLib.h>
+#include <Library/BaseMemoryLib.h>
+#include <Library/DebugLib.h>
+
+#include <Library/FontLib.h>
+
 #include <freetype/freetype.h>
 #include <freetype/ftglyph.h>
 
@@ -94,7 +97,7 @@ RenderText
     DEBUG ((DEBUG_ERROR,"Cannot allocate buffer for image!\n"));
     return EFI_OUT_OF_RESOURCES;
   }
-  SetMemInt32(*Buffer,Width*Height*sizeof(UINT32),Color);
+  SetMem32(*Buffer,Width*Height*sizeof(UINT32),Color);
   *BufferWidth  = Width;
   *BufferHeight = Height;
   UINT32 PaintPos=0;

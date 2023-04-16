@@ -4,8 +4,10 @@
   SPDX-License-Identifier: WTFPL
 **/
 
-#include <Library/CommonWidgets/NaiveWidget.h>
 #include <Library/MemoryAllocationLib.h>
+#include <Library/BaseMemoryLib.h>
+
+#include <Library/CommonWidgets/NaiveWidget.h>
 
 extern
 VOID
@@ -89,7 +91,9 @@ NaiveWidgetOnResize
       FreePool(Instance->Buffer);
     }
     Instance->Buffer = AllocatePool(NewWidth*NewHeight*sizeof(UINT32));
-    SetMemInt32(Instance->Buffer,NewWidth*NewHeight,((NAIVE_WIDGET*)Instance)->Color);
+    SetMem32(Instance->Buffer,NewWidth*NewHeight*sizeof(UINT32),((NAIVE_WIDGET*)Instance)->Color);
+    Instance->Width  = NewWidth;
+    Instance->Height = NewHeight;
   }
   return EFI_SUCCESS;
 }
@@ -101,8 +105,10 @@ InitializeNaiveWidget
   NAIVE_WIDGET *Instance
 )
 {
+  SetMem(Instance,sizeof(NAIVE_WIDGET),0x00);
   Instance->Common.OnClick      = NaiveWidgetOnClick;
   Instance->Common.OnHover      = NaiveWidgetOnHover;
+  Instance->Common.OnResize     = NaiveWidgetOnResize;
   Instance->Common.OnRepaint    = NaiveWidgetOnRepaint;
   Instance->Common.OnActivate   = NaiveWidgetOnActivate;
   Instance->Common.OnDeactivate = NaiveWidgetOnDeactivate;

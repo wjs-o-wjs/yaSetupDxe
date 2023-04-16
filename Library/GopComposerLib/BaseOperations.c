@@ -134,7 +134,7 @@ DrawCaption
     return Status;
   }
   UINT32 *Buffer;
-  Status = RenderText(Title,PcdGet32 (CaptionTextSize),PcdGet32(PrimaryTextColor),&Buffer,&BufferWidth,&BufferHeight);
+  Status = RenderText(Title,PcdGet32 (CaptionTextSize),PcdGet32(PrimaryTextColor)&0xFFFFFF,&Buffer,&BufferWidth,&BufferHeight);
   UINT32 MarginLeft = (FrameBufferWidth-BufferWidth)/2;
   AlphaBlendingArea(Buffer,BufferWidth,BufferHeight,FrameBuffer+MarginLeft+10*FrameBufferWidth,FrameBufferWidth,BufferHeight,0,0,FrameBuffer+MarginLeft+10*FrameBufferWidth,FrameBufferWidth);
   RefreshScreen();

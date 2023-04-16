@@ -11,6 +11,7 @@
   Since EFI EmulatorPkg's GOP Driver cannot write to framebuffer directly, we will need to double buffer it.
  **/
 extern UINT32 *FrameBuffer;
+extern UINT32  CaptionHeight;
 
 /**
   Interface to initialize the Composer.

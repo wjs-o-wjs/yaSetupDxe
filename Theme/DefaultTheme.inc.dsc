@@ -13,7 +13,7 @@
   gYaSetupPkgTokenSpaceGuid.WindowCaptionHeight | 36
   gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetW | 1920
   gYaSetupPkgTokenSpaceGuid.DesiredScaleTargetH | 1080
-  gYaSetupPkgTokenSpaceGuid.PrimaryTextColor    | 0x002d2926
+  gYaSetupPkgTokenSpaceGuid.PrimaryTextColor    | 0xFF2D2926
   gYaSetupPkgTokenSpaceGuid.BorderColor         | 0xFFDADCDE
 
 [LibraryClasses]
