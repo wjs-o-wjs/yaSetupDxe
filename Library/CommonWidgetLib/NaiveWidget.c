@@ -91,7 +91,7 @@ NaiveWidgetOnResize
       FreePool(Instance->Buffer);
     }
     Instance->Buffer = AllocatePool(NewWidth*NewHeight*sizeof(UINT32));
-    SetMem32(Instance->Buffer,NewWidth*NewHeight*sizeof(UINT32),((NAIVE_WIDGET*)Instance)->Color);
+    SetMemInt32(Instance->Buffer,NewWidth*NewHeight*sizeof(UINT32),((NAIVE_WIDGET*)Instance)->Color);
     Instance->Width  = NewWidth;
     Instance->Height = NewHeight;
   }

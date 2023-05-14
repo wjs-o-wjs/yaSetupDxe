@@ -11,6 +11,8 @@ typedef struct _TEXT_LABEL {
   COMMON_WIDGET   Common;
   UINT32          FontSize;
   CHAR16         *Text;
+  UINT32          BackgroudColor;
+  UINT32          TextColor;
 } TEXT_LABEL;
 
 /**

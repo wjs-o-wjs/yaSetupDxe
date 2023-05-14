@@ -11,6 +11,7 @@
 #include <Library/CommonWidgets/NaiveWidget.h>
 #include <Library/ComposerLib.h>
 #include <Library/CommonWidgets/MasterDetailLayout.h>
+#include <Library/CommonWidgets/TextLabel.h>
 
 COMMON_WIDGET *RootWidget;
 
@@ -41,13 +42,16 @@ InitLayout
   }
   ((MASTER_DETAIL_LAYOUT*)RootWidget)->DefaultColor = 0xffccaa00;
   ((MASTER_DETAIL_LAYOUT*)RootWidget)->MasterDetailRatio = 0.3;
-  COMMON_WIDGET *MasterLayout = AllocatePool(sizeof(NAIVE_WIDGET));
-  Status = InitializeWidget (NaiveWidget,(NAIVE_WIDGET*)MasterLayout);
+  COMMON_WIDGET *MasterLayout = AllocatePool(sizeof(TEXT_LABEL));
+  Status = InitializeWidget (TextLabel,(TEXT_LABEL*)MasterLayout);
   if(EFI_ERROR(Status)) {
     DEBUG ((DEBUG_ERROR,"Cannot Initialize Master Widget!\n"));
     return Status;
   }
-  ((NAIVE_WIDGET*)MasterLayout)->Color = 0xff33aa99;
+  ((TEXT_LABEL*)MasterLayout)->BackgroudColor = 0xff33aa99;
+  ((TEXT_LABEL*)MasterLayout)->TextColor      = 0xff000000;
+  ((TEXT_LABEL*)MasterLayout)->FontSize       = 16;
+  ((TEXT_LABEL*)MasterLayout)->Text           = L"Test text label";
   ((MASTER_DETAIL_LAYOUT*)RootWidget)->MasterWidget = MasterLayout;
   Status = RootWidget->OnResize(RootWidget,GetScreenWidth(),GetScreenHeight()-CaptionHeight);
   if(EFI_ERROR(Status)) {

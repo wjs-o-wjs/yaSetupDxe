@@ -97,7 +97,7 @@ RenderText
     DEBUG ((DEBUG_ERROR,"Cannot allocate buffer for image!\n"));
     return EFI_OUT_OF_RESOURCES;
   }
-  SetMem32(*Buffer,Width*Height*sizeof(UINT32),Color);
+  SetMem32(*Buffer,Width*Height*sizeof(UINT32),Color&0x00FFFFFF);
   *BufferWidth  = Width;
   *BufferHeight = Height;
   UINT32 PaintPos=0;
