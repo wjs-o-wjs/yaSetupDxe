@@ -52,6 +52,8 @@ InitLayout
   ((TEXT_LABEL*)MasterLayout)->TextColor      = 0xff000000;
   ((TEXT_LABEL*)MasterLayout)->FontSize       = 16;
   ((TEXT_LABEL*)MasterLayout)->Text           = L"Test text label";
+  ((TEXT_LABEL*)MasterLayout)->Common.HorizontalGravitity = LayoutGravityEnd;
+  ((TEXT_LABEL*)MasterLayout)->Common.VerticalGravitity   = LayoutGravityCenter;
   ((MASTER_DETAIL_LAYOUT*)RootWidget)->MasterWidget = MasterLayout;
   Status = RootWidget->OnResize(RootWidget,GetScreenWidth(),GetScreenHeight()-CaptionHeight);
   if(EFI_ERROR(Status)) {

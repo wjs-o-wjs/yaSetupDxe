@@ -14,6 +14,16 @@ typedef enum {
   WidgetOverflowPolicyResize
 } WIDGET_OVERFLOW_POLICY;
 
+typedef enum _LAYOUT_GRAVITY {
+  LayoutGravityBegin,
+  LayoutGravityCenter,
+  LayoutGravityEnd
+} LAYOUT_GRAVITY;
+
+typedef enum _LAYOUT_ORIENTATION {
+  LayoutOrientationHorizontal,
+  LayoutOrientationVertical
+} LAYOUT_ORIENTATION;
 
 /*
   Forward-define widget struct.
@@ -156,6 +166,9 @@ struct _COMMON_WIDGET {
   UINT32                      Width;
   UINT32                      Height;
   WIDGET_OVERFLOW_POLICY      OverflowPolicy;
+  LAYOUT_GRAVITY              VerticalGravitity;
+  LAYOUT_GRAVITY              HorizontalGravitity;
+  LAYOUT_ORIENTATION          Orientation;
   UINT32                     *Buffer;
   // Below are event callbacks.
   COMMON_WIDGET_ON_CLICK      OnClick;
@@ -190,17 +203,6 @@ typedef struct _COMMON_LAYOUT {
   LAYOUT_TYPE               LayoutType;
   CHILD_WIDGET_LINKED_LIST  Children;
 } COMMON_LAYOUT;
-
-typedef enum _LAYOUT_GRAVITY {
-  LayoutGravityBegin,
-  LayoutGravityCenter,
-  LayoutGravityEnd
-} LAYOUT_GRAVITY;
-
-typedef enum _LAYOUT_ORIENTATION {
-  LayoutOrientationHorizontal,
-  LayoutOrientationVertical
-} LAYOUT_ORIENTATION;
 
 /**
   This function attaches widget to the layout.

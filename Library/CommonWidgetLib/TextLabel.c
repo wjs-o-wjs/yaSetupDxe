@@ -6,6 +6,7 @@
 #include <Library/BaseLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/BaseMemoryLib.h>
+#include <Library/DebugLib.h>
 
 #include <Library/CommonWidgets/TextLabel.h>
 #include <Library/ComposerLib.h>
@@ -75,6 +76,7 @@ TextLabelRenderText
   EFI_STATUS  Status;
   UINT32     *RenderBuffer;
   UINT32      RenderHeight,RenderWidth;
+  INT32       RenderOffsetX=0,RenderOffsetY=0;
   Status = RenderText(Instance->Text,Instance->FontSize,Instance->TextColor,&RenderBuffer,&RenderWidth,&RenderHeight);
   if(Status != EFI_SUCCESS) {
     return Status;
@@ -82,10 +84,29 @@ TextLabelRenderText
   SetMemInt32(Instance->Common.Buffer,
               Instance->Common.Height*Instance->Common.Width*sizeof(UINT32),
               Instance->BackgroudColor);
+  if(Instance->Common.VerticalGravitity==LayoutGravityCenter) {
+    RenderOffsetY = (Instance->Common.Height-RenderHeight) / 2;
+  }
+  else if(Instance->Common.VerticalGravitity==LayoutGravityEnd) {
+    RenderOffsetY = Instance->Common.Height-RenderHeight;
+  }
+  if(RenderOffsetY<0) {
+    RenderOffsetY=0;
+  }
+  if(Instance->Common.HorizontalGravitity==LayoutGravityCenter) {
+    RenderOffsetX = (Instance->Common.Width-RenderWidth) / 2;
+  }
+  else if(Instance->Common.HorizontalGravitity==LayoutGravityEnd) {
+    RenderOffsetX = Instance->Common.Width-RenderWidth;
+  }
+  if(RenderOffsetX<0) {
+    RenderOffsetX=0;
+  }
+  DEBUG((DEBUG_ERROR,"Offset @%d*%d\n",RenderOffsetX,RenderOffsetY));
   Status = AlphaBlendingArea(
     RenderBuffer,RenderWidth,RenderHeight,
     Instance->Common.Buffer,Instance->Common.Width,Instance->Common.Height,
-    0,0,Instance->Common.Buffer,Instance->Common.Width
+    RenderOffsetX,RenderOffsetY,NULL,Instance->Common.Width
   );
   return Status;
 }
