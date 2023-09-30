@@ -18,6 +18,7 @@
 [Sources.common]
   TextLabel.c
   NaiveWidget.c
+  LinearLayout.c
   LayoutManager.c
   MasterDetailLayout.c
 

@@ -165,6 +165,8 @@ struct _COMMON_WIDGET {
   COMMON_WIDGET              *Parent;
   UINT32                      Width;
   UINT32                      Height;
+  INT32                       OffsetX;
+  INT32                       OffsetY;
   WIDGET_OVERFLOW_POLICY      OverflowPolicy;
   LAYOUT_GRAVITY              VerticalGravitity;
   LAYOUT_GRAVITY              HorizontalGravitity;
@@ -254,4 +256,49 @@ InitLayout
   VOID
 );
 
+/**
+  This function checks whether a child widget fits in parent.
+  @param   Parent           The parent widget.
+  @param   Child            The child  widget.
+  @returns TRUE             if fits.
+  @returns FALSE            if out of range.
+**/
+BOOLEAN
+EFIAPI
+CheckChildWidgetFitsInParent
+(
+  COMMON_WIDGET *Parent,
+  COMMON_WIDGET *Child
+);
+
+/**
+  This function converts parent's drawing area into child's .
+  @param   Parent               The parent widget.
+  @param   Child                The child  widget.
+  @param   DrawingOffsetX       Thw parent drawing area, offset X.
+  @param   DrawingOffsetY       Thw parent drawing area, offset Y.
+  @param   DrawingWidth         The parent drawing width.
+  @param   DrawingHeight        The parent drawing height.
+  @param   ChildDrawingOffsetX  Optional output drawing offset X of child.
+  @param   ChildDrawingOffsetY  Optional output drawing offset Y of child.
+  @param   ChildDrawingWidth    Optional output child drawing width.
+  @param   ChildDrawingHeight   Optional output child drawing height.
+  @returns EFI_SUCCESS          if child's drawing area is in parent's area.
+  @returns EFI_BUFFER_TOO_SMALL if out of range.
+**/
+EFI_STATUS
+EFIAPI
+CheckChildWidgetInParentDrawingArea
+(
+  COMMON_WIDGET *Parent,
+  COMMON_WIDGET *Child,
+  UINT32         DrawingOffsetX,
+  UINT32         DrawingOffsetY,
+  UINT32         DrawingWidth,
+  UINT32         DrawingHeight,
+  UINT32        *ChildDrawingOffsetX OPTIONAL,
+  UINT32        *ChildDrawingOffsetY OPTIONAL,
+  UINT32        *ChildDrawingWidth   OPTIONAL,
+  UINT32        *ChildDrawingHeight  OPTIONAL
+);
 #endif
